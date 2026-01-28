@@ -1,0 +1,18 @@
+{
+  "name": "ContentContent.UI.Editor",
+  "rootNamespace": "ContentContent.UI.Editor",
+  "references": [
+    "GUID:898b8c4e83536ce43909013c3639db80"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

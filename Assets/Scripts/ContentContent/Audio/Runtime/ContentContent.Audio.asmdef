@@ -1,0 +1,16 @@
+{
+  "name": "ContentContent.Audio",
+  "rootNamespace": "ContentContent.Audio",
+  "references": [
+    "GUID:85a5eb3d7634e8a48b562ea21dbe9a10"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

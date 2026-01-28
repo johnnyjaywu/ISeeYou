@@ -1,0 +1,21 @@
+{
+    "name": "ISeeYou",
+    "rootNamespace": "ISeeYou",
+    "references": [
+        "GUID:85a5eb3d7634e8a48b562ea21dbe9a10",
+        "GUID:898b8c4e83536ce43909013c3639db80",
+        "GUID:db97be10d804c3d42984b4745ccacd61",
+        "GUID:776d03a35f1b52c4a9aed9f56d7b4229",
+        "GUID:80ecb87cae9c44d19824e70ea7229748",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

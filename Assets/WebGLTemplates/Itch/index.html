@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>{{{ PRODUCT_NAME }}}</title>
+    <style>
+        /* CSS Variables for easy theming */
+        :root {
+            --loading-color: #f0f0f0; /* #fa5c5c Default color, overridden by JS */
+        }
+
+        /* Basics */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevent scrollbars on itch.io iframes */
+            background: #000; /* Standard black background for letterboxing */
+            font-family: sans-serif;
+        }
+
+        /* The main container for the game */
+        #game-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* The actual game canvas */
+        #unity-canvas {
+            width: 100%;
+            height: 100%;
+            /* 'contain' ensures the canvas maintains its aspect ratio within the container if needed,
+               though Unity often handles this internally too. */
+            object-fit: contain;
+            background: #231F20; /* Matches standard Unity splash dark grey to prevent white flashes */
+            outline: none; /* Remove default blue focus outline */
+        }
+
+        /* Loading Screen Overlay */
+        #loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.5s ease-out; /* Smooth fade out when done */
+        }
+
+        /* --- Separated Sections --- */
+
+        /* Spinner stays centered by default due to flex on parent #loading-overlay */
+        #spinner-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* Needed to absolutely position the text inside it */
+        }
+
+        /* Progress section moved to bottom absolutely */
+        #progress-section {
+            position: absolute;
+            bottom: 40px;         /* Distance from bottom edge */
+            left: 50%;
+            transform: translateX(-50%); /* perfectly center horizontally */
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Spinner Animation Keyframes */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Spinner Styles */
+        #spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.1);
+            /* Use the CSS variable for the spinner color */
+            border-top: 6px solid var(--loading-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Percentage text inside the spinner */
+        #spinner-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ccc;
+            font-family: sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Loading Text - Stretched */
+        #loading-text {
+            width: 100%;            /* Match the width of the progress bar */
+            display: flex;          /* Use flexbox to split text left and right */
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+            font-family: sans-serif;
+            font-size: 14px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        /* The Progress Bar Container */
+        #progress-bar-container {
+            width: 100%;            /* Fill the #progress-section parent */
+            height: 14px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+            border: 1px solid #555;
+        }
+
+        /* The Filling part of the progress bar */
+        #progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            /* Use the CSS variable for the base color */
+            background-color: var(--loading-color);
+            /* Neutral gradient overlay for depth that works with any color */
+            background-image: linear-gradient(to bottom right, transparent, rgba(0,0,0,0.3));
+            transition: width 0.2s ease-out;
+        }
+    </style>
+</head>
+<body>
+<div id="game-container">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+</div>
+
+<div id="loading-overlay">
+    <!-- Spinner Section (Centered) -->
+    <div id="spinner-section">
+        <div id="spinner"></div>
+        <div id="spinner-percent">0%</div>
+    </div>
+
+    <!-- Progress Section (Bottom) -->
+    <div id="progress-section">
+        <div id="loading-text">
+            <span>Loading...</span>
+            <span id="loading-percent">0%</span>
+        </div>
+        <div id="progress-bar-container">
+            <div id="progress-bar-fill"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // =================================================================
+    // CONFIGURATION
+    // =================================================================
+    const SHOW_SPINNER = false;
+    const SHOW_PROGRESS_BAR = true;
+
+    // Define the placeholder for Unity to replace.
+    var loadingColor = "{{{ LOADING_COLOR }}}";
+
+    // If Unity didn't replace it (it still has curly braces), use a default.
+    // We use a gentle check to avoid confusing the Unity preprocessor.
+    if (loadingColor.indexOf("{") === 0) {
+        loadingColor = "#f0f0f0";
+    }
+
+    // Apply the configured color to the CSS variable immediately
+    document.documentElement.style.setProperty('--loading-color', loadingColor);
+    // =================================================================
+
+    var canvas = document.querySelector("#unity-canvas");
+    var loadingOverlay = document.querySelector("#loading-overlay");
+    var progressBarFill = document.querySelector("#progress-bar-fill");
+    var loadingPercentElement = document.querySelector("#loading-percent");
+    var spinnerPercentElement = document.querySelector("#spinner-percent");
+
+    if (!SHOW_SPINNER) {
+        document.querySelector("#spinner-section").style.display = "none";
+    }
+    if (!SHOW_PROGRESS_BAR) {
+        document.querySelector("#progress-section").style.display = "none";
+    }
+
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+    var config = {
+        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "{{{ COMPANY_NAME }}}",
+        productName: "{{{ PRODUCT_NAME }}}",
+        productVersion: "{{{ PRODUCT_VERSION }}}",
+    };
+
+    var memoryFilename = "{{{ MEMORY_FILENAME }}}";
+    var symbolsFilename = "{{{ SYMBOLS_FILENAME }}}";
+    if (memoryFilename && !memoryFilename.startsWith("{{{")) {
+        config.memoryUrl = buildUrl + "/" + memoryFilename;
+    }
+    if (symbolsFilename && !symbolsFilename.startsWith("{{{")) {
+        config.symbolsUrl = buildUrl + "/" + symbolsFilename;
+    }
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+    }
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+            var percent = Math.round(progress * 100);
+            if (SHOW_PROGRESS_BAR) {
+                progressBarFill.style.width = percent + "%";
+                loadingPercentElement.textContent = percent + "%";
+            }
+            spinnerPercentElement.textContent = percent + "%";
+        }).then((unityInstance) => {
+            loadingOverlay.style.opacity = 0;
+            setTimeout(() => {
+                loadingOverlay.style.display = "none";
+                // Focus the canvas immediately after loading to prevent "click to play" issues
+                canvas.focus();
+            }, 500);
+        }).catch((message) => {
+            alert(message);
+        });
+    };
+
+    document.body.appendChild(script);
+
+    // Force focus when fullscreen changes or window resizes.
+    // This fixes the issue where itch.io fullscreen pauses rendering.
+    function onResize() {
+        // A small timeout allows the browser to finish the transition before we focus
+        setTimeout(() => {
+            window.focus();
+            canvas.focus();
+        }, 100);
+    }
+
+    window.addEventListener('resize', onResize);
+    document.addEventListener('fullscreenchange', onResize);
+    document.addEventListener('webkitfullscreenchange', onResize); // Chrome, Safari, Opera
+    document.addEventListener('mozfullscreenchange', onResize);    // Firefox
+    document.addEventListener('MSFullscreenChange', onResize);     // IE/Edge
+</script>
+</body>
+</html>

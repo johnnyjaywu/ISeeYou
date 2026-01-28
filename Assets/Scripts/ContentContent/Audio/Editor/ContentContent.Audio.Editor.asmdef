@@ -1,0 +1,18 @@
+{
+  "name": "ContentContent.Audio.Editor",
+  "rootNamespace": "ContentContent.Audio.Editor",
+  "references": [
+    "GUID:db97be10d804c3d42984b4745ccacd61"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
