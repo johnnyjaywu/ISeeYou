@@ -43,12 +43,6 @@ namespace ContentContent.UI
             }
         }
 
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-            SetDirty();
-        }
-
         private float GetBasePreferredSize(int axis)
         {
             GetComponents(layoutComponents);
