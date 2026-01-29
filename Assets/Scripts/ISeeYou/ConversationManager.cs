@@ -38,7 +38,6 @@ namespace ISeeYou
         private GamePhase currentPhase;
         private List<Words> wordsList = new();
         private int triesRemaining;
-        private CoroutineHandle rebuildHandle;
 
         public List<Words> WordsList => wordsList;
 
@@ -72,7 +71,6 @@ namespace ISeeYou
                     focusButton.SetActive(true);
                     break;
                 case GamePhase.End:
-                    rebuildHandle = RebuildWithDelay().Run();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -81,6 +79,7 @@ namespace ISeeYou
 
         public void SpawnWordsForPhase(GamePhase phase)
         {
+            speechLayoutController.ClearLines();
             ClearWordsList();
             string sentence = phase == GamePhase.Filtering
                 ? conversation.MaskSentence
@@ -97,7 +96,6 @@ namespace ISeeYou
                 // words.SetVisible(false);
                 wordsList.Add(words);
             }
-
             speechLayoutController.Rebuild(wordsList);
         }
 
@@ -168,9 +166,8 @@ namespace ISeeYou
             }
         }
 
-        private IEnumerator RebuildWithDelay()
+        public void RebuildLayout()
         {
-            yield return new WaitForEndOfFrame();
             speechLayoutController.Rebuild(wordsList);
         }
 

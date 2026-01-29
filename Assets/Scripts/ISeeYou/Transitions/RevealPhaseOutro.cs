@@ -16,6 +16,7 @@ namespace ISeeYou
             {
                 word.RevealTruth();
             }
+            conversationManager.RebuildLayout();
             yield return new WaitForSeconds(3);
         }
     }

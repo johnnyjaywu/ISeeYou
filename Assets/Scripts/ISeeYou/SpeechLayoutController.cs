@@ -16,6 +16,7 @@ namespace ISeeYou
 
         private RectTransform containerRect;
         private VerticalLayoutGroup layoutGroup;
+        private List<LineLayoutGroup> lines = new();
 
         private void Awake()
         {
@@ -23,14 +24,9 @@ namespace ISeeYou
             layoutGroup = GetComponent<VerticalLayoutGroup>();
         }
 
+        // TODO: Fix rebuild
         public void Rebuild(List<Words> wordsToLayout)
         {
-            // Clear existing content
-            foreach (Transform child in transform)
-            {
-                Destroy(child.gameObject);
-            }
-
             if (wordsToLayout.Count == 0) return;
 
             // Calculate usable width
@@ -62,9 +58,20 @@ namespace ISeeYou
             }
         }
 
+        public void ClearLines()
+        {
+            foreach (var line in lines)
+            {
+                Destroy(line.gameObject);
+            }
+            lines.Clear();
+        }
+        
         private HorizontalLayoutGroup CreateNewLine()
         {
-            return Instantiate(linePrefab, transform);
+            var line = Instantiate(linePrefab, transform);
+            lines.Add(line);
+            return line;
         }
 
 #if UNITY_EDITOR
