@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3cdd5a6d45fda4daf57367609a9a0b, type: 3}
   m_Name: Conversation
   m_EditorClassIdentifier: ISeeYou::ISeeYou.ConversationData
-  MaskSentence: 'Don''t you worry about me, honestly, [I can handle it.]
+  MaskSentence: 'Don''t you worry [about me], honestly, [I can handle it.]
 
-    It''s
-    really nothing, I''ve been through worse before.'
-  KeyWords:
-  - I can handle it
+    [It''s
+    really] nothing, [I''ve been through] worse before.'
+  FilteredWords:
   - worry
-  - about
-  - me
-  KeystoneWord: handle
-  VulnerableWord: drowning
+  - I can handle it
+  FilteredSentence: I'm [a little] worried but I can handle it
+  MaskedWords:
+  - a little
+  - can
+  Truths:
+  - very
+  - can't
