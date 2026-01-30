@@ -1,49 +1,70 @@
-using System;
 using System.Collections;
-using ContentContent;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ISeeYou
 {
-    public class TransitionController : MonoBehaviour
+    /// <summary>
+    /// Base class for managing a collection of TransitionBehaviours.
+    /// Allows playing specific transitions by Type.
+    /// </summary>
+    /// <typeparam name="T">The type of the owner/manager (e.g., ConversationManager)</typeparam>
+    public abstract class TransitionController<T> : MonoBehaviour where T : MonoBehaviour
     {
-        [Header("Transition Controllers")]
-        [SerializeField] private TransitionBehaviour filterPhaseIntro;
+        [Tooltip("The manager that these transitions control")]
+        [SerializeField] protected T owner;
+        
+        [Tooltip("List of all available transition components on this object or children")]
+        [SerializeField] protected List<TransitionBehaviour<T>> transitions = new();
 
-        [SerializeField] private TransitionBehaviour filterPhaseOutro;
-        [SerializeField] private TransitionBehaviour revealPhaseIntro;
-        [SerializeField] private TransitionBehaviour revealPhaseOutro;
-
-        private CoroutineHandle transitionRoutine;
-
-        public void GoToNextPhase(GamePhase currentPhase, Action<GamePhase> onTransitionFinished = null)
+        /// <summary>
+        /// Plays the transition of the specified type TTransition.
+        /// </summary>
+        /// <typeparam name="TTransition">The specific transition class to play (e.g., FilteringIntro)</typeparam>
+        public IEnumerator Play<TTransition>() where TTransition : TransitionBehaviour<T>
         {
-            if (transitionRoutine is { IsRunning: true })
-                transitionRoutine.Stop();
-            transitionRoutine = DoTransition(currentPhase, onTransitionFinished).Run();
-        }
-
-        private IEnumerator DoTransition(GamePhase currentPhase, Action<GamePhase> onTransitionFinished)
-        {
-            GamePhase nextPhase = GamePhase.Initial;
-            switch (currentPhase)
+            var transition = GetTransition<TTransition>();
+            
+            if (transition == null)
             {
-                case GamePhase.Initial:
-                    nextPhase = GamePhase.Filtering;
-                    yield return filterPhaseIntro.StartTransition();
-                    break;
-                case GamePhase.Filtering:
-                    nextPhase = GamePhase.Revelation;
-                    yield return filterPhaseOutro.StartTransition();
-                    yield return revealPhaseIntro.StartTransition();
-                    break;
-                case GamePhase.Revelation:
-                    nextPhase = GamePhase.End;
-                    yield return revealPhaseOutro.StartTransition();
-                    break;
+                Debug.LogWarning($"[{GetType().Name}] Could not find transition of type {typeof(TTransition).Name}");
+                yield break;
             }
 
-            onTransitionFinished?.Invoke(nextPhase);
+            // Inject dependency if needed
+            transition.Initialize(owner);
+
+            // Execute the animation coroutine
+            yield return transition.Play();
         }
+
+        /// <summary>
+        /// Helper to retrieve a specific transition reference.
+        /// </summary>
+        public TTransition GetTransition<TTransition>() where TTransition : TransitionBehaviour<T>
+        {
+            return transitions.OfType<TTransition>().FirstOrDefault();
+        }
+
+        // Optional: Auto-discovery in Editor
+#if UNITY_EDITOR
+        protected virtual void Reset()
+        {
+            OnValidate();
+        }
+        
+        protected virtual void OnValidate()
+        {
+            if (owner == null) owner = GetComponentInParent<T>();
+            
+            // Auto-populate list from children
+            var found = GetComponentsInChildren<TransitionBehaviour<T>>(true);
+            foreach (var t in found)
+            {
+                if (!transitions.Contains(t)) transitions.Add(t);
+            }
+        }
+#endif
     }
 }

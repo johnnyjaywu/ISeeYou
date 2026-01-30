@@ -12,17 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3cdd5a6d45fda4daf57367609a9a0b, type: 3}
   m_Name: Conversation
   m_EditorClassIdentifier: ISeeYou::ISeeYou.ConversationData
-  MaskSentence: 'Don''t you worry [about me], honestly, [I can handle it.]
-
-    [It''s
-    really] nothing, [I''ve been through] worse before.'
-  FilteredWords:
-  - worry
-  - I can handle it
-  FilteredSentence: I'm [a little] worried but I can handle it
-  MaskedWords:
-  - a little
-  - can
-  Truths:
-  - very
-  - can't
+  NoiseLoop: {fileID: 0}
+  PhaseCompleteStinger: {fileID: 0}
+  RevealSound: {fileID: 0}
+  DudSound: {fileID: 0}
+  Noise: hello, how are you, *don't worry*, I'm fine, nice weather, *about me*, 
+    *I can handle it*, go for a run, now, words, blah, beep, boop
+  Monologue: '*Don''t worry* (I''m worried) [about me.] Honestly, *I can handle it*
+    (I can''t handle it)'
+  Truth: I'm really worried about the state of the world lately. I can't handle all
+    the violence and chaos. It's really stressing me out.

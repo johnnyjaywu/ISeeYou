@@ -1,23 +1,13 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using ContentContent;
+using ContentContent; 
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem; // Required for InputActionAsset
 using UnityEngine.UI;
 
 namespace ISeeYou
 {
-    public enum GamePhase
-    {
-        Initial,
-        Filtering,
-        Revelation,
-        End
-    }
-
     public class ConversationManager : MonoBehaviour
     {
         [Header("Game Data")]
@@ -26,206 +16,145 @@ namespace ISeeYou
 
         [Header("Scene References")]
         [SerializeField] private Words wordsPrefab;
+        [SerializeField] private RectTransform spawnContainer; 
+        [SerializeField] private DropZone speechBubble;
+        [SerializeField] private ConversationTransitionController transitions;
+        [Tooltip("The Text component that displays the final Truth string.")]
+        [SerializeField] private TextMeshProUGUI truthText;
+        
+        [Header("Input Settings")]
+        [Tooltip("The Input Actions asset used by the EventSystem.")]
+        [SerializeField] private InputActionAsset inputAsset;
+        [Tooltip("The name of the Action Map that drives UI interactions (default is usually 'UI').")]
+        [SerializeField] private string uiActionMapName = "UI";
 
-        [SerializeField] private SpeechLayoutController speechLayoutController;
-        [SerializeField] private RectTransform focusZone;
-        [SerializeField] private Button focusButton;
-        [SerializeField] private TransitionController transitionController;
+        [Header("Spawning Settings")]
+        [SerializeField] private float wallPadding = 20f;
 
-        [Header("Game Settings")]
-        [SerializeField] private int maxTries = 3;
+        private StateMachine stateMachine;
+        private InputActionMap uiMap;
+        private CanvasGroup speechBubbleCanvasGroup;
 
-        private GamePhase currentPhase;
-        private List<Words> wordsList = new();
-        private int triesRemaining;
+        // Public Accessors
+        public StateMachine StateMachine => stateMachine; 
+        public List<Words> WordsList { get; private set; } = new();
+        public ConversationData CurrentData => conversation;
+        public ConversationTransitionController Transitions => transitions;
+        public DropZone SpeechBubble => speechBubble;
+        public CanvasGroup BubbleCanvasGroup => speechBubbleCanvasGroup;
+        public TextMeshProUGUI TruthText => truthText;
+        
+        private void Awake()
+        {
+            stateMachine = new StateMachine();
 
-        public List<Words> WordsList => wordsList;
+            // Cache the UI Map
+            if (inputAsset != null)
+            {
+                uiMap = inputAsset.FindActionMap(uiActionMapName);
+                if (uiMap == null)
+                {
+                    Debug.LogWarning($"[ConversationManager] Could not find Action Map named '{uiActionMapName}' in the Input Asset.");
+                }
+            }
+            
+            if (speechBubble != null)
+                speechBubbleCanvasGroup = speechBubble.GetComponent<CanvasGroup>();
+        }
 
         private void Start()
         {
-            if (conversation == null)
+            if (conversation == null || speechBubble == null)
             {
-                Debug.LogError("No ConversationData assigned!");
+                Debug.LogError("[ConversationManager] Missing ConversationData or DropZone assignment!");
                 return;
             }
 
-            triesRemaining = maxTries;
-            transitionController.GoToNextPhase(currentPhase, OnTransitionFinished);
-            // SpawnWordsForPhase();
-
-            focusButton.onClick.AddListener(OnFocusButtonClicked);
-            focusButton.SetActive(false);
+            var filteringState = new FilteringState(this);
+            stateMachine.ChangeState(filteringState);
         }
 
-        private void OnTransitionFinished(GamePhase newPhase)
+        private void Update()
         {
-            Debug.Log($"Transition finished! New phase: {newPhase}");
-            currentPhase = newPhase;
-            switch (currentPhase)
+            stateMachine.Update();
+        }
+
+        /// <summary>
+        /// Global switch for Player Input.
+        /// Enables/Disables the entire UI Action Map, effectively pausing all Drag/Click/Hover events.
+        /// </summary>
+        public void SetInputActive(bool active)
+        {
+            if (uiMap == null) return;
+
+            if (active)
             {
-                case GamePhase.Initial:
-                    break;
-                case GamePhase.Filtering:
-                    break;
-                case GamePhase.Revelation:
-                    focusButton.SetActive(true);
-                    break;
-                case GamePhase.End:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public void SpawnWordsForPhase(GamePhase phase)
-        {
-            speechLayoutController.ClearLines();
-            ClearWordsList();
-            string sentence = phase == GamePhase.Filtering
-                ? conversation.MaskSentence
-                : conversation.FilteredSentence;
-            List<string> parsedWords = ParseSentence(sentence);
-
-            foreach (string wordText in parsedWords)
-            {
-                bool isKey = IsKeyWord(wordText, phase);
-                string truth = phase == GamePhase.Revelation ? conversation.GetTruth(wordText) : "";
-                Words words = Instantiate(wordsPrefab);
-                words.Initialize(wordText, isKey, focusZone, phase == GamePhase.Filtering, truth);
-                words.OnStateChanged += OnWordStateChanged;
-                // words.SetVisible(false);
-                wordsList.Add(words);
-            }
-            speechLayoutController.Rebuild(wordsList);
-        }
-
-        private void OnWordStateChanged()
-        {
-            if (currentPhase == GamePhase.Filtering)
-            {
-                if (CheckFilteredWords()) transitionController.GoToNextPhase(currentPhase, OnTransitionFinished);
-            }
-            else if (currentPhase == GamePhase.Revelation)
-            {
-                OnWordSelectedStateChanged();
-            }
-        }
-
-        private bool CheckFilteredWords()
-        {
-            List<Words> wordsInZone = wordsList.Where(w => w.IsInZone).ToList();
-            List<string> textInZone = wordsInZone.Select(w => w.Text).ToList();
-
-            return new HashSet<string>(textInZone).SetEquals(new HashSet<string>(conversation.FilteredWords));
-        }
-
-        private void OnWordSelectedStateChanged()
-        {
-            focusButton.interactable = wordsList.Any(w => w.IsSelected);
-        }
-
-        private void OnFocusButtonClicked()
-        {
-            if (triesRemaining <= 0) return;
-
-            var selectedWords = wordsList.Where(w => w.IsSelected).ToList();
-            var selectedKeyWords = selectedWords.Where(w => w.IsKeyWord).ToList();
-            var truthWords = new HashSet<string>(conversation.MaskedWords);
-
-            bool foundAllKeys = selectedKeyWords.Count == truthWords.Count;
-            bool noIncorrectSelected = selectedWords.Count == selectedKeyWords.Count;
-
-            if (foundAllKeys && noIncorrectSelected)
-            {
-                // foreach (Words word in selectedKeyWords)
-                // {
-                //     word.RevealTruth();
-                // }
-
-                focusButton.SetActive(false);
-                transitionController.GoToNextPhase(currentPhase, OnTransitionFinished);
+                if (!uiMap.enabled) uiMap.Enable();
             }
             else
             {
-                triesRemaining--;
-                Debug.Log($"Incorrect guess. Tries remaining: {triesRemaining}");
-
-                foreach (Words word in selectedWords)
-                {
-                    word.ResetVisuals();
-                }
-
-                if (triesRemaining <= 0)
-                {
-                    Debug.Log("Out of tries! You failed.");
-                }
-                else
-                {
-                    ResetIncorrectGuessVisuals(selectedWords).Run();
-                }
+                if (uiMap.enabled) uiMap.Disable();
             }
         }
 
-        public void RebuildLayout()
+        public void SpawnNoisePhase()
         {
-            speechLayoutController.Rebuild(wordsList);
-        }
+            ClearWordsList();
+            var noiseWords = conversation.GetNoiseWords();
+            if (noiseWords == null) return;
 
-        private IEnumerator ResetIncorrectGuessVisuals(List<Words> wordsToReset)
-        {
-            yield return new WaitForSeconds(1);
-            foreach (Words word in wordsToReset)
+            foreach (var data in noiseWords)
             {
-                word.ResetVisuals();
+                SpawnWord(data); 
             }
-
-            focusButton.interactable = false;
         }
 
-        private List<string> ParseSentence(string sentence)
+        public Words SpawnWord(WordsData wordsData, Transform targetParent = null)
         {
-            var results = new List<string>();
-            var regex = new Regex(@"\[[^\]]+\]|[\w'-]+");
-            var matches = regex.Matches(sentence);
+            Transform parent = targetParent != null ? targetParent : spawnContainer;
+            var words = Instantiate(wordsPrefab, parent);
+            words.Initialize(wordsData);
+            WordsList.Add(words);
 
-            foreach (Match match in matches)
+            if (parent == spawnContainer)
             {
-                string matchText = match.Value;
-                if (match.Value.StartsWith("["))
-                {
-                    matchText = match.Value.Substring(1, match.Value.Length - 2);
-                }
+                RectTransform wordRect = words.GetComponent<RectTransform>();
+                LayoutRebuilder.ForceRebuildLayoutImmediate(wordRect);
 
-                //Trim
-                string trimmed = matchText.TrimEnd('.', ',', '!', '?', '…', ' ');
+                Rect containerRect = spawnContainer.rect;
+                float halfWidth = wordRect.rect.width / 2f;
+                float halfHeight = wordRect.rect.height / 2f;
 
-                results.Add(trimmed);
+                float minX = containerRect.xMin + halfWidth + wallPadding;
+                float maxX = containerRect.xMax - halfWidth - wallPadding;
+                float minY = containerRect.yMin + halfHeight + wallPadding;
+                float maxY = containerRect.yMax - halfHeight - wallPadding;
+
+                if (minX > maxX) { minX = 0; maxX = 0; }
+                if (minY > maxY) { minY = 0; maxY = 0; }
+
+                wordRect.anchoredPosition = new Vector2(
+                    Random.Range(minX, maxX), 
+                    Random.Range(minY, maxY)
+                );
+                wordRect.localPosition = new Vector3(wordRect.localPosition.x, wordRect.localPosition.y, 0);
+            }
+            else
+            {
+                words.transform.localScale = Vector3.one;
+                words.transform.localPosition = Vector3.zero;
             }
 
-            return results;
+            return words;
         }
 
         private void ClearWordsList()
         {
-            foreach (Words word in wordsList)
+            foreach (Words word in WordsList)
             {
-                Destroy(word.gameObject);
+                if (word != null) Destroy(word.gameObject);
             }
-
-            wordsList.Clear();
-        }
-
-        private bool IsKeyWord(string word, GamePhase phase)
-        {
-            switch (phase)
-            {
-                case GamePhase.Filtering:
-                    return conversation.FilteredWords.Contains(word);
-                case GamePhase.Revelation:
-                    return conversation.MaskedWords.Contains(word);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(phase), phase, null);
-            }
+            WordsList.Clear();
         }
     }
 }

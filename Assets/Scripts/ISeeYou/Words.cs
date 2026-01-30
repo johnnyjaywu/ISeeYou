@@ -1,167 +1,219 @@
 using System;
-using PrimeTween;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace ISeeYou
 {
-    [RequireComponent(typeof(LayoutElement))]
+    /// <summary>
+    /// Manages word data and state.
+    /// Uses OnValidate with delayCall to ensure Editor-time sizing matches TMP line height.
+    /// Implements ILayoutSelfController for runtime layout precision.
+    /// </summary>
+    [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(TextMeshProUGUI))]
-    [RequireComponent(typeof(ContentSizeFitter))]
-    public class Words : MonoBehaviour, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler,
-        IPointerExitHandler
+    [RequireComponent(typeof(UIInputFeedback))]
+    public class Words : MonoBehaviour, ILayoutElement, ILayoutSelfController, IPointerClickHandler
     {
-        public string Text { get; private set; }
-        public bool IsKeyWord { get; private set; }
-        public bool IsSelected { get; private set; }
-        public bool IsInZone { get; private set; }
+        // -------------------------------------------------------------------------
+        // 1. DATA & EVENTS
+        // -------------------------------------------------------------------------
 
-        public event Action OnStateChanged;
+        public event Action<Words> OnWordClicked;
+        
+        public string Text => wordsData != null ? wordsData.Text : string.Empty;
+        public bool IsKey => wordsData is { IsKey: true };
+        public bool IsRevealed { get; private set; }
 
-        private TextMeshProUGUI textComponent;
-        private LayoutElement layoutElement;
+        private WordsData wordsData;
+        
+        [Header("References")]
         private RectTransform rectTransform;
-        private ContentSizeFitter sizeFitter;
+        private TextMeshProUGUI textComponent;
+        private UGUIAnimator animator;
+        private UIInputFeedback inputFeedback;
 
-        private bool isDraggable;
-        private RectTransform focusZone;
-        private string truthText;
+        [Header("Text Appearance")]
+        [SerializeField] private Color normalColor = Color.white;
+        [SerializeField] private Color revealedColor = new Color(1f, 0.92f, 0.016f, 1f);
+        [SerializeField] private Color disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
+        private bool interactionEnabled = true;
+        private DrivenRectTransformTracker tracker;
+
+        // -------------------------------------------------------------------------
+        // 2. LIFECYCLE
+        // -------------------------------------------------------------------------
 
         private void Awake()
         {
             rectTransform = GetComponent<RectTransform>();
-            layoutElement = GetComponent<LayoutElement>();
             textComponent = GetComponent<TextMeshProUGUI>();
-            sizeFitter = GetComponent<ContentSizeFitter>();
-        }
+            animator = GetComponent<UGUIAnimator>();
+            inputFeedback = GetComponent<UIInputFeedback>();
 
-        public void Initialize(string text, bool isKey, RectTransform zone, bool draggable, string truth = "")
-        {
-            if (rectTransform == null) Awake();
-
-            Text = text;
-            IsKeyWord = isKey;
-            focusZone = zone;
-            isDraggable = draggable;
-            truthText = truth;
-            IsInZone = true;
-
-            textComponent.text = Text;
-            ResetVisuals();
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            if (!isDraggable) return;
-            rectTransform.anchoredPosition += eventData.delta / transform.lossyScale.x;
-            UpdateFocusZoneStatus(eventData.pressEventCamera);
-        }
-
-        public void OnEndDrag(PointerEventData eventData)
-        {
-            if (!isDraggable) return;
-            UpdateFocusZoneStatus(eventData.pressEventCamera);
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            Tween.Scale(transform, transform.localScale, Vector3.one * 1.1f, 0.1f);
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            Tween.Scale(transform, transform.localScale, Vector3.one, 0.1f);
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (isDraggable) return;
-            IsSelected = !IsSelected;
-            SetVisualState(IsSelected ? VisualState.Selected : VisualState.Default);
-            OnStateChanged?.Invoke();
-        }
-
-        private void UpdateFocusZoneStatus(Camera pressCamera)
-        {
-            if (focusZone == null) return;
-            bool inZone =
-                RectTransformUtility.RectangleContainsScreenPoint(focusZone, rectTransform.position, pressCamera);
-            if (inZone != IsInZone)
+            if (textComponent != null)
             {
-                IsInZone = inZone;
-                OnStateChanged?.Invoke();
+                textComponent.textWrappingMode = TextWrappingModes.NoWrap;
+                textComponent.overflowMode = TextOverflowModes.Overflow;
+            }
+        }
+
+        private void OnEnable()
+        {
+            UpdateLayout();
+        }
+
+        private void OnDisable()
+        {
+            tracker.Clear();
+        }
+
+        private void Update()
+        {
+            // At runtime, we only need to pulse the layout if an animation is running
+            // (e.g., Typewriter effect expanding the width)
+            if (Application.isPlaying && animator != null)
+            {
+                UpdateLayout();
             }
         }
 
         /// <summary>
-        /// TODO: Animate the word
+        /// Handles Editor-side changes to the component properties.
         /// </summary>
-        public void RevealTruth()
+        private void OnValidate()
         {
-            if (IsKeyWord && !string.IsNullOrEmpty(truthText))
-            {
-                Text = truthText;
-                textComponent.text = Text;
-                SetVisualState(VisualState.Revealed);
-                // The manager is now responsible for calling RecalculateLayout after this.
-            }
+#if UNITY_EDITOR
+            // We can't modify Transform inside OnValidate, so we queue it
+            UnityEditor.EditorApplication.delayCall += () => {
+                if (this != null) UpdateLayout();
+            };
+#endif
         }
 
-        public void RecalculateLayout()
+        // -------------------------------------------------------------------------
+        // 3. ILayoutSelfController Implementation
+        // -------------------------------------------------------------------------
+
+        public void SetLayoutHorizontal()
+        {
+            tracker.Add(this, rectTransform, DrivenTransformProperties.SizeDeltaX);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, GetPreferredWidth());
+        }
+
+        public void SetLayoutVertical()
+        {
+            tracker.Add(this, rectTransform, DrivenTransformProperties.SizeDeltaY);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, GetPreferredHeight());
+        }
+
+        // -------------------------------------------------------------------------
+        // 4. SIZE CALCULATION
+        // -------------------------------------------------------------------------
+
+        public float GetPreferredWidth()
+        {
+            return textComponent != null ? textComponent.preferredWidth : 100f;
+        }
+
+        public float GetPreferredHeight()
+        {
+            // Strictly uses the line height of the text component for vertical sizing
+            return textComponent != null ? textComponent.preferredHeight : 50f;
+        }
+
+        public void UpdateLayout()
+        {
+            if (rectTransform == null || textComponent == null) return;
+            
+            tracker.Clear();
+            SetLayoutHorizontal();
+            SetLayoutVertical();
+            
+            LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
+        }
+
+        // -------------------------------------------------------------------------
+        // 5. INITIALIZATION & INTERACTION
+        // -------------------------------------------------------------------------
+
+        public void Initialize(WordsData data)
         {
             if (rectTransform == null) Awake();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
-            layoutElement.preferredWidth = rectTransform.rect.width;
-            layoutElement.preferredHeight = rectTransform.rect.height;
+
+            bool isTextUpdate = (wordsData != null) && (wordsData.Text != data.Text) && !string.IsNullOrEmpty(wordsData.Text);
+            wordsData = data;
+            
+            if (isTextUpdate && animator != null) animator.PlayTypewriter(wordsData.Text);
+            else textComponent.text = wordsData.Text;
+
+            gameObject.name = $"Word_{wordsData.Text}";
+            IsRevealed = false;
+            SetVisualState(VisualState.Normal);
+            UpdateLayout();
         }
 
-        public enum VisualState
+        public void OnPointerClick(PointerEventData eventData)
         {
-            Default,
-            Selected,
-            Revealed
+            if (!interactionEnabled || eventData.dragging) return;
+            OnWordClicked?.Invoke(this);
         }
 
+        public void RevealSubtext()
+        {
+            if (IsRevealed || string.IsNullOrEmpty(wordsData.Subtext)) return;
+
+            IsRevealed = true;
+            if (animator != null) animator.PlayTypewriter(wordsData.Subtext);
+            else textComponent.text = wordsData.Subtext;
+
+            SetVisualState(VisualState.Revealed);
+            UpdateLayout();
+        }
+
+        public void SetInteractable(bool active)
+        {
+            interactionEnabled = active;
+            if (inputFeedback != null) inputFeedback.SetInteractable(active);
+            
+            if (!active) SetVisualState(VisualState.Disabled);
+            else SetVisualState(IsRevealed ? VisualState.Revealed : VisualState.Normal);
+        }
+
+        public enum VisualState { Normal, Revealed, Disabled }
         public void SetVisualState(VisualState state)
         {
+            if (textComponent == null) return;
             switch (state)
             {
-                case VisualState.Selected:
-                    textComponent.color = Color.yellow;
-                    break;
-                case VisualState.Revealed:
-                    textComponent.color = Color.green;
-                    break;
-                case VisualState.Default:
-                default:
-                    textComponent.color = Color.white;
-                    break;
+                case VisualState.Normal: textComponent.color = normalColor; break;
+                case VisualState.Revealed: textComponent.color = revealedColor; break;
+                case VisualState.Disabled: textComponent.color = disabledColor; break;
             }
         }
 
         public void ResetVisuals()
         {
-            IsSelected = false;
-            SetVisualState(VisualState.Default);
+            IsRevealed = false;
+            if (animator != null) animator.ForceReset();
+            SetVisualState(VisualState.Normal);
+            UpdateLayout();
         }
 
-        public void SetVisible(bool visible)
-        {
-            textComponent.enabled = visible;
-        }
+        // -------------------------------------------------------------------------
+        // 6. ILayoutElement
+        // -------------------------------------------------------------------------
 
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (sizeFitter == null) sizeFitter = GetComponent<ContentSizeFitter>();
-            if (textComponent == null) textComponent = GetComponent<TextMeshProUGUI>();
-            if (sizeFitter.horizontalFit != ContentSizeFitter.FitMode.PreferredSize)
-                sizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-            if (sizeFitter.verticalFit != ContentSizeFitter.FitMode.PreferredSize)
-                sizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-        }
-#endif
+        public void CalculateLayoutInputHorizontal() { }
+        public void CalculateLayoutInputVertical() { }
+        public float minWidth => -1;
+        public float preferredWidth => GetPreferredWidth();
+        public float flexibleWidth => -1;
+        public float minHeight => -1;
+        public float preferredHeight => GetPreferredHeight();
+        public float flexibleHeight => -1;
+        public int layoutPriority => 1;
     }
 }

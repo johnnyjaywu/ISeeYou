@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
 
-namespace ContentContent.UI
+namespace ContentContent.UI.Editor
 {
     [CustomEditor(typeof(BetterLayoutElement))]
     [CanEditMultipleObjects]
