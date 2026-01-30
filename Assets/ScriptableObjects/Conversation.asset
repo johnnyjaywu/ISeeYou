@@ -16,7 +16,7 @@ MonoBehaviour:
   PhaseCompleteStinger: {fileID: 0}
   RevealSound: {fileID: 0}
   DudSound: {fileID: 0}
-  Noise: hello, how are you, *don't worry*, I'm fine, nice weather, *about me*, 
+  Noise: hello, how are you, *don't worry*, *I'm fine*, nice weather, *about me*, 
     *I can handle it*, go for a run, now, words, blah, beep, boop
   Monologue: '*Don''t worry* (I''m worried) [about me.] Honestly, *I can handle it*
     (I can''t handle it)'

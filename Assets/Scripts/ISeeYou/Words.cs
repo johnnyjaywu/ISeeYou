@@ -146,8 +146,16 @@ namespace ISeeYou
             bool isTextUpdate = (wordsData != null) && (wordsData.Text != data.Text) && !string.IsNullOrEmpty(wordsData.Text);
             wordsData = data;
             
-            if (isTextUpdate && animator != null) animator.PlayTypewriter(wordsData.Text);
-            else textComponent.text = wordsData.Text;
+            textComponent.text = wordsData.Text;
+            // if (isTextUpdate && animator != null)
+            // {
+            //     animator.PlayTypewriter(wordsData.Text);
+            // }
+            // else
+            // {
+            //     textComponent.text = wordsData.Text;
+            //     textComponent.maxVisibleCharacters = 9999; // Ensure visible
+            // }
 
             gameObject.name = $"Word_{wordsData.Text}";
             IsRevealed = false;
@@ -158,16 +166,36 @@ namespace ISeeYou
         public void OnPointerClick(PointerEventData eventData)
         {
             if (!interactionEnabled || eventData.dragging) return;
-            OnWordClicked?.Invoke(this);
+
+            // Trigger the animation and wait for it to finish
+            animator.PlayClick(() => 
+            {
+                OnWordClicked?.Invoke(this);
+            });
         }
 
-        public void RevealSubtext()
+        public void RevealSubtext(Action onComplete = null)
         {
-            if (IsRevealed || string.IsNullOrEmpty(wordsData.Subtext)) return;
+            if (IsRevealed || string.IsNullOrEmpty(wordsData.Subtext))
+            {
+                onComplete?.Invoke();
+                return;
+            }
 
             IsRevealed = true;
-            if (animator != null) animator.PlayTypewriter(wordsData.Subtext);
-            else textComponent.text = wordsData.Subtext;
+    
+            // Pass the callback to the animator
+            // if (animator != null) 
+            // {
+            //     animator.PlayTypewriter(wordsData.Subtext, onComplete);
+            // }
+            // else 
+            // {
+            //     textComponent.text = wordsData.Subtext;
+            //     onComplete?.Invoke();
+            // }
+            textComponent.text = wordsData.Subtext;
+            onComplete?.Invoke();
 
             SetVisualState(VisualState.Revealed);
             UpdateLayout();

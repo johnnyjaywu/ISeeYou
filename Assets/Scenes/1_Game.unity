@@ -1029,12 +1029,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.ConversationManager
   conversation: {fileID: 11400000, guid: 471b60a9e218c9e48ac51048427278b4, type: 2}
-  wordsPrefab: {fileID: 7907633183712135885, guid: 8de931046eb611d468db0df15c34da6b, type: 3}
+  wordsPrefab: {fileID: 9129343402878969084, guid: 8de931046eb611d468db0df15c34da6b, type: 3}
   spawnContainer: {fileID: 162226970}
   speechBubble: {fileID: 920720132}
   transitions: {fileID: 465718280}
   truthText: {fileID: 352124053}
-  inputAsset: {fileID: 0}
+  inputAsset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   uiActionMapName: UI
   wallPadding: 20
 --- !u!4 &1757398377

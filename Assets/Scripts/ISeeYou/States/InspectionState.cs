@@ -87,18 +87,35 @@ namespace ISeeYou
             }
         }
 
-        private void OnWordSelected(Words word)
+        private void OnWordSelected(Words words)
         {
-            if (isComplete || word.IsRevealed) return;
+            if (isComplete || words.IsRevealed) return;
 
-            if (word.IsKey)
+            HandleWordReveal(words).Run();
+        }
+
+        private IEnumerator HandleWordReveal(Words words)
+        {
+            if (words.IsKey)
             {
-                word.RevealSubtext();
-                
+                // 1. Trigger the animation. 
+                // We wait for the click animation + the typewriter to finish.
+                bool animationFinished = false;
+        
+                // RevealSubtext should now accept an onComplete callback 
+                // (Update your Words.cs RevealSubtext to pass this through to UGUIAnimator)
+                words.RevealSubtext(() => animationFinished = true);
+
+                // 2. Wait until the word says it is done
+                // TODO: Fix animation issues
+                // yield return new WaitUntil(() => animationFinished);
+                yield return new WaitForSeconds(1f);
+
+                // 3. Logic only happens AFTER the visual "Reveal" is complete
                 if (data.RevealSound != null) SoundManager.Instance.Play(data.RevealSound);
 
                 revealedMasks++;
-                
+        
                 if (revealedMasks >= totalMasks)
                 {
                     isComplete = true;
@@ -107,6 +124,8 @@ namespace ISeeYou
             }
             else
             {
+                // For duds, we still might want to wait for the "Click" punch animation
+                // to finish so the player feels the impact before the dud sound.
                 if (data.DudSound != null) SoundManager.Instance.Play(data.DudSound);
             }
         }
@@ -114,15 +133,18 @@ namespace ISeeYou
         private IEnumerator ExitSequence()
         {
             Debug.Log("[InspectionState] All Masks Revealed! Truth Exposed.");
-
+            
             // Lock Input
             manager.SetInputActive(false);
+            
 
             if (data.PhaseCompleteStinger != null)
             {
                 SoundManager.Instance.Play(data.PhaseCompleteStinger);
             }
 
+            yield return new WaitForSeconds(3f);
+            
             if (manager.Transitions != null)
             {
                 yield return manager.Transitions.Play<InspectionOutro>();
