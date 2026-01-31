@@ -37,6 +37,9 @@ namespace ISeeYou
         private Vector2 lastPosition;
         private Vector2 smoothedVelocity;
         private bool wasLayoutIgnored;
+        
+        // Track dragging state to update velocity even when mouse is stationary
+        private bool isDragging;
 
         private void Awake()
         {
@@ -56,10 +59,21 @@ namespace ISeeYou
             originalScale = transform.localScale;
         }
 
+        private void Update()
+        {
+            // Calculate velocity every frame while dragging.
+            // This ensures that if the user holds the mouse still, the velocity decays to zero.
+            if (isDragging)
+            {
+                CalculateVelocity();
+            }
+        }
+
         public void OnBeginDrag(PointerEventData eventData)
         {
             Current = this;
             LastInputPosition = eventData.position;
+            isDragging = true;
 
             // Move the object to the Root Canvas so it is not restricted by 
             // any parent LayoutGroups (e.g., VerticalLayoutGroup, FlexLayoutGroup).
@@ -145,7 +159,7 @@ namespace ISeeYou
                 rectTransform.anchoredPosition = finalPos;
             }
 
-            CalculateVelocity();
+            // Note: Velocity calculation removed from here and moved to Update()
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -153,6 +167,7 @@ namespace ISeeYou
             Current = null;
             LastInputPosition = eventData.position;
             canvasGroup.blocksRaycasts = true;
+            isDragging = false;
 
             // Revert the layout ignore setting to its previous state.
             if (layoutElement != null)

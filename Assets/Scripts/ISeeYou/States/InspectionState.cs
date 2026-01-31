@@ -40,7 +40,7 @@ namespace ISeeYou
         {
             foreach (var word in activeWords)
             {
-                if (word != null) word.OnWordClicked -= OnWordSelected;
+                if (word != null) word.OnWordConfirmed -= OnWordSelected;
             }
             activeWords.Clear();
 
@@ -77,7 +77,7 @@ namespace ISeeYou
                 if (word.TryGetComponent(out Draggable drag)) drag.enabled = false;
                 
                 word.SetInteractable(true);
-                word.OnWordClicked += OnWordSelected;
+                word.OnWordConfirmed += OnWordSelected;
                 activeWords.Add(word);
 
                 if (word.IsKey)

@@ -72,7 +72,7 @@ namespace ISeeYou
             {
                 if (word.TryGetComponent(out Draggable drag)) drag.enabled = true;
                 word.SetInteractable(false);
-                word.ResetVisuals(); 
+                word.ResetState(); 
             }
         }
 
@@ -170,7 +170,7 @@ namespace ISeeYou
                 }
 
                 wordObject.transform.SetSiblingIndex(i);
-                wordObject.ResetVisuals();
+                wordObject.ResetState();
                 wordObject.SetInteractable(false);
             }
 

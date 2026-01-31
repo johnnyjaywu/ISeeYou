@@ -2,44 +2,50 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 namespace ISeeYou
 {
     /// <summary>
-    /// Manages word data and state.
-    /// Uses OnValidate with delayCall to ensure Editor-time sizing matches TMP line height.
-    /// Implements ILayoutSelfController for runtime layout precision.
+    /// Manages word data and logic state.
+    /// Acts as a purely reactive layout element that resizes itself to fit its TextMeshPro content.
+    /// Integrates with UISelectable to handle selection state.
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(TextMeshProUGUI))]
-    // [RequireComponent(typeof(UIInputFeedback))]
+    [RequireComponent(typeof(UISelectable))]
     public class Words : MonoBehaviour, ILayoutElement, ILayoutSelfController
     {
         // -------------------------------------------------------------------------
-        // 1. DATA & EVENTS
+        // 1. DATA & STATE
         // -------------------------------------------------------------------------
 
-        public event Action<Words> OnWordClicked;
-        
+        public enum LogicState
+        {
+            Normal,
+            Revealed,
+            Disabled
+        }
+
         public string Text => wordsData != null ? wordsData.Text : string.Empty;
         public bool IsKey => wordsData is { IsKey: true };
-        public bool IsRevealed { get; private set; }
+        public bool IsRevealed => CurrentState == LogicState.Revealed;
+
+        // Public accessor for external feedback scripts to listen/poll
+        public LogicState CurrentState { get; private set; } = LogicState.Normal;
+
+        // Surfaced Selection State
+        public bool IsSelected => selectable != null && selectable.IsSelected;
+
+        // Surfaced Selection Events (passes 'this' for easy identification by managers)
+        public event Action<Words, bool> OnSelectionChanged;
+        public event Action<Words> OnWordConfirmed;
 
         private WordsData wordsData;
-        
-        [Header("References")]
         private RectTransform rectTransform;
         private TextMeshProUGUI textComponent;
-        private UGUIAnimator animator;
-        private UIInputFeedback inputFeedback;
+        private UISelectable selectable;
 
-        [Header("Text Appearance")]
-        [SerializeField] private Color normalColor = Color.white;
-        [SerializeField] private Color revealedColor = new Color(1f, 0.92f, 0.016f, 1f);
-        [SerializeField] private Color disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-
-        private bool interactionEnabled = true;
+        // Tracker prevents the Inspector from allowing manual resize of driven properties
         private DrivenRectTransformTracker tracker;
 
         // -------------------------------------------------------------------------
@@ -47,14 +53,14 @@ namespace ISeeYou
         // -------------------------------------------------------------------------
 
         private void Awake()
-        {            
+        {
             rectTransform = GetComponent<RectTransform>();
             textComponent = GetComponent<TextMeshProUGUI>();
-            animator = GetComponent<UGUIAnimator>();
-            inputFeedback = GetComponent<UIInputFeedback>();
+            selectable = GetComponent<UISelectable>();
 
             if (textComponent != null)
             {
+                // Ensure text settings support auto-sizing logic
                 textComponent.textWrappingMode = TextWrappingModes.NoWrap;
                 textComponent.overflowMode = TextOverflowModes.Overflow;
             }
@@ -62,186 +68,167 @@ namespace ISeeYou
 
         private void OnEnable()
         {
-            UpdateLayout();
+            if (selectable != null)
+            {
+                selectable.OnSelectionChanged += HandleInternalSelection;
+                selectable.OnConfirm += HandleInternalConfirm;
+            }
+
+            MarkLayoutDirty();
         }
 
         private void OnDisable()
         {
+            if (selectable != null)
+            {
+                selectable.OnSelectionChanged -= HandleInternalSelection;
+                selectable.OnConfirm -= HandleInternalConfirm;
+            }
+
             tracker.Clear();
         }
 
-        private void Update()
-        {
-            // At runtime, we only need to pulse the layout if an animation is running
-            // (e.g., Typewriter effect expanding the width)
-            if (Application.isPlaying) // && animator != null
-            {
-                UpdateLayout();
-            }
-        }
-
-        /// <summary>
-        /// Handles Editor-side changes to the component properties.
-        /// </summary>
+#if UNITY_EDITOR
         private void OnValidate()
         {
-#if UNITY_EDITOR
-            // We can't modify Transform inside OnValidate, so we queue it
-            UnityEditor.EditorApplication.delayCall += () => {
-                if (this != null) UpdateLayout();
+            // Delay call avoids "SendTransformChanged" errors during serialization
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                if (this != null && gameObject.activeInHierarchy) MarkLayoutDirty();
             };
+        }
 #endif
+
+        // -------------------------------------------------------------------------
+        // 3. EVENT HANDLERS
+        // -------------------------------------------------------------------------
+
+        private void HandleInternalSelection(bool selected)
+        {
+            OnSelectionChanged?.Invoke(this, selected);
+        }
+
+        private void HandleInternalConfirm()
+        {
+            OnWordConfirmed?.Invoke(this);
         }
 
         // -------------------------------------------------------------------------
-        // 3. ILayoutSelfController Implementation
+        // 4. ILayoutSelfController Implementation
         // -------------------------------------------------------------------------
 
         public void SetLayoutHorizontal()
         {
+            if (rectTransform == null || textComponent == null) return;
+
+            // Drive the Width based on text content
             tracker.Add(this, rectTransform, DrivenTransformProperties.SizeDeltaX);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, GetPreferredWidth());
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, textComponent.preferredWidth);
         }
 
         public void SetLayoutVertical()
         {
-            tracker.Add(this, rectTransform, DrivenTransformProperties.SizeDeltaY);
-            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, GetPreferredHeight());
-        }
-
-        // -------------------------------------------------------------------------
-        // 4. SIZE CALCULATION
-        // -------------------------------------------------------------------------
-
-        public float GetPreferredWidth()
-        {
-            return textComponent != null ? textComponent.preferredWidth : 100f;
-        }
-
-        public float GetPreferredHeight()
-        {
-            // Strictly uses the line height of the text component for vertical sizing
-            return textComponent != null ? textComponent.preferredHeight : 50f;
-        }
-
-        public void UpdateLayout()
-        {
             if (rectTransform == null || textComponent == null) return;
-            
-            tracker.Clear();
-            SetLayoutHorizontal();
-            SetLayoutVertical();
-            
-            LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
+
+            // Drive the Height based on text content
+            tracker.Add(this, rectTransform, DrivenTransformProperties.SizeDeltaY);
+            rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, textComponent.preferredHeight);
         }
 
         // -------------------------------------------------------------------------
-        // 5. INITIALIZATION & INTERACTION
+        // 5. LOGIC
         // -------------------------------------------------------------------------
 
         public void Initialize(WordsData data)
         {
             if (rectTransform == null) Awake();
 
-            bool isTextUpdate = (wordsData != null) && (wordsData.Text != data.Text) && !string.IsNullOrEmpty(wordsData.Text);
             wordsData = data;
-            
             textComponent.text = wordsData.Text;
-            // if (isTextUpdate && animator != null)
-            // {
-            //     animator.PlayTypewriter(wordsData.Text);
-            // }
-            // else
-            // {
-            //     textComponent.text = wordsData.Text;
-            //     textComponent.maxVisibleCharacters = 9999; // Ensure visible
-            // }
 
             gameObject.name = $"Word_{wordsData.Text}";
-            IsRevealed = false;
-            SetVisualState(VisualState.Normal);
-            UpdateLayout();
-        }
+            CurrentState = LogicState.Normal;
 
-        // public void OnPointerClick(PointerEventData eventData)
-        // {
-        //     if (!interactionEnabled || eventData.dragging) return;
-        //
-        //     // Trigger the animation and wait for it to finish
-        //     // animator.PlayClick(() => 
-        //     // {
-        //     //     OnWordClicked?.Invoke(this);
-        //     // });
-        // }
+            // Ensure selection state is reset on re-initialization
+            if (selectable.IsSelected) selectable.Deselect();
+
+            MarkLayoutDirty();
+        }
 
         public void RevealSubtext(Action onComplete = null)
         {
-            if (IsRevealed || string.IsNullOrEmpty(wordsData.Subtext))
+            if (CurrentState == LogicState.Revealed || string.IsNullOrEmpty(wordsData.Subtext))
             {
                 onComplete?.Invoke();
                 return;
             }
 
-            IsRevealed = true;
-    
-            // Pass the callback to the animator
-            // if (animator != null) 
-            // {
-            //     animator.PlayTypewriter(wordsData.Subtext, onComplete);
-            // }
-            // else 
-            // {
-            //     textComponent.text = wordsData.Subtext;
-            //     onComplete?.Invoke();
-            // }
+            CurrentState = LogicState.Revealed;
             textComponent.text = wordsData.Subtext;
-            onComplete?.Invoke();
 
-            SetVisualState(VisualState.Revealed);
-            UpdateLayout();
+            MarkLayoutDirty();
+            onComplete?.Invoke();
         }
 
         public void SetInteractable(bool active)
         {
-            interactionEnabled = active;
-            if (inputFeedback != null) inputFeedback.SetInteractable(active);
-            
-            if (!active) SetVisualState(VisualState.Disabled);
-            else SetVisualState(IsRevealed ? VisualState.Revealed : VisualState.Normal);
-        }
-
-        public enum VisualState { Normal, Revealed, Disabled }
-        public void SetVisualState(VisualState state)
-        {
-            if (textComponent == null) return;
-            switch (state)
+            if (!active)
             {
-                case VisualState.Normal: textComponent.color = normalColor; break;
-                case VisualState.Revealed: textComponent.color = revealedColor; break;
-                case VisualState.Disabled: textComponent.color = disabledColor; break;
+                CurrentState = LogicState.Disabled;
+
+                // If disabled, we likely want to force deselect
+                if (selectable.IsSelected) selectable.Deselect();
             }
+            else
+            {
+                // Restore state based on whether we were previously revealed or not
+                bool isShowingSubtext = textComponent.text == wordsData.Subtext;
+                CurrentState = isShowingSubtext ? LogicState.Revealed : LogicState.Normal;
+            }
+
+            // Optional: Disable the UISelectable component itself if not interactable
+            selectable.enabled = active;
         }
 
-        public void ResetVisuals()
+        public void ResetState()
         {
-            IsRevealed = false;
-            // if (animator != null) animator.ForceReset();
-            SetVisualState(VisualState.Normal);
-            UpdateLayout();
+            CurrentState = LogicState.Normal;
+            if (wordsData != null) textComponent.text = wordsData.Text;
+
+            if (selectable.IsSelected) selectable.Deselect();
+            selectable.enabled = true;
+
+            MarkLayoutDirty();
+        }
+
+        private void MarkLayoutDirty()
+        {
+            if (rectTransform != null && gameObject.activeInHierarchy)
+            {
+                LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
+            }
         }
 
         // -------------------------------------------------------------------------
         // 6. ILayoutElement
         // -------------------------------------------------------------------------
 
-        public void CalculateLayoutInputHorizontal() { }
-        public void CalculateLayoutInputVertical() { }
         public float minWidth => -1;
-        public float preferredWidth => GetPreferredWidth();
+        public float preferredWidth => textComponent != null ? textComponent.preferredWidth : 0;
         public float flexibleWidth => -1;
+
         public float minHeight => -1;
-        public float preferredHeight => GetPreferredHeight();
+        public float preferredHeight => textComponent != null ? textComponent.preferredHeight : 0;
         public float flexibleHeight => -1;
+
         public int layoutPriority => 1;
+
+        public void CalculateLayoutInputHorizontal()
+        {
+        }
+
+        public void CalculateLayoutInputVertical()
+        {
+        }
     }
 }
