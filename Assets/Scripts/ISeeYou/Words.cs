@@ -13,8 +13,8 @@ namespace ISeeYou
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     [RequireComponent(typeof(TextMeshProUGUI))]
-    [RequireComponent(typeof(UIInputFeedback))]
-    public class Words : MonoBehaviour, ILayoutElement, ILayoutSelfController, IPointerClickHandler
+    // [RequireComponent(typeof(UIInputFeedback))]
+    public class Words : MonoBehaviour, ILayoutElement, ILayoutSelfController
     {
         // -------------------------------------------------------------------------
         // 1. DATA & EVENTS
@@ -47,7 +47,7 @@ namespace ISeeYou
         // -------------------------------------------------------------------------
 
         private void Awake()
-        {
+        {            
             rectTransform = GetComponent<RectTransform>();
             textComponent = GetComponent<TextMeshProUGUI>();
             animator = GetComponent<UGUIAnimator>();
@@ -74,7 +74,7 @@ namespace ISeeYou
         {
             // At runtime, we only need to pulse the layout if an animation is running
             // (e.g., Typewriter effect expanding the width)
-            if (Application.isPlaying && animator != null)
+            if (Application.isPlaying) // && animator != null
             {
                 UpdateLayout();
             }
@@ -163,16 +163,16 @@ namespace ISeeYou
             UpdateLayout();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (!interactionEnabled || eventData.dragging) return;
-
-            // Trigger the animation and wait for it to finish
-            animator.PlayClick(() => 
-            {
-                OnWordClicked?.Invoke(this);
-            });
-        }
+        // public void OnPointerClick(PointerEventData eventData)
+        // {
+        //     if (!interactionEnabled || eventData.dragging) return;
+        //
+        //     // Trigger the animation and wait for it to finish
+        //     // animator.PlayClick(() => 
+        //     // {
+        //     //     OnWordClicked?.Invoke(this);
+        //     // });
+        // }
 
         public void RevealSubtext(Action onComplete = null)
         {
@@ -225,7 +225,7 @@ namespace ISeeYou
         public void ResetVisuals()
         {
             IsRevealed = false;
-            if (animator != null) animator.ForceReset();
+            // if (animator != null) animator.ForceReset();
             SetVisualState(VisualState.Normal);
             UpdateLayout();
         }

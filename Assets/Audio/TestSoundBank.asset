@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3467a93a6b5440898ec2f3b40632091b, type: 3}
+  m_Name: TestSoundBank
+  m_EditorClassIdentifier: ContentContent.Audio::Swarmkeeper.SoundBank
+  sounds:
+  - {fileID: 11400000, guid: 54e0f763ab5815941bd7b8d0e7644312, type: 2}
+  - {fileID: 11400000, guid: d65bfeca0c0c43f4f9058869e44f6dc2, type: 2}
+  - {fileID: 11400000, guid: 5bba38a22d08bb14da34964cfdde2088, type: 2}
+  - {fileID: 11400000, guid: a7d736b7003a9a74b9ae77063026f38b, type: 2}
+  - {fileID: 11400000, guid: c81388b1594c3944eb06070af0dabe01, type: 2}
+  - {fileID: 11400000, guid: 66636baa6cbd7624daa933caf1bdc5f7, type: 2}
+  - {fileID: 11400000, guid: f8d2de07f42836d44bdb8f3340ad96d3, type: 2}
+  - {fileID: 11400000, guid: 2c5a331853491264f9d88c6d619f4fa5, type: 2}
+  - {fileID: 11400000, guid: 92f27033f428df947b5ecd555716956c, type: 2}
+  - {fileID: 11400000, guid: a852cee338582ee47a57d250699d1e2a, type: 2}
+  - {fileID: 11400000, guid: c534f69779ffa4b419e2fd5ee786aef9, type: 2}
+  - {fileID: 11400000, guid: b2c592f7791ffa545891ec3ea1825870, type: 2}
+  - {fileID: 11400000, guid: 5ced6d75e5fc07e4f81ce3e6ed751814, type: 2}
+  - {fileID: 11400000, guid: edc3540038aba744e9ef40540637ea32, type: 2}

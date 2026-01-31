@@ -59,9 +59,9 @@ namespace ISeeYou
             
             manager.SetInputActive(true);
             
-            if (data.NoiseLoop != null)
+            if (data.Ambient != null)
             {
-                noiseLoopHandle = SoundManager.Instance.Play(data.NoiseLoop);
+                noiseLoopHandle = SoundManager.Instance.Play(data.Ambient);
             }
         }
 
@@ -111,10 +111,10 @@ namespace ISeeYou
             
             dropZone.OnContentChanged -= CheckWinCondition;
 
-            if (data.PhaseCompleteStinger != null)
-            {
-                SoundManager.Instance.Play(data.PhaseCompleteStinger);
-            }
+            // if (data.PhaseCompleteStinger != null)
+            // {
+            //     SoundManager.Instance.Play(data.PhaseCompleteStinger);
+            // }
 
             if (manager.Transitions != null)
             {

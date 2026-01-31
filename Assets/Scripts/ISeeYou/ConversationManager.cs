@@ -149,7 +149,7 @@ namespace ISeeYou
         }
 
         private void ClearWordsList()
-        {
+        {   
             foreach (Words word in WordsList)
             {
                 if (word != null) Destroy(word.gameObject);

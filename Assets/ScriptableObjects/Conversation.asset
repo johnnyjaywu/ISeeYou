@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da3cdd5a6d45fda4daf57367609a9a0b, type: 3}
   m_Name: Conversation
   m_EditorClassIdentifier: ISeeYou::ISeeYou.ConversationData
-  NoiseLoop: {fileID: 0}
-  PhaseCompleteStinger: {fileID: 0}
-  RevealSound: {fileID: 0}
-  DudSound: {fileID: 0}
-  Noise: hello, how are you, *don't worry*, *I'm fine*, nice weather, *about me*, 
-    *I can handle it*, go for a run, now, words, blah, beep, boop
-  Monologue: '*Don''t worry* (I''m worried) [about me.] Honestly, *I can handle it*
-    (I can''t handle it)'
+  Ambient: {fileID: 0}
+  NoiseVoices: {fileID: 11400000, guid: c559b3b2bbce3cf40a86908054e3540c, type: 2}
+  Noise: hello, how are you, *don't worry*, I'm fine, nice weather, *about me*, 
+    *I can handle it*, go for a run, now, words, blah blah blah, beep boop
+  Monologue: '*Don''t worry* (I''m worried) [about me.] Honestly, I''m pretty sure
+    *I can handle it* (I can''t handle it)'
+  MonologueVoices: {fileID: 0}
   Truth: I'm really worried about the state of the world lately. I can't handle all
     the violence and chaos. It's really stressing me out.
+  TruthVoiceLine: {fileID: 0}

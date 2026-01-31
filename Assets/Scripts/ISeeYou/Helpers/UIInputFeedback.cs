@@ -7,7 +7,7 @@ namespace ISeeYou
     /// Bridges Unity Event Systems (PointerEnter, Exit, Down) to the UGUIAnimator.
     /// Attach this to any object that needs Hover/Click feedback.
     /// </summary>
-    [RequireComponent(typeof(UGUIAnimator))]
+    // [RequireComponent(typeof(UGUIAnimator))]
     public class UIInputFeedback : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
     {
         private UGUIAnimator animator;

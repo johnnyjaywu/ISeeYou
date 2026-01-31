@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d537ff2a854b12b8461f74277e693b, type: 3}
+  m_Name: about me
+  m_EditorClassIdentifier: ContentContent.Audio::ContentContent.Audio.SoundData
+  clips:
+  - {fileID: 8300000, guid: 08e3d78d7428aa848881d25a1a2486f4, type: 3}
+  playOrder: 0
+  outputGroup: {fileID: 1141584105860462763, guid: 97e5de8f8f29d384ba2a4a68925dd376, type: 2}
+  playRandom: 1
+  volume: 1
+  randomVolume: 0
+  pitch: 1
+  randomPitch: 0
+  loop: 0
+  fadeInTime: 0
+  fadeOutTime: 0.5
+  spatialBlend: 0
+  spread: 0
+  dopplerLevel: 1
+  rolloffMode: 0
+  minDistance: 1
+  maxDistance: 500
+  maxConcurrency: 3
+  stealOldest: 0
+  bypassGlobalPause: 0

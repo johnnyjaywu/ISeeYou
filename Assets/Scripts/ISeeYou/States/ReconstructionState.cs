@@ -118,10 +118,10 @@ namespace ISeeYou
             
             yield return new WaitForSeconds(0.5f);
 
-            if (data.PhaseCompleteStinger != null)
-            {
-                SoundManager.Instance.Play(data.PhaseCompleteStinger);
-            }
+            // if (data.PhaseCompleteStinger != null)
+            // {
+            //     SoundManager.Instance.Play(data.PhaseCompleteStinger);
+            // }
 
             if (manager.Transitions != null)
             {

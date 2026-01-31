@@ -145,5 +145,10 @@ namespace ContentContent.Audio
         }
 
         public bool HasClips => clips is { Length: > 0 };
+
+        public SoundHandle Play(Vector3 position = default)
+        {
+            return SoundManager.Instance.Play(this, position);
+        }
     }
 }

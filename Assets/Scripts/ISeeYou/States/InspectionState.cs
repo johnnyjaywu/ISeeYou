@@ -112,7 +112,7 @@ namespace ISeeYou
                 yield return new WaitForSeconds(1f);
 
                 // 3. Logic only happens AFTER the visual "Reveal" is complete
-                if (data.RevealSound != null) SoundManager.Instance.Play(data.RevealSound);
+                // if (data.RevealSound != null) SoundManager.Instance.Play(data.RevealSound);
 
                 revealedMasks++;
         
@@ -126,7 +126,7 @@ namespace ISeeYou
             {
                 // For duds, we still might want to wait for the "Click" punch animation
                 // to finish so the player feels the impact before the dud sound.
-                if (data.DudSound != null) SoundManager.Instance.Play(data.DudSound);
+                // if (data.DudSound != null) SoundManager.Instance.Play(data.DudSound);
             }
         }
 
@@ -138,10 +138,10 @@ namespace ISeeYou
             manager.SetInputActive(false);
             
 
-            if (data.PhaseCompleteStinger != null)
-            {
-                SoundManager.Instance.Play(data.PhaseCompleteStinger);
-            }
+            // if (data.PhaseCompleteStinger != null)
+            // {
+            //     SoundManager.Instance.Play(data.PhaseCompleteStinger);
+            // }
 
             yield return new WaitForSeconds(3f);
             

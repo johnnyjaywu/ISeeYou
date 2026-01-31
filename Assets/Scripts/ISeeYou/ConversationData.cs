@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using ContentContent.Audio;
 using NaughtyAttributes;
+using Swarmkeeper;
 using UnityEngine;
 
 namespace ISeeYou
@@ -16,17 +17,19 @@ namespace ISeeYou
     {
         [Header("Audio Data")]
         [Tooltip("The background noise loop during the Filtering phase.")]
-        public SoundData NoiseLoop;
-        
-        [Tooltip("Sound played when the filtering phase is completed.")]
-        public SoundData PhaseCompleteStinger;
+        public SoundData Ambient;
 
-        [Header("Phase 3 Audio")]
-        [Tooltip("Sound when a Mask word is successfully cracked/revealed.")]
-        public SoundData RevealSound;
+        [InfoBox("Match the sound data name exactly to the words")]
+        [Tooltip("The sound data associated with the noise words.")]
+        public SoundBank NoiseVoices;
+        // [Tooltip("Sound played when the filtering phase is completed.")]
+        // public SoundData PhaseCompleteStinger;
+
+        // [Tooltip("Sound when a Mask word is successfully cracked/revealed.")]
+        // public SoundData RevealSound;
         
-        [Tooltip("Sound when clicking a normal word (no hidden meaning).")]
-        public SoundData DudSound;
+        // [Tooltip("Sound when clicking a normal word (no hidden meaning).")]
+        // public SoundData DudSound;
         
         [Header("Phase 1: Filtering")]
         [InfoBox("Words or phrases separated by a comma. Surround with * to indicate the key words\n" +
@@ -43,12 +46,14 @@ namespace ISeeYou
                  "Example: *Don't worry*(I'm worried) [about me]. Honestly, *I can handle it* (I can't handle it)")]
         [TextArea(3, 5), ResizableTextArea]
         public string Monologue;
-
+        public SoundBank MonologueVoices;
+        
         [Header("Phase 4: Revelation")]
         [InfoBox("The final sentence(s) that is revealed at the end")]
         [TextArea(3, 5), ResizableTextArea]
         public string Truth;
-
+        public SoundData TruthVoiceLine;
+        
         /// <summary>
         /// Parses the Noise field and returns a list of WordsData.
         /// </summary>

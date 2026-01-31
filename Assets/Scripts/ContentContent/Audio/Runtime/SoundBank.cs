@@ -7,7 +7,6 @@ namespace Swarmkeeper
     [CreateAssetMenu(fileName = "NewSoundBank", menuName = "Audio/Sound Bank")]
     public class SoundBank : ScriptableObject
     {
-        public string bankName;
         public List<SoundData> sounds = new();
 
         // Optional: Helper to find sound by name if you prefer string-based lookup
