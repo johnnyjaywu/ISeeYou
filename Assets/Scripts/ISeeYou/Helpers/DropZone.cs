@@ -44,6 +44,12 @@ namespace ISeeYou
             if (canvas != null) rootCanvas = canvas.rootCanvas;
         }
 
+        private void Start()
+        {
+            // Auto-validate any items pre-placed in the Editor
+            ValidateImmediateChildren();
+        }
+
         // We use Update only to track Entrance/Exit events for feedback.
         // If you don't need visual highlights (changing color on hover), you can remove this.
         private void Update()
@@ -85,12 +91,35 @@ namespace ISeeYou
 
             Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
             
-            // Only accept the drop if we are the valid target (handled by the Update overlap check logic implicitly,
-            // but usually OnDrop is called by Unity only if the pointer is over the object.
-            // We double-check overlap percentage to be precise).
+            // Only accept the drop if we are the valid target
             if (draggable != null && CheckOverlap(draggable.GetRectTransform(), minOverlapPercent))
             {
                 AcceptItem(draggable);
+            }
+        }
+
+        /// <summary>
+        /// Checks all immediate children. If they are Draggable, enforces the DropZone rules (Physics, Transform).
+        /// Useful for initializing items pre-placed in the editor.
+        /// </summary>
+        public void ValidateImmediateChildren()
+        {
+            bool contentChanged = false;
+            
+            // Iterate over all children to ensure they conform to DropZone rules
+            foreach (Transform child in transform)
+            {
+                Draggable draggable = child.GetComponent<Draggable>();
+                if (draggable != null)
+                {
+                    ApplyDropLogic(draggable);
+                    contentChanged = true;
+                }
+            }
+
+            if (contentChanged)
+            {
+                OnContentChanged?.Invoke();
             }
         }
 
@@ -99,6 +128,14 @@ namespace ISeeYou
             // Adoption: Move the item from the Root Canvas into this container.
             item.transform.SetParent(transform);
             
+            // Apply rules
+            ApplyDropLogic(item);
+
+            OnContentChanged?.Invoke();
+        }
+
+        private void ApplyDropLogic(Draggable item)
+        {
             // Reset local transformation to ensure it snaps into the layout correctly.
             item.transform.localScale = Vector3.one;
             item.transform.localRotation = Quaternion.identity;
@@ -106,9 +143,10 @@ namespace ISeeYou
 
             // Handle Physics state for the docked item
             UIPhysics physics = item.GetComponent<UIPhysics>();
-            if (physics != null) physics.SetSimulationMode(!disablePhysicsOnDrop);
-
-            OnContentChanged?.Invoke();
+            if (physics != null)
+            {
+                physics.SetSimulationMode(!disablePhysicsOnDrop);
+            }
         }
 
         private void HandleEnter(Draggable item)
@@ -122,7 +160,7 @@ namespace ISeeYou
             isHovering = false;
             OnZoneExit?.Invoke(item);
         }
-
+        
         private bool CheckOverlap(RectTransform otherRect, float requiredPercent)
         {
             if (otherRect == null) return false;
