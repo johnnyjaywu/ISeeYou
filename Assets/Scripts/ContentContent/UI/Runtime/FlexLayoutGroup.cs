@@ -4,33 +4,29 @@ using UnityEngine.UI;
 
 namespace ContentContent.UI
 {
+    /// <summary>
+    /// Responsibility: Provides a CSS Flexbox-style layout system for UGUI.
+    /// 
+    /// <para><b>Architecture:</b></para>
+    /// <list type="bullet">
+    /// <item><b>Axis Abstraction:</b> Abstracts logic into Main Axis (Flow) and Cross Axis (Perpendicular) to support both Row and Column layouts with a single logic path.</item>
+    /// <item><b>Two-Pass Resolution:</b> Calculates line wrapping during the Input Calculation pass, then commits positions during the Set Layout pass.</item>
+    /// <item><b>Allocation Free:</b> Uses a pooled struct-based line system to eliminate GC allocations during frequent layout rebuilds (e.g., dragging items).</item>
+    /// </list>
+    /// </summary>
     [AddComponentMenu("Layout/Flex Layout Group")]
     public class FlexLayoutGroup : LayoutGroup
     {
+        // -------------------------------------------------------------------
+        // Definitions
+        // -------------------------------------------------------------------
+
         public enum FlexDirection { Row, Column, RowReverse, ColumnReverse }
-        public enum FlexWrap { NoWrap, Wrap, WrapReverse }
+        public enum FlexWrap { NoWrap, Wrap }
         public enum JustifyContent { FlexStart, Center, FlexEnd, SpaceBetween, SpaceAround, SpaceEvenly }
         public enum AlignItems { FlexStart, Center, FlexEnd, Stretch }
 
-        [SerializeField] private FlexDirection direction = FlexDirection.Row;
-        [SerializeField] private FlexWrap wrap = FlexWrap.Wrap;
-        [SerializeField] private JustifyContent justifyContent = JustifyContent.FlexStart;
-        [SerializeField] private AlignItems alignItems = AlignItems.Center;
-
-        [SerializeField] private Vector2 spacing = Vector2.zero;
-
-        [Tooltip("The LayoutGroup will request at least this size from the layout system.")]
-        [SerializeField] private Vector2 minSize = Vector2.zero;
-
-        [Tooltip("If > 0, the layout will wrap when this size is reached. X = Width, Y = Height.")]
-        [SerializeField] private Vector2 maxSize = Vector2.zero;
-
-        [SerializeField] private bool forceExpandMainAxis = false;
-        [SerializeField] private bool forceExpandCrossAxis = false;
-
-        private readonly List<FlexLine> linesList = new List<FlexLine>();
-
-        private class FlexLine
+        private struct FlexLine
         {
             public int StartIndex;
             public int Count;
@@ -38,113 +34,159 @@ namespace ContentContent.UI
             public float CrossSize;
         }
 
+        // -------------------------------------------------------------------
+        // Configuration
+        // -------------------------------------------------------------------
+
+        [Header("Flex Settings")]
+        [Tooltip("Direction items are laid out. Row = Horizontal, Column = Vertical.")]
+        [SerializeField] private FlexDirection direction = FlexDirection.Row;
+        
+        [Tooltip("Controls wrapping behavior. 'NoWrap' forces single line, 'Wrap' allows multiple lines.")]
+        [SerializeField] private FlexWrap wrap = FlexWrap.Wrap;
+        
+        [Tooltip("Alignment along the Main Axis (Horizontal for Row, Vertical for Column).")]
+        [SerializeField] private JustifyContent justifyContent = JustifyContent.FlexStart;
+        
+        [Tooltip("Alignment along the Cross Axis (Vertical for Row, Horizontal for Column).")]
+        [SerializeField] private AlignItems alignItems = AlignItems.Center;
+
+        [Header("Spacing & Size")]
+        [SerializeField] private Vector2 spacing = Vector2.zero;
+        [SerializeField] private Vector2 minSize = Vector2.zero;
+        [SerializeField] private Vector2 maxSize = Vector2.zero;
+
+        [Header("Expansion")]
+        [Tooltip("Force children to expand to fill empty space on the Main Axis.")]
+        [SerializeField] private bool forceExpandMainAxis = false;
+        
+        [Tooltip("Force children to expand to fill empty space on the Cross Axis.")]
+        [SerializeField] private bool forceExpandCrossAxis = false;
+
+        // -------------------------------------------------------------------
+        // State & Cache
+        // -------------------------------------------------------------------
+
+        // Optimization: List of structs avoids object allocation per line
+        private readonly List<FlexLine> linesList = new List<FlexLine>();
+
+        // Public Accessor for external logic (e.g. DropZones determining drag axis)
+        public FlexDirection Direction => direction;
+
+        // -------------------------------------------------------------------
+        // LayoutGroup Overrides (Calculation Phase)
+        // -------------------------------------------------------------------
+
         public override void CalculateLayoutInputHorizontal()
         {
             base.CalculateLayoutInputHorizontal();
-
-            // 1. Calculate the wrapping and line logic
+            
+            // 1. Solve the flex logic (Wrapping, Line Sizes)
+            // In UGUI, Horizontal is always called before Vertical. We do the heavy lifting here.
             CalculateChildrenLayout();
 
-            // 2. Determine Preferred Width
-            float totalPreferredWidth = padding.horizontal;
-            bool isColumn = direction == FlexDirection.Column || direction == FlexDirection.ColumnReverse;
+            // 2. Calculate Horizontal Bounds
+            float totalWidth = padding.horizontal;
+            bool isColumn = IsColumn();
 
             if (isColumn)
             {
-                // In Column mode, Width is determined by the widest column (CrossSize)
-                float maxLineWidth = 0;
-                foreach (var line in linesList) maxLineWidth = Mathf.Max(maxLineWidth, line.CrossSize);
-                totalPreferredWidth += maxLineWidth;
+                // Column: Width is determined by the widest column (Cross Axis)
+                float maxCrossSize = 0;
+                foreach (var line in linesList) 
+                {
+                    maxCrossSize = Mathf.Max(maxCrossSize, line.CrossSize);
+                }
+                totalWidth += maxCrossSize;
             }
             else
             {
-                // In Row mode, Width is determined by the widest row (MainSize)
-                float maxLineWidth = 0;
-                foreach (var line in linesList) maxLineWidth = Mathf.Max(maxLineWidth, line.MainSize);
-                totalPreferredWidth += maxLineWidth;
+                // Row: Width is determined by the longest row (Main Axis)
+                float maxMainSize = 0;
+                foreach (var line in linesList) 
+                {
+                    maxMainSize = Mathf.Max(maxMainSize, line.MainSize);
+                }
+                totalWidth += maxMainSize;
             }
 
-            // 3. Apply Minimum Size Constraint
-            totalPreferredWidth = Mathf.Max(totalPreferredWidth, minSize.x);
-
-            // 4. Set Inputs (Min, Preferred, Flexible)
-            // We use the same value for Min and Preferred to ensure stability with ContentSizeFitter
-            SetLayoutInputForAxis(totalPreferredWidth, totalPreferredWidth, -1, 0);
+            totalWidth = Mathf.Max(totalWidth, minSize.x);
+            SetLayoutInputForAxis(totalWidth, totalWidth, -1, 0);
         }
 
         public override void CalculateLayoutInputVertical()
         {
-            // Ensure lines exist (sanity check)
+            // Safety: If lines were not calculated in Horizontal pass (rare), calc them now.
             if (linesList.Count == 0) CalculateChildrenLayout();
 
-            // 1. Determine Preferred Height
-            float totalPreferredHeight = padding.vertical;
-            bool isColumn = direction == FlexDirection.Column || direction == FlexDirection.ColumnReverse;
+            float totalHeight = padding.vertical;
+            bool isColumn = IsColumn();
 
             if (isColumn)
             {
-                // In Column mode, Height is the sum of main axis lengths
-                float totalMainSize = 0;
-                foreach (var line in linesList) totalMainSize += line.MainSize;
-
-                // Add spacing between items in the column stack effectively
-                // Note: Logic correction - If wrapping columns, we are stacking them horizontally.
-                // But the HEIGHT of the container is defined by the tallest column.
-                
-                // Wait, standard Flexbox column wrap:
-                // Items go down, then wrap to next column (right).
-                // So Height = Max MainSize of any line.
-                
-                float maxLineHeight = 0;
-                foreach (var line in linesList) maxLineHeight = Mathf.Max(maxLineHeight, line.MainSize);
-                totalPreferredHeight += maxLineHeight;
+                // Column: Height is determined by the longest column (Main Axis)
+                float maxMainSize = 0;
+                foreach (var line in linesList) 
+                {
+                    maxMainSize = Mathf.Max(maxMainSize, line.MainSize);
+                }
+                totalHeight += maxMainSize;
             }
             else
             {
-                // In Row mode, Height is the sum of line heights (CrossSize) plus spacing
+                // Row: Height is determined by sum of row heights (Cross Axis)
                 float totalCrossSize = 0;
-                foreach (var line in linesList) totalCrossSize += line.CrossSize;
+                foreach (var line in linesList) 
+                {
+                    totalCrossSize += line.CrossSize;
+                }
 
-                if (linesList.Count > 1) totalPreferredHeight += (linesList.Count - 1) * spacing.y;
-                totalPreferredHeight += totalCrossSize;
+                if (linesList.Count > 1) 
+                {
+                    totalHeight += (linesList.Count - 1) * spacing.y;
+                }
+                
+                totalHeight += totalCrossSize;
             }
 
-            // 2. Apply Minimum Size Constraint
-            totalPreferredHeight = Mathf.Max(totalPreferredHeight, minSize.y);
-
-            SetLayoutInputForAxis(totalPreferredHeight, totalPreferredHeight, -1, 1);
+            totalHeight = Mathf.Max(totalHeight, minSize.y);
+            SetLayoutInputForAxis(totalHeight, totalHeight, -1, 1);
         }
 
-        public override void SetLayoutHorizontal()
-        {
-            SetChildrenAlongAxis(0);
-        }
+        // -------------------------------------------------------------------
+        // LayoutGroup Overrides (Application Phase)
+        // -------------------------------------------------------------------
 
-        public override void SetLayoutVertical()
-        {
-            SetChildrenAlongAxis(1);
-        }
+        public override void SetLayoutHorizontal() => SetChildrenAlongAxis(0);
+        public override void SetLayoutVertical() => SetChildrenAlongAxis(1);
+
+        // -------------------------------------------------------------------
+        // Core Logic: Calculation
+        // -------------------------------------------------------------------
 
         private void CalculateChildrenLayout()
         {
             linesList.Clear();
+            
+            // Note: 'rectChildren' automatically excludes inactive objects and those with ILayoutIgnorer.
             var activeChildren = rectChildren;
-
-            bool isColumn = direction == FlexDirection.Column || direction == FlexDirection.ColumnReverse;
-            int mainAxis = isColumn ? 1 : 0;
+            bool isColumn = IsColumn();
+            
+            // Map Abstract Axes to Unity Axes: 0 = Horizontal (X), 1 = Vertical (Y)
+            int mainAxis = isColumn ? 1 : 0; 
             int crossAxis = isColumn ? 0 : 1;
 
+            // Determine Constraint Bounds
             float containerBoundary = isColumn ? rectTransform.rect.height : rectTransform.rect.width;
+            float limit = isColumn ? maxSize.y : maxSize.x;
             
-            // Resolve Constraint: Use MaxSize if set, otherwise use container size
-            float maxConstraint = isColumn ? maxSize.y : maxSize.x;
-            
-            float availableMainSize = (maxConstraint > 0) ? maxConstraint : containerBoundary;
+            float availableMainSize = (limit > 0) ? limit : containerBoundary;
             availableMainSize -= isColumn ? padding.vertical : padding.horizontal;
 
-            // Infinite layout handling
+            // Infinite canvas handling (e.g. ScrollViews)
             if (availableMainSize <= 0) availableMainSize = float.MaxValue;
 
+            // Line Calculation State
             float currentMainSize = 0;
             float maxCrossSizeInLine = 0;
             int startIndex = 0;
@@ -158,10 +200,10 @@ namespace ContentContent.UI
 
                 float itemSizeWithSpacing = childMainSize + (i > startIndex ? mainSpacing : 0);
 
+                // Wrapping Check
                 bool requiresWrap = false;
                 if (wrap != FlexWrap.NoWrap)
                 {
-                    // Check against available size
                     if (currentMainSize + itemSizeWithSpacing > availableMainSize && i > startIndex)
                     {
                         requiresWrap = true;
@@ -170,6 +212,7 @@ namespace ContentContent.UI
 
                 if (requiresWrap)
                 {
+                    // Commit previous line
                     linesList.Add(new FlexLine
                     {
                         StartIndex = startIndex,
@@ -178,6 +221,7 @@ namespace ContentContent.UI
                         CrossSize = maxCrossSizeInLine
                     });
 
+                    // Reset state for new line
                     startIndex = i;
                     currentMainSize = 0;
                     maxCrossSizeInLine = 0;
@@ -188,6 +232,7 @@ namespace ContentContent.UI
                 maxCrossSizeInLine = Mathf.Max(maxCrossSizeInLine, childCrossSize);
             }
 
+            // Commit final line
             if (startIndex < activeChildren.Count)
             {
                 linesList.Add(new FlexLine
@@ -200,18 +245,25 @@ namespace ContentContent.UI
             }
         }
 
+        // -------------------------------------------------------------------
+        // Core Logic: Positioning
+        // -------------------------------------------------------------------
+
         private void SetChildrenAlongAxis(int axis)
         {
             var activeChildren = rectChildren;
-            bool isColumn = direction == FlexDirection.Column || direction == FlexDirection.ColumnReverse;
+            bool isColumn = IsColumn();
             int mainAxisIndex = isColumn ? 1 : 0;
             int crossAxisIndex = isColumn ? 0 : 1;
 
+            // Only process valid axes
             if (axis != mainAxisIndex && axis != crossAxisIndex) return;
 
             float containerSizeMain = rectTransform.rect.size[mainAxisIndex];
+            
             float startPaddingMain = isColumn ? padding.top : padding.left;
             float startPaddingCross = isColumn ? padding.left : padding.top;
+            
             float currentCrossPos = startPaddingCross;
             float lineSpacing = isColumn ? spacing.x : spacing.y;
 
@@ -219,12 +271,13 @@ namespace ContentContent.UI
             {
                 float startOffset = startPaddingMain;
                 float freeSpace = containerSizeMain - (isColumn ? padding.vertical : padding.horizontal) - line.MainSize;
+                
                 if (freeSpace < 0) freeSpace = 0;
 
                 float extraSpacing = 0;
                 float expansionPerChild = 0;
 
-                // Force Expand Main Axis
+                // 1. Calculate Main Axis Positioning (Justification)
                 if (forceExpandMainAxis && line.Count > 0)
                 {
                     expansionPerChild = freeSpace / line.Count;
@@ -233,18 +286,38 @@ namespace ContentContent.UI
                 {
                     switch (justifyContent)
                     {
-                        case JustifyContent.Center: startOffset += freeSpace * 0.5f; break;
-                        case JustifyContent.FlexEnd: startOffset += freeSpace; break;
-                        case JustifyContent.SpaceBetween: if (line.Count > 1) extraSpacing = freeSpace / (line.Count - 1); break;
-                        case JustifyContent.SpaceAround: if (line.Count > 0) { extraSpacing = freeSpace / line.Count; startOffset += extraSpacing * 0.5f; } break;
-                        case JustifyContent.SpaceEvenly: if (line.Count > 0) { extraSpacing = freeSpace / (line.Count + 1); startOffset += extraSpacing; } break;
+                        case JustifyContent.Center: 
+                            startOffset += freeSpace * 0.5f; 
+                            break;
+                        case JustifyContent.FlexEnd: 
+                            startOffset += freeSpace; 
+                            break;
+                        case JustifyContent.SpaceBetween: 
+                            if (line.Count > 1) extraSpacing = freeSpace / (line.Count - 1); 
+                            break;
+                        case JustifyContent.SpaceAround: 
+                            if (line.Count > 0) 
+                            { 
+                                extraSpacing = freeSpace / line.Count; 
+                                startOffset += extraSpacing * 0.5f; 
+                            } 
+                            break;
+                        case JustifyContent.SpaceEvenly: 
+                            if (line.Count > 0) 
+                            { 
+                                extraSpacing = freeSpace / (line.Count + 1); 
+                                startOffset += extraSpacing; 
+                            } 
+                            break;
                     }
                 }
 
                 float itemMainSpacing = isColumn ? spacing.y : spacing.x;
 
+                // 2. Iterate Children in Line
                 for (int i = 0; i < line.Count; i++)
                 {
+                    // Support for Reverse Layouts (RowReverse / ColumnReverse)
                     int indexOffset = i;
                     if (direction == FlexDirection.RowReverse || direction == FlexDirection.ColumnReverse)
                         indexOffset = line.Count - 1 - i;
@@ -256,9 +329,8 @@ namespace ContentContent.UI
 
                     if (axis == mainAxisIndex)
                     {
+                        // Main Axis: Set position and advance offset
                         float childSize = LayoutUtility.GetPreferredSize(child, mainAxisIndex);
-                        
-                        // Apply expansion
                         if (forceExpandMainAxis) childSize += expansionPerChild;
 
                         SetChildAlongAxis(child, mainAxisIndex, startOffset, childSize);
@@ -268,6 +340,7 @@ namespace ContentContent.UI
                     }
                     else
                     {
+                        // Cross Axis: Handle Alignment
                         float childCrossSize = LayoutUtility.GetPreferredSize(child, crossAxisIndex);
                         float crossOffset = currentCrossPos;
                         
@@ -281,8 +354,12 @@ namespace ContentContent.UI
                         {
                             switch (alignItems)
                             {
-                                case AlignItems.Center: crossOffset += (line.CrossSize - childCrossSize) * 0.5f; break;
-                                case AlignItems.FlexEnd: crossOffset += line.CrossSize - childCrossSize; break;
+                                case AlignItems.Center: 
+                                    crossOffset += (line.CrossSize - childCrossSize) * 0.5f; 
+                                    break;
+                                case AlignItems.FlexEnd: 
+                                    crossOffset += line.CrossSize - childCrossSize; 
+                                    break;
                             }
                         }
 
@@ -290,11 +367,14 @@ namespace ContentContent.UI
                     }
                 }
 
+                // Advance Cross Axis position for the next line
                 if (axis == crossAxisIndex)
                 {
                     currentCrossPos += line.CrossSize + lineSpacing;
                 }
             }
         }
+
+        private bool IsColumn() => direction == FlexDirection.Column || direction == FlexDirection.ColumnReverse;
     }
 }

@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 6907444240974394396}
   - component: {fileID: 2492900395106667138}
   - component: {fileID: 2594071511403229118}
-  - component: {fileID: 5270769567086447810}
-  - component: {fileID: 536276123918985348}
   - component: {fileID: 9129343402878969084}
   - component: {fileID: 9098228519847554205}
   - component: {fileID: 7328320844902889075}
@@ -145,53 +143,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5270769567086447810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4789747165694068801}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e083c3375af98554393441ff7668e3de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ISeeYou::ISeeYou.UGUIAnimator
-  playIntroOnEnable: 1
-  intro:
-    SelectedAnimations: 3
-    Duration: 0.4
-    Easing: 27
-    Delay: 0
-    CharsPerSecond: 30
-  outro:
-    SelectedAnimations: 3
-    Duration: 0.3
-    Easing: 26
-    DestroyOnComplete: 0
-  interaction:
-    EnableHover: 1
-    HoverScale: 1.1
-    HoverDuration: 0.2
-    HoverEase: 6
-    EnableClick: 1
-    ClickPunch: {x: -0.1, y: -0.1, z: 0}
-    ClickDuration: 0.15
-    ClickVibrato: 0
-  pulseDuration: 0.3
-  pulseScaleAmount: 1.1
---- !u!114 &536276123918985348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4789747165694068801}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a7a5f9b7245419ca0c7c62b65cf7ea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ISeeYou::ISeeYou.UIInputFeedback
 --- !u!114 &9129343402878969084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,6 +182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083cf266f3104124a1638ad3b38dec64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.Draggable
+  throwForceMultiplier: 1
+  velocitySmoothing: 15
+  clampToScreen: 1
 --- !u!50 &6782205669355717134
 Rigidbody2D:
   serializedVersion: 5
@@ -316,7 +270,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fb468232e89c8541a8a3dfc342f9db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIPhysicsObject
+  physicsMaterial: {fileID: 0}
   bounceFactor: 0.5
+  friction: 0.4
   linearDamping: 1
+  angularDamping: 0.5
+  freezeRotation: 1
   repulsionForce: 500
-  throwPower: 1
+  detectionBuffer: 1.1

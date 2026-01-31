@@ -41,7 +41,7 @@ namespace ISeeYou
         public void Exit()
         {
             dropZone.OnContentChanged -= CheckWinCondition;
-            dropZone.IsLocked = false;
+            // dropZone.IsLocked = false;
             if (sequenceHandle is { IsRunning: true }) sequenceHandle.Stop();
         }
 
@@ -58,7 +58,7 @@ namespace ISeeYou
                 yield return manager.Transitions.Play<ReconstructionIntro>();
             }
 
-            dropZone.IsLocked = true;
+            // dropZone.IsLocked = true;
             manager.SetInputActive(true);
             
             dropZone.OnContentChanged += CheckWinCondition;
@@ -162,10 +162,10 @@ namespace ISeeYou
 
                     // FIX: Ensure new words are set to "Layout Mode" immediately.
                     // Otherwise, their physics component will think they are in "Noise Mode" and float away.
-                    var physics = wordObject.GetComponent<UIPhysicsObject>();
+                    var physics = wordObject.GetComponent<UIPhysics>();
                     if (physics != null)
                     {
-                        physics.SetLayoutState(true);
+                        // physics.SetLayoutState(true);
                     }
                 }
 
