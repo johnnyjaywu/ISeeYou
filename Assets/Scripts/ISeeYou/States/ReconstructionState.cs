@@ -40,8 +40,8 @@ namespace ISeeYou
 
         public void Exit()
         {
-            dropZone.OnContentChanged -= CheckWinCondition;
-            dropZone.IsLocked = false;
+            // dropZone.OnContentChanged -= CheckWinCondition;
+            // dropZone.IsLocked = false;
             if (sequenceHandle is { IsRunning: true }) sequenceHandle.Stop();
         }
 
@@ -58,10 +58,10 @@ namespace ISeeYou
                 yield return manager.Transitions.Play<ReconstructionIntro>();
             }
 
-            dropZone.IsLocked = true;
+            // dropZone.IsLocked = true;
             manager.SetInputActive(true);
             
-            dropZone.OnContentChanged += CheckWinCondition;
+            // dropZone.OnContentChanged += CheckWinCondition;
             CheckWinCondition();
         }
 
@@ -72,7 +72,7 @@ namespace ISeeYou
             {
                 if (word.TryGetComponent(out Draggable drag)) drag.enabled = true;
                 word.SetInteractable(false);
-                word.ResetVisuals(); 
+                word.ResetState(); 
             }
         }
 
@@ -112,16 +112,16 @@ namespace ISeeYou
             Debug.Log("[ReconstructionState] Keys Ordered Correctly! Rebuilding sentence...");
             
             manager.SetInputActive(false);
-            dropZone.OnContentChanged -= CheckWinCondition;
+            // dropZone.OnContentChanged -= CheckWinCondition;
 
             ConstructFullSentence();
             
             yield return new WaitForSeconds(0.5f);
 
-            if (data.PhaseCompleteStinger != null)
-            {
-                SoundManager.Instance.Play(data.PhaseCompleteStinger);
-            }
+            // if (data.PhaseCompleteStinger != null)
+            // {
+            //     SoundManager.Instance.Play(data.PhaseCompleteStinger);
+            // }
 
             if (manager.Transitions != null)
             {
@@ -162,15 +162,15 @@ namespace ISeeYou
 
                     // FIX: Ensure new words are set to "Layout Mode" immediately.
                     // Otherwise, their physics component will think they are in "Noise Mode" and float away.
-                    var physics = wordObject.GetComponent<UIPhysicsObject>();
+                    var physics = wordObject.GetComponent<UIPhysics>();
                     if (physics != null)
                     {
-                        physics.SetLayoutState(true);
+                        // physics.SetLayoutState(true);
                     }
                 }
 
                 wordObject.transform.SetSiblingIndex(i);
-                wordObject.ResetVisuals();
+                wordObject.ResetState();
                 wordObject.SetInteractable(false);
             }
 

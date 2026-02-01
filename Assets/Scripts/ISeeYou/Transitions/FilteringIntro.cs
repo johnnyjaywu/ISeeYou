@@ -51,17 +51,17 @@ namespace ISeeYou
                 word.gameObject.SetActive(true);
                 
                 // B. Start the individual pop animation (fire and forget coroutine)
-                StartCoroutine(AnimateWordPop(word.transform));
+                // StartCoroutine(AnimateWordPop(word.transform));
 
                 // C. Play Sound
-                if (popSound != null)
-                {
-                    SoundManager.Instance.Play(popSound, word.transform.position);
-                }
+                // if (popSound != null)
+                // {
+                //     SoundManager.Instance.Play(popSound, word.transform.position);
+                // }
 
                 // D. Wait for next interval
-                float waitTime = spawnInterval + Random.Range(-intervalJitter, intervalJitter);
-                yield return new WaitForSeconds(Mathf.Max(0.01f, waitTime));
+                // float waitTime = spawnInterval + Random.Range(-intervalJitter, intervalJitter);
+                yield return new WaitForSeconds(0.1f);
             }
 
             // 4. Buffer at the end to ensure the player catches up before control unlocks
@@ -70,32 +70,32 @@ namespace ISeeYou
             Debug.Log($"[{GetType().Name}] Sequence Complete.");
         }
 
-        private IEnumerator AnimateWordPop(Transform target)
-        {
-            float timer = 0f;
-            
-            while (timer < scaleDuration)
-            {
-                timer += Time.deltaTime;
-                float progress = timer / scaleDuration;
-                
-                // Evaluate the curve to get the "bouncy" scale value
-                float scale = popCurve.Evaluate(progress);
-                
-                if (target != null)
-                {
-                    target.localScale = Vector3.one * scale;
-                }
-                
-                yield return null;
-            }
-
-            // Ensure we land perfectly on 1
-            if (target != null)
-            {
-                target.localScale = Vector3.one;
-            }
-        }
+        // private IEnumerator AnimateWordPop(Transform target)
+        // {
+        //     float timer = 0f;
+        //     
+        //     while (timer < scaleDuration)
+        //     {
+        //         timer += Time.deltaTime;
+        //         float progress = timer / scaleDuration;
+        //         
+        //         // Evaluate the curve to get the "bouncy" scale value
+        //         float scale = popCurve.Evaluate(progress);
+        //         
+        //         if (target != null)
+        //         {
+        //             target.localScale = Vector3.one * scale;
+        //         }
+        //         
+        //         yield return null;
+        //     }
+        //
+        //     // Ensure we land perfectly on 1
+        //     if (target != null)
+        //     {
+        //         target.localScale = Vector3.one;
+        //     }
+        // }
 
         // Editor Helper: Set a nice default curve if none exists
 #if UNITY_EDITOR

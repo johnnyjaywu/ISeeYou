@@ -22,16 +22,12 @@ namespace ContentContent.Audio.Editor
 
         public static bool IsPlaying => source != null && source.isPlaying;
 
-
         // --- VISUALIZER HELPERS ---
-        // Helper to get the actual clip being played (or about to be played)
         public static AudioClip GetCurrentClip()
         {
-            if (source != null) return source.clip;
-            return null;
+            return source != null ? source.clip : null;
         }
 
-        // 0.0 to 1.0 (Progress)
         public static float GetPlaybackProgress()
         {
             if (source == null || source.clip == null) return 0f;
@@ -41,27 +37,18 @@ namespace ContentContent.Audio.Editor
         public static void SetPlaybackPosition(float normalizedPosition)
         {
             if (source == null || source.clip == null) return;
-
-            // Clamp between 0 and almost the end (to prevent loop restarting immediately)
             normalizedPosition = Mathf.Clamp01(normalizedPosition);
             float timeInSeconds = normalizedPosition * source.clip.length;
-
-            // Safety clamp to ensure we don't hit exact end and stop
             source.time = Mathf.Clamp(timeInSeconds, 0f, source.clip.length - 0.01f);
         }
 
-        // 0.0 to 1.0 (Current Amplitude)
         public static float GetCurrentVolumeAmplitude()
         {
             if (source == null || !source.isPlaying) return 0f;
-
-            // Get a small sample block to calculate RMS (Root Mean Square) volume
             var samples = new float[64];
             source.GetOutputData(samples, 0);
-
             float sum = 0;
             for (var i = 0; i < samples.Length; i++) sum += samples[i] * samples[i];
-
             return Mathf.Sqrt(sum / samples.Length);
         }
 
@@ -71,16 +58,12 @@ namespace ContentContent.Audio.Editor
         public static bool OnOpenAsset(int instanceID, int line)
         {
             Object obj = EditorUtility.EntityIdToObject(instanceID);
-
-            // ONLY handle SoundData. 
-            // We ignore AudioClips so Unity's native inspector handles them.
             if (obj is SoundData data)
             {
                 Play(data);
                 Selection.activeObject = obj;
                 return true;
             }
-
             return false;
         }
 
@@ -90,28 +73,43 @@ namespace ContentContent.Audio.Editor
         {
             if (data == null) return;
 
+            // Toggle functionality: If clicking the same data while playing, stop it.
             if (IsPlaying && currentTarget == data)
             {
                 Stop();
                 return;
             }
 
-            // Reset Update Loop
             EditorApplication.update -= UpdateFade;
-
             CreateSourceIfNeeded();
+            ResetSource(); // <--- IMPORTANT: Clear previous dirty state
+
             currentTarget = data;
 
-            // Setup
+            // 1. Assign Clip
             source.clip = data.GetClip();
+            if (source.clip == null) return;
+
+            // 2. ROUTE TO MIXER
+            // This ensures the preview goes through your Master/SFX groups with all effects applied.
             source.outputAudioMixerGroup = data.outputGroup;
+
+            // 3. Apply Settings
             source.loop = data.loop;
 
+            // Calculate Pitch
             float targetPitch = data.pitch + Random.Range(-data.randomPitch, data.randomPitch);
             source.pitch = Mathf.Clamp(targetPitch, 0.1f, 3f);
 
+            // Calculate Volume
             float targetVol = data.volume + Random.Range(-data.randomVolume, data.randomVolume);
             targetVol = Mathf.Clamp01(targetVol);
+
+            // 4. Force 2D for Preview
+            // If we leave this at data.spatialBlend (which might be 1.0 for 3D), 
+            // the audio will likely be silent because the Editor "Listener" is far away.
+            // We force 2D (0f) to guarantee the signal reaches the Mixer.
+            source.spatialBlend = 0f; 
 
             // Fade Logic
             if (data.fadeInTime > 0f)
@@ -137,11 +135,23 @@ namespace ContentContent.Audio.Editor
             {
                 source.Stop();
                 source.clip = null;
+                source.outputAudioMixerGroup = null; // Clean up ref
                 currentTarget = null;
             }
         }
 
-        // --- 3. EDITOR UPDATE LOOP ---
+        private static void ResetSource()
+        {
+            if (source == null) return;
+            source.loop = false;
+            source.pitch = 1f;
+            source.volume = 1f;
+            source.spatialBlend = 0f; // 2D
+            source.mute = false;
+            source.bypassEffects = false;
+            source.bypassListenerEffects = false;
+            source.bypassReverbZones = false;
+        }
 
         private static void UpdateFade()
         {
@@ -169,12 +179,14 @@ namespace ContentContent.Audio.Editor
         {
             if (source == null)
             {
+                // Create a hidden GameObject in the Editor scene to host the AudioSource
                 GameObject go = EditorUtility.CreateGameObjectWithHideFlags(
                     "AudioPreview_Global",
                     HideFlags.HideAndDontSave,
                     typeof(AudioSource)
                 );
                 source = go.GetComponent<AudioSource>();
+                source.playOnAwake = false;
             }
         }
 

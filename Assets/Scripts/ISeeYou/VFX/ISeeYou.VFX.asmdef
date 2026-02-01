@@ -1,0 +1,14 @@
+{
+    "name": "ISeeYou.VFX",
+    "rootNamespace": "ISeeYou.VFX",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

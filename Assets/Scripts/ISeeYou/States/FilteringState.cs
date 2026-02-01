@@ -36,7 +36,7 @@ namespace ISeeYou
 
         public void Exit()
         {
-            dropZone.OnContentChanged -= CheckWinCondition;
+            // dropZone.OnContentChanged -= CheckWinCondition;
             
             if (sequenceHandle is { IsRunning: true }) sequenceHandle.Stop();
             if (noiseLoopHandle is { IsValid: true }) noiseLoopHandle.Stop();
@@ -55,13 +55,13 @@ namespace ISeeYou
                 yield return manager.Transitions.Play<FilteringIntro>();
             }
             
-            dropZone.OnContentChanged += CheckWinCondition;
+            // dropZone.OnContentChanged += CheckWinCondition;
             
             manager.SetInputActive(true);
             
-            if (data.NoiseLoop != null)
+            if (data.Ambient != null)
             {
-                noiseLoopHandle = SoundManager.Instance.Play(data.NoiseLoop);
+                noiseLoopHandle = SoundManager.Instance.Play(data.Ambient);
             }
         }
 
@@ -109,12 +109,12 @@ namespace ISeeYou
 
             manager.SetInputActive(false);
             
-            dropZone.OnContentChanged -= CheckWinCondition;
+            // dropZone.OnContentChanged -= CheckWinCondition;
 
-            if (data.PhaseCompleteStinger != null)
-            {
-                SoundManager.Instance.Play(data.PhaseCompleteStinger);
-            }
+            // if (data.PhaseCompleteStinger != null)
+            // {
+            //     SoundManager.Instance.Play(data.PhaseCompleteStinger);
+            // }
 
             if (manager.Transitions != null)
             {
