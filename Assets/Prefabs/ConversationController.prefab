@@ -54,7 +54,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Ellie!
+  - text: Elena!
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -78,7 +78,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Hi! I, um...
+  - text: Hi! I'm, um...
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -86,20 +86,12 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: I'm okay. Just tired.
+  - text: Okay. Just tired.
     speakerID: Ellie
     autoPlay: 1
     maskingLines:
-    - '[I''m great!]'
-    - '[Pretty good.]'
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: How are you?
-    speakerID: Ellie
-    autoPlay: 0
-    maskingLines: []
+    - "[I\u2019m great! How are you?]"
+    - "[I\u2019ve been pretty good.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -128,7 +120,25 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Oh no, I\u2019m\u2026"
+  - text: "Actually, yeah, that\u2019d be great."
+    speakerID: Ellie
+    autoPlay: 0
+    maskingLines:
+    - "Oh, sorry! I\u2019m actually on my way to another thing."
+    - "Maybe\u2026I don\u2019t have a lot of time, though."
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "Sweet! I\u2019ll get us a table."
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: ...
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -136,17 +146,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Actually, yeah, that\u2019d be great."
-    speakerID: Ellie
-    autoPlay: 0
-    maskingLines:
-    - "I don\u2019t have a lot of time."
-    - "Well, maybe\u2026"
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "Sweet! I\u2019ll get us a table."
+  - text: ...
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -178,31 +178,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Your family's still out here?
-    speakerID: Gina
-    autoPlay: 0
-    maskingLines: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "Uh\u2026yeah! Yeah, they aren\u2019t far."
-    speakerID: Ellie
-    autoPlay: 0
-    maskingLines: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: Okay!
-    speakerID: Gina
-    autoPlay: 0
-    maskingLines: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: You got a job out here?
+  - text: And you got a job out here?
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -226,7 +202,16 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Yeah, it\u2019s great\u2026"
+  - text: Anything you recommend?
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "Oh, I\u2026can\u2019t really answer that question. Just depends on who
+      you are."
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -234,7 +219,15 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Well, I\u2019m glad to hear you\u2019re doing so well!!"
+  - text: "That\u2019s fair!"
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "\u2026Well, I\u2019m glad to hear you\u2019re doing well!!"
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -270,9 +263,8 @@ MonoBehaviour:
     speakerID: Ellie
     autoPlay: 0
     maskingLines:
+    - Sorry, nevermind.
     - I should get going.
-    - "Sorry, I don\u2019t know what\u2019s gotten into me."
-    - "I\u2019m not usually like this\u2026"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -500,10 +492,11 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Yeah. That\u2019d be great."
+  - text: "\u2026Yeah. That\u2019d be great."
     speakerID: Ellie
     autoPlay: 0
-    maskingLines: []
+    maskingLines:
+    - "\u2026Yeah. That\u2019d be great."
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
