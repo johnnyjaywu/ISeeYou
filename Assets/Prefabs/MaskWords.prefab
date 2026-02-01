@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 4363688387306036250}
   - component: {fileID: 2803288522547838969}
   - component: {fileID: -3193357080504397938}
-  - component: {fileID: 1371613536225286827}
   m_Layer: 5
   m_Name: MaskWords
   m_TagString: Untagged
@@ -315,22 +314,3 @@ MonoBehaviour:
   onSequenceComplete:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1371613536225286827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4789747165694068801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e901b21ff743e182ad65bd190e326d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ISeeYou::ISeeYou.AutoShake
-  playOnEnable: 1
-  startDelay: 1
-  strength: 5
-  frequency: 2
-  pulseDuration: 0.5
-  shakePosition: 1
-  shakeRotation: 1

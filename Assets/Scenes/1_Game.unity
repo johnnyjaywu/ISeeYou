@@ -1595,12 +1595,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.AutoShake
   playOnEnable: 1
+  startDelay: 0
+  strength: 10
   frequency: 0.5
-  motionEase: 4
-  enableRotation: 1
-  rotationAngle: 1
-  enablePosition: 1
-  positionRadius: 2
+  pulseDuration: 0.5
+  shakePosition: 1
+  shakeRotation: 0
 --- !u!1 &976290167
 GameObject:
   m_ObjectHideFlags: 0
@@ -2275,12 +2275,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.AutoShake
   playOnEnable: 1
+  startDelay: 0
+  strength: 10
   frequency: 0.5
-  motionEase: 4
-  enableRotation: 1
-  rotationAngle: 1
-  enablePosition: 1
-  positionRadius: 2
+  pulseDuration: 0.5
+  shakePosition: 1
+  shakeRotation: 0
 --- !u!224 &2662881324042031504 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7517513115052337670, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
