@@ -48,292 +48,291 @@ MonoBehaviour:
   lines:
   - text: Gina?
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords:
-    - Ginny?
-    - Ginnifer?
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Ellie!
+  - text: Elena!
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: Oh my god, hi!
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: It's so good to see you! How are you?
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Hi! I, um...
+  - text: Hi! I'm, um...
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: I'm great! How are you?
+  - text: Okay. Just tired.
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords:
-    - '[Oh god...][why did I say hi?]'
-    - '[I''m so tired] [of this $#!+]'
+    autoPlay: 1
+    maskingLines:
+    - "[I\u2019m great! How are you?]"
+    - "[I\u2019ve been pretty good.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "Also great! God, it\u2019s been so long."
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "Yeah! Yeah, It has\u2026"
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Say, listen. I\u2019m actually grabbing lunch here. Do you wanna sit?"
+  - text: "Hey, listen. I\u2019m actually grabbing lunch here. Do you wanna sit?"
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Oh no, I\u2019m\u2026"
+  - text: "Actually, yeah, that\u2019d be great."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines:
+    - "[Oh, sorry!][ I\u2019m actually on my way][ to another thing.]"
+    - "[Maybe\u2026][I don\u2019t have][ a lot of time, though.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Yeah, actually that\u2019d be great."
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "Sweet! I\u2019ll get a table."
+  - text: "Sweet! I\u2019ll get us a table."
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: ...
+    speakerID: Ellie
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: ...
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: So what brings you back? I thought you moved to like Seattle or something.
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "Yeah, I did. It just\u2026wasn\u2019t a fit. "
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: It happens! You got a job out here?
+  - text: It happens!
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Uh\u2026yeah, I guess. I\u2019m just at the bookstore next door.\r\n"
+  - text: And you got a job out here?
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "Yeah! Yeah, I\u2019m just at the bookstore next door."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Oh, no way I love that place!
+  - text: Oh, no way, I love that place!
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Yeah, it\u2019s great\u2026"
+  - text: Anything you recommend?
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "Oh, I\u2026can\u2019t really answer that question. Just depends on who
+      you are."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Are you still writing that novel since the last time we saw each other?
+  - text: "That\u2019s fair!"
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Oh\u2026yeah. I am."
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "It\u2019s just\u2026taking a lot longer than I expected."
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: Totally.
+  - text: "\u2026Well, I\u2019m glad to hear you\u2019re doing well!!"
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Well, I\u2019m glad to hear you\u2019re doing so well!!"
+  - text: "Whatever it is you\u2019re doing, keep it up!"
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "And you look great! Whatever it is you\u2019re doing, keep it up!"
-    speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "\u2026"
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "Actually, um\u2026"
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Sorry. I\u2019m not usually like this\u2026"
+  - text: "I\u2019m not\u2026doing well."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "I\u2019m not\u2026doing well\u2026"
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines:
+    - '[Sorry,][ nevermind.]'
+    - '[I should get ][going.]'
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "I got fired. That\u2019s why I moved back."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "And the bookstore is only part time, so I\u2019m mostly living off savings."
+  - text: "The bookstore is only part time, so I\u2019m living off savings."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "The only reason I\u2019m even eating out at all is\u2026"
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "Well\u2026it\u2019s my birthday."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines:
+    - "[Nevermind.][ It\u2019s stupid.]"
+    - "[I\u2019m just\u2026][here for lunch.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: 'Oh, my God! Happy birthday! '
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Did you\u2026have any plans?"
+  - text: Did you have any plans?
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: No.
+  - text: I wish I did.
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines:
+    - "[Yeah,][ I\u2019m throwing a][ party!]"
+    - '[No,][ but I prefer it][ that way.]'
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: 'The people I reached out to who still live here all ghosted me. '
+  - text: But the people I reached out to who still live here all ghosted me.
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -341,80 +340,77 @@ MonoBehaviour:
   - text: "My parents are still mad about Seattle, so I\u2019m not really talking
       to them right now."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "And like\u2026with the news and all, I\u2019m just scared to go out anyway."
+  - text: "And like\u2026with the news and all, I\u2019m just too scared to go out
+      anyway."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: This was just the one nice thing I could do for myself.
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "I\u2019m so sorry."
+  - text: "I\u2019m so tired of being alone."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines:
+    - "[Sorry.][ I didn\u2019t mean][ to hog the][ conversation.]"
+    - "[Sorry,][ I didn\u2019t][ mean to][ complain.]"
+    - '[I really][ appreciate you][ listening.]'
+    - "[You have no idea][ how alone][ I\u2019ve felt.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "I don\u2019t usually dump on people like this."
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "I\u2019ll get going. I\u2019ll buy your coffee too. "
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "Oh my God. Don\u2019t even think about it."
+  - text: Oh, Elena...
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: You sure?
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "It\u2019s your birthday! All of this is on me. "
+  - text: "Here, I\u2019ll get your food. What did you order again?"
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "...Thank you, Gina. \r\n"
+  - text: "I can\u2019t ask you to do that."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "It\u2019s your birthday!"
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "\u2026Thank you."
+    speakerID: Ellie
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -423,16 +419,17 @@ MonoBehaviour:
 
 '
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: Thank you for...being honest.
+  - text: "You\u2019re not alone in any of this. I think everyone is going through
+      something right now."
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -440,97 +437,82 @@ MonoBehaviour:
   - text: "You\u2019re definitely not alone in any of this. I think everyone is going
       through something right now."
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: "And we all just\u2026not talk about it."
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: We only talk about the weather.
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: 'Oh my God, I know! '
+  - text: <i>God, why is it always the weather?!</i>
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: But we should definitely do something for your birthday.
+  - text: We should definitely do something for your birthday.
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: 'I actually know a bakery right around the corner that could make you a
-      cake. My treat. '
+  - text: I actually know a bakery right around the corner that could make you a
+      cake. My treat.
     speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "I can\u2019t make you do that\u2026"
+  - text: How does that sound?
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "\u2026Yeah. That\u2019d be great."
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: 'I want to! '
-    speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: Is that okay?
-    speakerID: Gina
-    autoPlayReverse: 0
-    maskingWords: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - text: "Yeah. That\u2019d be great."
-    speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines:
+    - "[\u2026Yeah. That\u2019d be great.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: Thank you.
     speakerID: Ellie
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: '[Title Drop]'
     speakerID: 
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -562,8 +544,8 @@ MonoBehaviour:
   currentDialogLine:
     text: 
     speakerID: 
-    autoPlayReverse: 0
-    maskingWords: []
+    autoPlay: 0
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
