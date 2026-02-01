@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using ContentContent;
-using ContentContent.Audio;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,13 +8,53 @@ namespace ISeeYou
 {
     public class ConversationController : MonoBehaviour
     {
-        [SerializeField] private InputActionAsset inputActionAsset;
+        [SerializeField] private InputActionReference continueInput;
 
         [SerializeField] private List<DialogLine> lines = new();
 
-        private int currentLineIndex = -1;
-
         [ReadOnly, SerializeField] private DialogLine currentDialogLine;
+
+        private int currentLineIndex = -1;
+        private InputAction inputAction;
+
+        private void Awake()
+        {
+            inputAction = continueInput.action;
+        }
+
+        private void OnEnable()
+        {
+            EnableInput();
+        }
+
+        private void OnDisable()
+        {
+            DisableInput();
+        }
+
+        public void EnableInput()
+        {
+            if (inputAction != null)
+            {
+                inputAction.Enable();
+                inputAction.performed += OnInputPerformed;
+            }
+        }
+
+        public void DisableInput()
+        {
+            if (inputAction != null)
+            {
+                inputAction.Disable();
+                inputAction.performed -= OnInputPerformed;
+            }
+        }
+
+        private void OnInputPerformed(InputAction.CallbackContext context)
+        {
+            if (!context.performed || !context.ReadValueAsButton()) return;
+            PlayNextLine();
+        }
 
         [Button]
         public void PlayNextLine()
@@ -32,13 +70,14 @@ namespace ISeeYou
         public void PlayLine(int index)
         {
             StopCurrentLine();
-            
+
             // Sync internal state so PlayNextLine() works relative to this one
             currentLineIndex = index;
             currentDialogLine = lines[index];
 
             // Spawn Text
             currentDialogLine.Speak();
+            currentDialogLine.triggerEvent?.Invoke();
         }
 
         /// <summary>

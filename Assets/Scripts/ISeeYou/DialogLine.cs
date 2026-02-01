@@ -1,6 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using ContentContent.Audio;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ISeeYou
 {
@@ -10,7 +14,13 @@ namespace ISeeYou
         public string speakerID;
         [TextArea(3, 5), ResizableTextArea]
         public string text;
+
+        [TextArea(3, 5), ResizableTextArea]
+        public List<string> subTexts;
+        
+        
         public SoundData voiceLine;
+        public UnityEvent triggerEvent;
 
         public void Speak()
         {

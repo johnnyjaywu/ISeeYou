@@ -217,7 +217,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4789747165694068801}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -263,7 +263,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4789747165694068801}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fb468232e89c8541a8a3dfc342f9db3, type: 3}
   m_Name: 
@@ -271,10 +271,10 @@ MonoBehaviour:
   physicsMaterial: {fileID: 0}
   bounceFactor: 0.5
   friction: 0.4
-  linearDamping: 1
+  linearDamping: 5
   angularDamping: 0.5
   freezeRotation: 1
-  repulsionForce: 500
+  repulsionForce: 5
   detectionBuffer: 1.1
 --- !u!114 &2803288522547838969
 MonoBehaviour:

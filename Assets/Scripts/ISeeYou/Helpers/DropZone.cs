@@ -187,9 +187,7 @@ namespace ISeeYou
                 {
                     dockedItems.Add(item);
                     
-                    // Enforce lock state: If we are locked, disable the draggable script
-                    // so the user cannot drag the item out.
-                    item.enabled = !isLocked;
+                    ApplyDropLogic(item);
                 }
             }
             
@@ -214,6 +212,10 @@ namespace ISeeYou
 
         private void ApplyDropLogic(Draggable item)
         {
+            // Enforce lock state: If we are locked, disable the draggable script
+            // so the user cannot drag the item out.
+            item.enabled = !isLocked;
+            
             // Reset transforms to snap into the zone cleanly
             item.transform.localScale = Vector3.one;
             item.transform.localRotation = Quaternion.identity;

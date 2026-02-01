@@ -16,10 +16,10 @@ namespace ISeeYou
             if (dropZone == null || wordPrefab == null)
             {
                 Debug.LogError("[WordsSpawner] Missing Container or Prefab.");
-                return new List<Words>();
+                return null;
             }
 
-            var parsedTokens = WordsParser.ParseGroupedString(phrase);
+            var parsedTokens = Words.ParseGroupedString(phrase);
             var spawnedWords = new List<Words>(parsedTokens.Count);
 
             foreach (string token in parsedTokens)
