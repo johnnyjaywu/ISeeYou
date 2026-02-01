@@ -12,86 +12,97 @@ namespace ISeeYou
     {
         [SerializeField] private string id;
         [SerializeField] private DropZone speechBubble;
-        [SerializeField] private DropZone thoughtBubble;
+        [SerializeField] private DropZone maskingBubble;
         [ReadOnly, SerializeField] private DialogLine currentDialogLine;
         [SerializeField] private ConversationController conversationController;
 
         public string ID => id;
 
         // Dependencies
-        private WordsSpawner spawner;
+        private WordsSpawner defaultSpawner;
         private SoundHandle soundHandle;
 
         // State
         private List<Words> activeWords = new List<Words>(); // the active words being displayed
-        private List<Words> activeThoughtWords = new List<Words>(); // The active thought words being displayed
-        private Queue<string> currentThoughts = new Queue<string>();
-        private int currentThoughtIndex = 0;
+        private List<Words> activeMaskWords = new List<Words>(); // The active thought words being displayed
+        private Queue<string> currentMaskingWords = new Queue<string>();
+        private int currentMaskingIndex = 0;
 
+        private bool HaveMaskRemaining => currentMaskingWords.Count > 0;
+        
         private void Awake()
         {
-            spawner = GetComponent<WordsSpawner>();
+            defaultSpawner = GetComponent<WordsSpawner>();
             SpeakerManager.Register(this);
-            thoughtBubble.OnZoneExit += OnZoneExit;
+            maskingBubble.OnZoneExit += OnZoneExit;
         }
 
         private void OnDestroy()
         {
-            thoughtBubble.OnZoneExit -= OnZoneExit;
+            maskingBubble.OnZoneExit -= OnZoneExit;
         }
 
         private void OnZoneExit(Draggable obj)
         {
+            if (obj == null) return;
+            
             Words words = obj.GetComponent<Words>();
             if (words == null) return;
-            if (activeThoughtWords.Contains(words))
+            if (activeMaskWords.Contains(words))
             {
-                thoughtBubble.SetLock(true);
+                maskingBubble.SetLock(true);
                 words.FadeOut(() =>
                 {
+                    maskingBubble.SetLock(false);
                     Destroy(words.gameObject);
-                    ShowNextThought();
+                    activeMaskWords.Remove(words);
+                    if (activeMaskWords.Count == 0)
+                        ShowNextMask();
                 });
-                activeThoughtWords.Remove(words);
             }
         }
 
         public void Speak(DialogLine dialogLineToPlay)
         {
-            if (currentThoughts.Count > 0)
+            if (HaveMaskRemaining)
                 return; // If there are active thoughts, don't speak until my thoughts are "cleared"
 
-            bool haveThoughts = !dialogLineToPlay.thoughts.IsNullOrEmpty();
-
-            // Force disable click to continue input
-            if (haveThoughts && conversationController != null)
-                conversationController.DisableInput();
-
+            bool haveMasking = !dialogLineToPlay.maskingWords.IsNullOrEmpty();
+            
+            // Always disable input for a bit
+            SetEnableContinueInput(false);
             currentDialogLine = dialogLineToPlay;
             ShowCurrentLine();
 
-            if (haveThoughts)
+            if (haveMasking)
             {
                 // This should only be called once until currentThoughts have emptied
-                currentThoughts = new Queue<string>(currentDialogLine.thoughts);
-                ShowNextThought();
+                currentMaskingWords = new Queue<string>(currentDialogLine.maskingWords);
+                ShowNextMask();
             }
         }
 
-        public void ShowNextThought()
+        public void ShowNextMask()
         {
-            if (currentDialogLine.thoughts.IsNullOrEmpty() || currentThoughts.Count == 0)
+            if (currentDialogLine.maskingWords.IsNullOrEmpty() || currentMaskingWords.Count == 0)
             {
                 // No more thoughts, free the input
-                if (conversationController != null)
-                    conversationController.EnableInput();
+                SetEnableContinueInput(true);
                 return;
             }
 
-            string nextThought = currentThoughts.Dequeue();
-            activeThoughtWords = spawner.SpawnWords(nextThought, thoughtBubble.transform, false);
-            activeThoughtWords[0].ShakeInterval();
-            thoughtBubble.SetLock(false);
+            Debug.Log("Showing Mask");
+            string nextMaskingWords = currentMaskingWords.Dequeue();
+            // Check if the maskingBubble has its own spawner
+            var currentSpawner = defaultSpawner;
+            var maskingWordsSpawner = maskingBubble.GetComponent<WordsSpawner>();
+            if (maskingWordsSpawner != null)
+                currentSpawner = maskingWordsSpawner;
+            
+            activeMaskWords = currentSpawner.SpawnWords(nextMaskingWords, maskingBubble.transform);
+            // foreach(Words words in activeMaskWords)
+            //     words.ShakeInterval();
+            maskingBubble.SetLock(false);
         }
         
         // private void OnFinishSpawningThought(List<Words> words)
@@ -104,7 +115,7 @@ namespace ISeeYou
         {
             // activeWords = spawner.SpawnWords(currentDialogLine.text, speechBubble);
             SetEnableContinueInput(false);
-            spawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, true, OnFinishSpawningSpeech);
+            defaultSpawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, true, OnFinishSpawningSpeech);
             speechBubble.SetLock(true);
 
             // Play Audio
@@ -119,7 +130,8 @@ namespace ISeeYou
         private void OnFinishSpawningSpeech(List<Words> words)
         {
             activeWords = words;
-            SetEnableContinueInput(true);
+            if (!HaveMaskRemaining)
+                SetEnableContinueInput(true);
         }
 
         public void Stop()
@@ -134,18 +146,18 @@ namespace ISeeYou
         public void ClearWords()
         {
             activeWords.Clear();
-            if (spawner != null && speechBubble != null)
+            if (defaultSpawner != null && speechBubble != null)
             {
-                spawner.Clear(speechBubble.transform);
+                defaultSpawner.Clear(speechBubble.transform);
             }
         }
 
         public void ClearThoughts()
         {
-            activeThoughtWords.Clear();
-            if (spawner != null && thoughtBubble != null)
+            activeMaskWords.Clear();
+            if (defaultSpawner != null && maskingBubble != null)
             {
-                spawner.Clear(thoughtBubble.transform);
+                defaultSpawner.Clear(maskingBubble.transform);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using ContentContent;
+using PrimeTween;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,6 +71,9 @@ namespace ISeeYou
                 textComponent.textWrappingMode = TextWrappingModes.NoWrap;
                 textComponent.overflowMode = TextOverflowModes.Overflow;
             }
+            
+            // TODO: Temp draggable
+            draggable = GetComponent<Draggable>();
         }
 
         private void OnEnable()
@@ -78,9 +82,22 @@ namespace ISeeYou
             {
                 selectable.OnSelectionChanged += HandleInternalSelection;
                 selectable.OnConfirm += HandleInternalConfirm;
+                selectable.OnHoverChanged += SelectableOnOnHoverChanged;
             }
 
             MarkLayoutDirty();
+        }
+
+        // TODO TEMP
+        private Draggable draggable;
+        private void SelectableOnOnHoverChanged(bool enter)
+        {
+            if (!draggable.isActiveAndEnabled) return;
+
+            if (enter)
+                animator.ScaleUp().Play();
+            else
+                animator.ScaleBack().Play();
         }
 
         private void OnDisable()
@@ -198,7 +215,7 @@ namespace ISeeYou
         {
             StopShake();
             animator.Stop();
-            animator.Delay(0.5f).FadeOut().OnFinish(onFinish);
+            animator.Delay(0.5f).FadeOut().OnFinish(onFinish).Play();
         }
         
         public void SetVisible(bool visible)

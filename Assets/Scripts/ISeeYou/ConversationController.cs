@@ -12,6 +12,7 @@ namespace ISeeYou
     {
         [SerializeField] private InputActionReference continueInput;
 
+        [ReorderableList]
         [SerializeField] private List<DialogLine> lines = new();
 
         [ReadOnly, SerializeField] private DialogLine currentDialogLine;

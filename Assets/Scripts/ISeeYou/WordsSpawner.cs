@@ -79,7 +79,7 @@ namespace ISeeYou
         private IEnumerator SpawnInterval(List<string> parsedTokens, Transform parent, Action<List<Words>> onFinish)
         {
             var spawnedWords = new List<Words>(parsedTokens.Count);
-            float interval = 2f / parsedTokens.Count;
+            float interval = 1f / parsedTokens.Count;
 
             foreach (string token in parsedTokens)
             {

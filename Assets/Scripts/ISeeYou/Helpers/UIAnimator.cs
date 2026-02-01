@@ -28,6 +28,9 @@ namespace ISeeYou
         private RectTransform rectTransform;
         private Sequence currentSequence;
         private Vector3 originalScale;
+        
+        // Flag to track if we are in the middle of building a chain.
+        private bool isBuildingSequence = false;
 
         private void Awake()
         {
@@ -42,35 +45,45 @@ namespace ISeeYou
         }
 
         /// <summary>
-        /// Resets the sequence builder. Call this to force a fresh start.
+        /// Explicitly clears old sequences and starts a fresh, paused builder.
         /// </summary>
         public UIAnimator ResetChain()
         {
             Stop();
-            currentSequence = Sequence.Create();
+            EnsureSequence(); // Will create and pause
             return this;
         }
 
         /// <summary>
-        /// Starts the built sequence.
+        /// Unpauses the sequence and begins execution.
         /// </summary>
         public void Play()
         {
             if (!currentSequence.isAlive)
             {
+                // Edge case: Play called with no chain built. Create an empty one to satisfy logic.
                 currentSequence = Sequence.Create();
             }
-            
-            // Subscribe the inspector event to the end of the sequence
+
+            // UNPAUSE the sequence to let it run
+            currentSequence.isPaused = false;
+
+            // Mark building as finished. The next method call will trigger a Stop() and new Sequence.
+            isBuildingSequence = false;
+
             currentSequence.OnComplete(HandleInspectorEvent);
         }
 
+        /// <summary>
+        /// Immediately stops and completes any active sequence.
+        /// </summary>
         public void Stop()
         {
             if (currentSequence.isAlive)
             {
                 currentSequence.Complete();
             }
+            isBuildingSequence = false;
         }
 
         // -----------------------
@@ -133,9 +146,6 @@ namespace ISeeYou
             return this;
         }
 
-        /// <summary>
-        /// Adds a callback to the sequence at the current point in the chain.
-        /// </summary>
         public UIAnimator OnFinish(Action callback)
         {
             EnsureSequence();
@@ -147,11 +157,23 @@ namespace ISeeYou
         // Helpers
         // -----------------------
 
+        /// <summary>
+        /// Ensures a sequence exists and is PAUSED so we can build onto it.
+        /// </summary>
         private void EnsureSequence()
         {
-            if (!currentSequence.isAlive)
+            if (!isBuildingSequence)
             {
+                // We are starting a brand new chain. 
+                // Stop any old running sequence first.
+                Stop();
+                
+                // Create a new sequence and PAUSE it immediately.
+                // It will sit waiting for Play() to set isPaused = false.
                 currentSequence = Sequence.Create();
+                currentSequence.isPaused = true;
+                
+                isBuildingSequence = true;
             }
         }
 

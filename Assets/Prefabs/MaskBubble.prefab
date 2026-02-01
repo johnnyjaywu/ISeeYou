@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7533351685442051261}
   - component: {fileID: 9030011654449194558}
   m_Layer: 5
-  m_Name: ToughtBubble
+  m_Name: MaskBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,10 +92,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ContentContent.UI::ContentContent.UI.FlexLayoutGroup
   m_Padding:
-    m_Left: 50
-    m_Right: 50
-    m_Top: 50
-    m_Bottom: 50
+    m_Left: 30
+    m_Right: 30
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 0
   direction: 0
   wrap: 1

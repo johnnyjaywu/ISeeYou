@@ -11,16 +11,17 @@ namespace ISeeYou
     [System.Serializable]
     public struct DialogLine
     {
-        public string speakerID;
-        
         [TextArea(3, 5), ResizableTextArea]
         public string text;
 
+        public string speakerID;
+        public bool autoPlayReverse;
+
         [TextArea(3, 5), ResizableTextArea]
-        public List<string> thoughts;
-        
+        public List<string> maskingWords;
+
         public SoundData voiceLine;
-        
+
         public UnityEvent triggerEvent;
 
         public void Speak()

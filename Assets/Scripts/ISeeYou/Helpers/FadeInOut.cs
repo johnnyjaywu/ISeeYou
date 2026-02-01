@@ -14,7 +14,12 @@ namespace ISeeYou
         public void Play()
         {
             Debug.Log("Playing FadeInOut");
-            animator.FadeIn().Delay(holdDuration).FadeOut().OnFinish(() => onFinish?.Invoke());
+            gameObject.SetActive(true);
+            animator.FadeIn().Delay(holdDuration).FadeOut().OnFinish(() =>
+            {
+                onFinish?.Invoke();
+                gameObject.SetActive(false);
+            }).Play();
         }
     }
 }
