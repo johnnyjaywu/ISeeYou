@@ -1,77 +1,131 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace ISeeYou
 {
     /// <summary>
-    /// Responsibility: A simplified receiver for Draggable objects.
-    /// Acts as a container that accepts valid drops and reparents them.
+    /// Manages a designated area where Draggable items can be dropped.
+    /// Features:
+    /// - Capacity Limits: Can restrict how many items it holds.
+    /// - Locking: Can prevent items from being dragged out.
+    /// - Auto-Tracking: Automatically updates its list of contents when hierarchy changes.
+    /// - Physics Control: Can disable physics simulation on dropped items for UI stability.
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
     public class DropZone : MonoBehaviour, IDropHandler
     {
+        // -------------------------------------------------------------------------
+        // 1. CONFIGURATION
+        // -------------------------------------------------------------------------
+
         [Header("Logic Settings")]
+        [Tooltip("If true, items inside cannot be dragged out, and new items cannot be dropped in.")]
         [SerializeField] private bool isLocked = false;
         
-        [Tooltip("How much of the item must overlap this zone to be accepted.")]
+        [Tooltip("Maximum number of items allowed. Set to -1 for unlimited.")]
+        [SerializeField] private int maxCapacity = -1; 
+        
+        [Tooltip("How much of the item's rect must overlap this zone to be accepted (0.0 to 1.0).")]
         [Range(0f, 1f)]
         [SerializeField] private float minOverlapPercent = 0.20f;
 
         [Header("Physics Settings")]
+        [Tooltip("Should the UIPhysics component on the item be disabled when docked?")]
         [SerializeField] private bool disablePhysicsOnDrop = true;
 
-        // Events for external feedback (e.g., highlighting the box when hovering)
+        // -------------------------------------------------------------------------
+        // 2. EVENTS & PROPERTIES
+        // -------------------------------------------------------------------------
+
+        // Feedback events for external UI (e.g., highlighting borders)
         public event Action<Draggable> OnZoneEnter;
         public event Action<Draggable> OnZoneExit;
-        public event Action OnContentChanged;
+        
+        // Fired whenever the number of items inside changes
+        public event Action<int> OnContentCountChanged;
 
         public bool IsLocked => isLocked;
+        public bool IsFull => maxCapacity >= 0 && dockedItems.Count >= maxCapacity;
         public RectTransform RectTransform => myRect;
+        
+        // Public read-only access to the items currently in this zone
+        public IReadOnlyList<Draggable> DockedItems => dockedItems;
+
+        // -------------------------------------------------------------------------
+        // 3. INTERNAL STATE
+        // -------------------------------------------------------------------------
 
         private RectTransform myRect;
         private Canvas rootCanvas;
         private bool isHovering = false;
 
-        // Cached arrays for overlap calculation to avoid GC allocations
+        // The authoritative list of what is currently inside this zone
+        private List<Draggable> dockedItems = new List<Draggable>();
+
+        // Pre-allocated arrays for intersection math to avoid GC allocations
         private readonly Vector3[] cornersSelf = new Vector3[4];
         private readonly Vector3[] cornersOther = new Vector3[4];
+
+        // -------------------------------------------------------------------------
+        // 4. LIFECYCLE
+        // -------------------------------------------------------------------------
 
         private void Awake()
         {
             myRect = GetComponent<RectTransform>();
+            
+            // Cache the root canvas for screen-space calculations
             Canvas canvas = GetComponentInParent<Canvas>();
             if (canvas != null) rootCanvas = canvas.rootCanvas;
         }
 
         private void Start()
         {
-            // Auto-validate any items pre-placed in the Editor
-            ValidateImmediateChildren();
+            // Initialize list based on pre-placed children in the Editor
+            RefreshDockedItems();
         }
 
-        // We use Update only to track Entrance/Exit events for feedback.
-        // If you don't need visual highlights (changing color on hover), you can remove this.
+        /// <summary>
+        /// Unity Callback: Triggered whenever a child is parented, unparented, or destroyed.
+        /// We use this to keep our internal list perfectly in sync with the hierarchy.
+        /// </summary>
+        private void OnTransformChildrenChanged()
+        {
+            RefreshDockedItems();
+        }
+
         private void Update()
         {
+            // If nothing is being dragged, we just handle cleanup of hover states
             if (Draggable.Current == null)
             {
                 if (isHovering) HandleExit(null);
                 return;
             }
 
+            // 1. Capacity Check: If full, ignore hover logic entirely.
+            //    This gives the user immediate visual feedback (no highlight) that they can't drop here.
+            if (IsFull)
+            {
+                if (isHovering) HandleExit(Draggable.Current);
+                return;
+            }
+
+            // 2. Overlap Check
             bool isPointerInside = false;
-            
-            // Check if the mouse/finger is physically inside this rect
             if (rootCanvas != null)
             {
+                // Check if mouse/finger is physically inside our rect
                 Camera cam = (rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay) ? null : rootCanvas.worldCamera;
                 isPointerInside = RectTransformUtility.RectangleContainsScreenPoint(myRect, Draggable.Current.LastInputPosition, cam);
             }
 
-            // Verify if the Draggable actually overlaps the zone sufficiently
+            // Verify if the Draggable rect actually overlaps us sufficiently
             bool overlaps = isPointerInside && CheckOverlap(Draggable.Current.GetRectTransform(), minOverlapPercent);
 
+            // 3. Fire Events
             if (overlaps)
             {
                 if (!isHovering) HandleEnter(Draggable.Current);
@@ -82,72 +136,100 @@ namespace ISeeYou
             }
         }
 
+        // -------------------------------------------------------------------------
+        // 5. DROP HANDLERS (IDropHandler)
+        // -------------------------------------------------------------------------
+
         public void OnDrop(PointerEventData eventData)
         {
-            // Reset hover state immediately
+            // Always exit hover state on drop attempt
             if (isHovering) HandleExit(Draggable.Current);
             
-            if (isLocked || eventData.pointerDrag == null) return;
+            // REJECTION CRITERIA:
+            // 1. Zone is Locked
+            // 2. Zone is Full
+            // 3. Data is invalid
+            if (isLocked || IsFull || eventData.pointerDrag == null) return;
 
             Draggable draggable = eventData.pointerDrag.GetComponent<Draggable>();
             
-            // Only accept the drop if we are the valid target
+            // Only accept if overlap logic passes
             if (draggable != null && CheckOverlap(draggable.GetRectTransform(), minOverlapPercent))
             {
                 AcceptItem(draggable);
             }
         }
 
-        /// <summary>
-        /// Checks all immediate children. If they are Draggable, enforces the DropZone rules (Physics, Transform).
-        /// Useful for initializing items pre-placed in the editor.
-        /// </summary>
-        public void ValidateImmediateChildren()
-        {
-            bool contentChanged = false;
-            
-            // Iterate over all children to ensure they conform to DropZone rules
-            foreach (Transform child in transform)
-            {
-                Draggable draggable = child.GetComponent<Draggable>();
-                if (draggable != null)
-                {
-                    ApplyDropLogic(draggable);
-                    contentChanged = true;
-                }
-            }
-
-            if (contentChanged)
-            {
-                OnContentChanged?.Invoke();
-            }
-        }
-
         private void AcceptItem(Draggable item)
         {
-            // Adoption: Move the item from the Root Canvas into this container.
+            // Reparenting triggers OnTransformChildrenChanged -> RefreshDockedItems
             item.transform.SetParent(transform);
             
-            // Apply rules
+            // Apply layout and physics rules
             ApplyDropLogic(item);
+        }
 
-            OnContentChanged?.Invoke();
+        // -------------------------------------------------------------------------
+        // 6. CONTROL LOGIC
+        // -------------------------------------------------------------------------
+
+        /// <summary>
+        /// Scans immediate children to rebuild the dockedItems list.
+        /// Also enforces the current Lock state on all found items.
+        /// </summary>
+        private void RefreshDockedItems()
+        {
+            dockedItems.Clear();
+
+            foreach (Transform child in transform)
+            {
+                if (child.TryGetComponent(out Draggable item))
+                {
+                    dockedItems.Add(item);
+                    
+                    // Enforce lock state: If we are locked, disable the draggable script
+                    // so the user cannot drag the item out.
+                    item.enabled = !isLocked;
+                }
+            }
+            
+            OnContentCountChanged?.Invoke(dockedItems.Count);
+        }
+
+        /// <summary>
+        /// Locks or unlocks the zone.
+        /// Locked = No new items in, no existing items out.
+        /// </summary>
+        public void SetLock(bool locked)
+        {
+            if (isLocked == locked) return;
+            isLocked = locked;
+            
+            // Apply new state to all currently docked items
+            foreach (var item in dockedItems)
+            {
+                if (item != null) item.enabled = !isLocked;
+            }
         }
 
         private void ApplyDropLogic(Draggable item)
         {
-            // Reset local transformation to ensure it snaps into the layout correctly.
+            // Reset transforms to snap into the zone cleanly
             item.transform.localScale = Vector3.one;
             item.transform.localRotation = Quaternion.identity;
             item.transform.localPosition = Vector3.zero;
 
-            // Handle Physics state for the docked item
+            // Handle Physics state
             UIPhysics physics = item.GetComponent<UIPhysics>();
             if (physics != null)
             {
                 physics.SetSimulationMode(!disablePhysicsOnDrop);
             }
         }
+
+        // -------------------------------------------------------------------------
+        // 7. MATH & UTILS
+        // -------------------------------------------------------------------------
 
         private void HandleEnter(Draggable item)
         {
@@ -161,6 +243,9 @@ namespace ISeeYou
             OnZoneExit?.Invoke(item);
         }
         
+        /// <summary>
+        /// Calculates if rectA overlaps this DropZone by at least the required percentage.
+        /// </summary>
         private bool CheckOverlap(RectTransform otherRect, float requiredPercent)
         {
             if (otherRect == null) return false;
@@ -178,6 +263,9 @@ namespace ISeeYou
             float overlapArea = intersection.width * intersection.height;
             float objectArea = rect2.width * rect2.height;
 
+            // Prevent divide by zero
+            if (objectArea <= 0) return false;
+
             return (overlapArea / objectArea) >= requiredPercent;
         }
 
@@ -194,7 +282,10 @@ namespace ISeeYou
             float xMax = Mathf.Min(r1.x + r1.width, r2.x + r2.width);
             float yMin = Mathf.Max(r1.y, r2.y);
             float yMax = Mathf.Min(r1.y + r1.height, r2.y + r2.height);
-            return (xMax >= xMin && yMax >= yMin) ? new Rect(xMin, yMin, xMax - xMin, yMax - yMin) : Rect.zero;
+            
+            return (xMax >= xMin && yMax >= yMin) 
+                ? new Rect(xMin, yMin, xMax - xMin, yMax - yMin) 
+                : Rect.zero;
         }
     }
 }

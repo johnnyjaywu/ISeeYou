@@ -49,14 +49,14 @@ namespace ISeeYou
         {
             dropZone.OnZoneEnter += HandleZoneEnter;
             dropZone.OnZoneExit += HandleZoneExit;
-            dropZone.OnContentChanged += HandleContentChanged;
+            dropZone.OnContentCountChanged += HandleContentChanged;
         }
 
         private void OnDisable()
         {
             dropZone.OnZoneEnter -= HandleZoneEnter;
             dropZone.OnZoneExit -= HandleZoneExit;
-            dropZone.OnContentChanged -= HandleContentChanged;
+            dropZone.OnContentCountChanged -= HandleContentChanged;
         }
 
         // -------------------------------------------------------------------
@@ -76,7 +76,7 @@ namespace ISeeYou
             ApplyVisuals(GetTargetStateColor(), originalScale);
         }
 
-        private void HandleContentChanged()
+        private void HandleContentChanged(int count)
         {
             // Only update the visual state if we aren't currently hovering.
             // If we are hovering, the "Highlight" color should persist until exit.

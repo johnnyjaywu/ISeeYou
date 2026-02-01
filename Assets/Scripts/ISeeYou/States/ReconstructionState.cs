@@ -40,7 +40,7 @@ namespace ISeeYou
 
         public void Exit()
         {
-            dropZone.OnContentChanged -= CheckWinCondition;
+            // dropZone.OnContentChanged -= CheckWinCondition;
             // dropZone.IsLocked = false;
             if (sequenceHandle is { IsRunning: true }) sequenceHandle.Stop();
         }
@@ -61,7 +61,7 @@ namespace ISeeYou
             // dropZone.IsLocked = true;
             manager.SetInputActive(true);
             
-            dropZone.OnContentChanged += CheckWinCondition;
+            // dropZone.OnContentChanged += CheckWinCondition;
             CheckWinCondition();
         }
 
@@ -112,7 +112,7 @@ namespace ISeeYou
             Debug.Log("[ReconstructionState] Keys Ordered Correctly! Rebuilding sentence...");
             
             manager.SetInputActive(false);
-            dropZone.OnContentChanged -= CheckWinCondition;
+            // dropZone.OnContentChanged -= CheckWinCondition;
 
             ConstructFullSentence();
             

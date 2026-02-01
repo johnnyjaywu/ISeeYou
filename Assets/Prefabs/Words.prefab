@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6782205669355717134}
   - component: {fileID: 7545826865980037062}
   - component: {fileID: 4363688387306036250}
+  - component: {fileID: 2803288522547838969}
   m_Layer: 5
   m_Name: Words
   m_TagString: Untagged
@@ -155,9 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f210cf20c0f9334ba7e737a5c673b64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.Words
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  revealedColor: {r: 1, g: 0.92, b: 0.016, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
 --- !u!225 &9098228519847554205
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -219,7 +217,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4789747165694068801}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -265,7 +263,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4789747165694068801}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fb468232e89c8541a8a3dfc342f9db3, type: 3}
   m_Name: 
@@ -278,3 +276,19 @@ MonoBehaviour:
   freezeRotation: 1
   repulsionForce: 500
   detectionBuffer: 1.1
+--- !u!114 &2803288522547838969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789747165694068801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f11e1955b23c4a678ef8665206e04ad7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ISeeYou::ISeeYou.UISelectable
+  allowDeselection: 1
+  autoSelectOnClick: 1
+  isHovered: 0
+  isSelected: 0
