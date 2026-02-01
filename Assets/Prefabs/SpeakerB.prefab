@@ -152,10 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37a701d414d843b8a16c2031dc46a86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.DropZoneFeedback
-  emptyColor: {r: 0.50980395, g: 0.6156863, b: 0.91764706, a: 0.1764706}
+  emptyColor: {r: 0.50980395, g: 0.6156863, b: 0.91764706, a: 0}
   filledColor: {r: 0.50980395, g: 0.6156863, b: 0.91764706, a: 1}
   targetImage: {fileID: 5441783137088341781}
-  highlightColor: {r: 1, g: 1, b: 1, a: 1}
+  highlightColor: {r: 0.33402357, g: 0.48554122, b: 0.91764706, a: 1}
   duration: 0.2
   easeType: 6
   hoverScale: 1.05
@@ -189,4 +189,8 @@ MonoBehaviour:
   currentDialogLine:
     speakerID: 
     text: 
+    subTexts: []
     voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []

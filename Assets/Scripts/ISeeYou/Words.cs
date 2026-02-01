@@ -142,7 +142,7 @@ namespace ISeeYou
         // 5. LOGIC
         // -------------------------------------------------------------------------
 
-        public void Initialize(WordsData data)
+        public void Initialize(WordsData data, bool setVisible = true)
         {
             if (rectTransform == null) Awake();
 
@@ -152,6 +152,8 @@ namespace ISeeYou
             gameObject.name = $"Word_{wordsData.Text}";
             CurrentState = LogicState.Normal;
 
+            SetVisible(setVisible);
+            
             // Ensure selection state is reset on re-initialization
             if (selectable.IsSelected) selectable.Deselect();
 
@@ -171,6 +173,11 @@ namespace ISeeYou
 
             MarkLayoutDirty();
             onComplete?.Invoke();
+        }
+
+        public void SetVisible(bool visible)
+        {
+            textComponent.enabled = visible;
         }
 
         public void SetInteractable(bool active)

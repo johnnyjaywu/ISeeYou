@@ -9,7 +9,8 @@ namespace ISeeYou
     public class Speaker : MonoBehaviour
     {
         [SerializeField] private string id;
-        [SerializeField] private DropZone dropZone;
+        [SerializeField] private DropZone speechBubble;
+        [SerializeField] private DropZone thoughtBubble;
         [ReadOnly, SerializeField] private DialogLine currentDialogLine;
 
         public string ID => id;
@@ -30,8 +31,8 @@ namespace ISeeYou
         public void Speak(DialogLine dialogLineToPlay)
         {
             currentDialogLine = dialogLineToPlay;
-            currentActiveWords = spawner.SpawnWords(dialogLineToPlay.text, dropZone);
-            dropZone.SetLock(true);
+            currentActiveWords = spawner.SpawnWords(dialogLineToPlay.text, speechBubble);
+            speechBubble.SetLock(true);
 
             // Play Audio
             if (dialogLineToPlay.voiceLine != null)
@@ -42,6 +43,20 @@ namespace ISeeYou
             }
         }
 
+        public void Think(DialogLine dialogLineToPlay)
+        {
+            currentDialogLine = dialogLineToPlay;
+            currentActiveWords = spawner.SpawnWords(dialogLineToPlay.text, thoughtBubble);
+            thoughtBubble.SetLock(true);
+
+            // Play Audio
+            if (dialogLineToPlay.voiceLine != null)
+            {
+                if (soundHandle is { IsPlaying: true })
+                    soundHandle.Stop();
+                soundHandle = dialogLineToPlay.voiceLine.Play();
+            }
+        }
 
         public void Stop()
         {
@@ -54,16 +69,16 @@ namespace ISeeYou
         public void ClearWords()
         {
             currentActiveWords.Clear();
-            if (spawner != null && dropZone != null)
+            if (spawner != null && speechBubble != null)
             {
-                spawner.Clear(dropZone.transform);
+                spawner.Clear(speechBubble.transform);
             }
         }
 
         [Button]
-        public void Lock() => dropZone?.SetLock(true);
+        public void Lock() => speechBubble?.SetLock(true);
 
         [Button]
-        public void Unlock() => dropZone?.SetLock(false);
+        public void Unlock() => speechBubble?.SetLock(false);
     }
 }
