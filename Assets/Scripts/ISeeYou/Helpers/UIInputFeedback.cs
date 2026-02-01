@@ -37,7 +37,19 @@ namespace ISeeYou
         public void OnPointerEnter(PointerEventData eventData)
         {
             if (!isInteractable) return;
-            animator.PlayHover(true);
+            int random = Random.Range(0, 6);
+            if (random == 0)
+                animator.PlayHover(true);
+            else if (random == 1)
+                animator.PlayPulse();
+            else if (random == 2)
+                animator.PlayCharPulse();
+            else if (random == 3)
+                animator.PlayShakeText();
+            else if (random == 4)
+                animator.PlayRubberBand();
+            else if (random == 5)
+                animator.PlayJelloWobble();
         }
 
         public void OnPointerExit(PointerEventData eventData)

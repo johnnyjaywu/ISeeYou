@@ -171,15 +171,20 @@ MonoBehaviour:
     DestroyOnComplete: 0
   interaction:
     EnableHover: 1
-    HoverScale: 1.1
+    HoverScale: 1.5
     HoverDuration: 0.2
     HoverEase: 6
     EnableClick: 1
     ClickPunch: {x: -0.1, y: -0.1, z: 0}
     ClickDuration: 0.15
     ClickVibrato: 0
-  pulseDuration: 0.3
-  pulseScaleAmount: 1.1
+    text: {fileID: 2594071511403229118}
+  pulseDuration: 0.5
+  pulseScaleAmount: 1.5
+  charDelay: 0.1
+  pulseScale: 1.5
+  pulseColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  charPulseDuration: 1
 --- !u!114 &536276123918985348
 MonoBehaviour:
   m_ObjectHideFlags: 0
