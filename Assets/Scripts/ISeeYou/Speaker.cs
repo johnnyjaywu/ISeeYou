@@ -62,6 +62,11 @@ namespace ISeeYou
             }
         }
 
+        private void OnWordClicked()
+        {
+            
+        }
+
         public void Speak(DialogLine dialogLineToPlay)
         {
             if (HaveMaskRemaining)
