@@ -18,6 +18,8 @@ namespace ISeeYou
     [RequireComponent(typeof(UISelectable))]
     public class Words : MonoBehaviour, ILayoutElement, ILayoutSelfController
     {
+        // TODO: Temp reference
+        [SerializeField] private UIAnimator animator;
         // -------------------------------------------------------------------------
         // 1. DATA & STATE
         // -------------------------------------------------------------------------
@@ -175,6 +177,11 @@ namespace ISeeYou
             onComplete?.Invoke();
         }
 
+        public void FadeOut(Action onFinish = null)
+        {
+            animator.Delay(0.5f).FadeOut().OnFinish(onFinish);
+        }
+        
         public void SetVisible(bool visible)
         {
             textComponent.enabled = visible;

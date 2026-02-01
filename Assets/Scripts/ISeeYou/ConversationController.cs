@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using ContentContent;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace ISeeYou
 {
@@ -20,6 +22,14 @@ namespace ISeeYou
         private void Awake()
         {
             inputAction = continueInput.action;
+            if (inputAction != null)
+                inputAction.performed += OnInputPerformed;
+        }
+
+        private void OnDestroy()
+        {
+            if (inputAction != null)
+                inputAction.performed -= OnInputPerformed;
         }
 
         private void OnEnable()
@@ -37,7 +47,6 @@ namespace ISeeYou
             if (inputAction != null)
             {
                 inputAction.Enable();
-                inputAction.performed += OnInputPerformed;
             }
         }
 
@@ -46,13 +55,23 @@ namespace ISeeYou
             if (inputAction != null)
             {
                 inputAction.Disable();
-                inputAction.performed -= OnInputPerformed;
             }
         }
 
         private void OnInputPerformed(InputAction.CallbackContext context)
         {
+            // 1. Standard checks
             if (!context.performed || !context.ReadValueAsButton()) return;
+
+            // 2. Stale Input Filter
+            // Check if the physical button state actually CHANGED to pressed this frame.
+            // If 'wasPressedThisFrame' is false, it means the user was already holding 
+            // the button when input was enabled.
+            if (context.control is ButtonControl btn && !btn.wasPressedThisFrame)
+            {
+                return;
+            }
+            
             PlayNextLine();
         }
 

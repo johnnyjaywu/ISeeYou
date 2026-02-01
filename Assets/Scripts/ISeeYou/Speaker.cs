@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using ContentContent;
 using ContentContent.Audio;
 using NaughtyAttributes;
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace ISeeYou
         [SerializeField] private DropZone speechBubble;
         [SerializeField] private DropZone thoughtBubble;
         [ReadOnly, SerializeField] private DialogLine currentDialogLine;
+        [SerializeField] private ConversationController conversationController;
 
         public string ID => id;
 
@@ -20,47 +23,94 @@ namespace ISeeYou
         private SoundHandle soundHandle;
 
         // State
-        private List<Words> currentActiveWords = new List<Words>();
+        private List<Words> activeWords = new List<Words>(); // the active words being displayed
+        private List<Words> activeThoughtWords = new List<Words>(); // The active thought words being displayed
+        private Queue<string> currentThoughts = new Queue<string>();
+        private int currentThoughtIndex = 0;
 
         private void Awake()
         {
             spawner = GetComponent<WordsSpawner>();
             SpeakerManager.Register(this);
+            thoughtBubble.OnZoneExit += OnZoneExit;
+        }
+
+        private void OnDestroy()
+        {
+            thoughtBubble.OnZoneExit -= OnZoneExit;
+        }
+
+        private void OnZoneExit(Draggable obj)
+        {
+            Words words = obj.GetComponent<Words>();
+            if (words == null) return;
+            if (activeThoughtWords.Contains(words))
+            {
+                words.FadeOut(() =>
+                {
+                    Destroy(words.gameObject);
+                    ShowNextThought();
+                });
+                activeThoughtWords.Remove(words);
+            }
         }
 
         public void Speak(DialogLine dialogLineToPlay)
         {
-            currentDialogLine = dialogLineToPlay;
-            currentActiveWords = spawner.SpawnWords(dialogLineToPlay.text, speechBubble);
-            speechBubble.SetLock(true);
+            if (currentThoughts.Count > 0)
+                return; // If there are active thoughts, don't speak until my thoughts are "cleared"
 
-            // Play Audio
-            if (dialogLineToPlay.voiceLine != null)
+            bool haveThoughts = !dialogLineToPlay.thoughts.IsNullOrEmpty();
+
+            // Force disable click to continue input
+            if (haveThoughts && conversationController != null)
+                conversationController.DisableInput();
+
+            currentDialogLine = dialogLineToPlay;
+            ShowCurrentLine();
+
+            if (haveThoughts)
             {
-                if (soundHandle is { IsPlaying: true })
-                    soundHandle.Stop();
-                soundHandle = dialogLineToPlay.voiceLine.Play();
+                // This should only be called once until currentThoughts have emptied
+                currentThoughts = new Queue<string>(currentDialogLine.thoughts);
+                ShowNextThought();
             }
         }
 
-        public void Think(DialogLine dialogLineToPlay)
+        public void ShowNextThought()
         {
-            currentDialogLine = dialogLineToPlay;
-            currentActiveWords = spawner.SpawnWords(dialogLineToPlay.text, thoughtBubble);
-            thoughtBubble.SetLock(true);
+            // Just for saftey, check current line and queue again
+            if (currentDialogLine.thoughts.IsNullOrEmpty() || currentThoughts.Count == 0)
+            {
+                // No more thoughts, free the input
+                if (conversationController != null)
+                    conversationController.EnableInput();
+                return;
+            }
+
+            string nextThought = currentThoughts.Dequeue();
+            activeThoughtWords = spawner.SpawnWords(nextThought, thoughtBubble, false);
+            thoughtBubble.SetLock(false);
+        }
+
+        public void ShowCurrentLine()
+        {
+            activeWords = spawner.SpawnWords(currentDialogLine.text, speechBubble);
+            speechBubble.SetLock(true);
 
             // Play Audio
-            if (dialogLineToPlay.voiceLine != null)
+            if (currentDialogLine.voiceLine != null)
             {
                 if (soundHandle is { IsPlaying: true })
                     soundHandle.Stop();
-                soundHandle = dialogLineToPlay.voiceLine.Play();
+                soundHandle = currentDialogLine.voiceLine.Play();
             }
         }
 
         public void Stop()
         {
             ClearWords();
+            ClearThoughts();
 
             if (soundHandle is { IsPlaying: true })
                 soundHandle.Stop();
@@ -68,10 +118,19 @@ namespace ISeeYou
 
         public void ClearWords()
         {
-            currentActiveWords.Clear();
+            activeWords.Clear();
             if (spawner != null && speechBubble != null)
             {
                 spawner.Clear(speechBubble.transform);
+            }
+        }
+
+        public void ClearThoughts()
+        {
+            activeThoughtWords.Clear();
+            if (spawner != null && thoughtBubble != null)
+            {
+                spawner.Clear(thoughtBubble.transform);
             }
         }
 

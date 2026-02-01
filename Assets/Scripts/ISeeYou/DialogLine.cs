@@ -12,11 +12,12 @@ namespace ISeeYou
     public struct DialogLine
     {
         public string speakerID;
+        
         [TextArea(3, 5), ResizableTextArea]
         public string text;
 
         [TextArea(3, 5), ResizableTextArea]
-        public List<string> subTexts;
+        public List<string> thoughts;
         
         public SoundData voiceLine;
         public UnityEvent triggerEvent;

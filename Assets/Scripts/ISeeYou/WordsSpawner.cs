@@ -7,23 +7,8 @@ namespace ISeeYou
     {
         [Header("Settings")]
         [SerializeField] private Words wordPrefab;
-
-        public List<Words> SpawnWords(string text)
-        {
-            var parsedTokens = Words.ParseGroupedString(text);
-            var spawnedWords = new List<Words>(parsedTokens.Count);
-
-            foreach (string token in parsedTokens)
-            {
-                Words newWord = Instantiate(wordPrefab);
-                newWord.Initialize(new WordsData { Text = token });
-                spawnedWords.Add(newWord);
-            }
-
-            return spawnedWords;
-        }
         
-        public List<Words> SpawnWords(string text, DropZone dropZone)
+        public List<Words> SpawnWords(string text, DropZone dropZone, bool splitWords = true)
         {
             // Auto-clear before spawning to ensure fresh state
             Clear(dropZone.transform);
@@ -34,7 +19,7 @@ namespace ISeeYou
                 return null;
             }
 
-            var parsedTokens = Words.ParseGroupedString(text);
+            var parsedTokens = splitWords ? Words.ParseGroupedString(text) : new List<string> { text };
             var spawnedWords = new List<Words>(parsedTokens.Count);
 
             foreach (string token in parsedTokens)

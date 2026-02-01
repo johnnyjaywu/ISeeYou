@@ -92,10 +92,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ContentContent.UI::ContentContent.UI.FlexLayoutGroup
   m_Padding:
-    m_Left: 30
-    m_Right: 30
-    m_Top: 30
-    m_Bottom: 30
+    m_Left: 50
+    m_Right: 50
+    m_Top: 50
+    m_Bottom: 50
   m_ChildAlignment: 0
   direction: 0
   wrap: 1
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.DropZone
   isLocked: 0
-  maxCapacity: -1
+  maxCapacity: 1
   minOverlapPercent: 0.2
   disablePhysicsOnDrop: 1
 --- !u!114 &-7533351685442051261
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.DropZoneFeedback
   emptyColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 0}
-  filledColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 1}
+  filledColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 0.5019608}
   targetImage: {fileID: 8007263310406853255}
   highlightColor: {r: 0.19245279, g: 0.19245279, b: 0.19245279, a: 1}
   duration: 0.2
