@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
+using System.Collections.Generic;
 
 namespace ISeeYou
 {
@@ -68,6 +69,8 @@ namespace ISeeYou
 
             [Tooltip("Set to 0 for a simple press/shrink. Higher values add a wobble.")]
             public int ClickVibrato = 0;
+
+            public TextMeshProUGUI text;
         }
 
         // -------------------------------------------------------------------------
@@ -255,6 +258,150 @@ namespace ISeeYou
                     onComplete?.Invoke();
                 });
         }
+
+        /// <summary>
+        /// Shakes the text (or the entire UI element) to draw attention. Uses PrimeTween's ShakeLocalPosition.
+        /// </summary>
+        [Button("Test Shake")]
+        public void PlayShakeText(float strength = 5f, float duration = 0.5f, float frequency = 25f, bool useUnscaledTime = false, Action onComplete = null)
+        {
+            Transform target = textComponent != null ? textComponent.transform : transform;
+
+            // Stop any current tween targeting this element
+            if (activeTween.isAlive) activeTween.Stop();
+
+            Vector3 strengthVec = new Vector3(strength, strength, 0f);
+            Vector3 original = target.localPosition;
+
+            // Tween.ShakeLocalPosition(target, strength, duration, frequency = ShakeSettings.defaultFrequency, bool enableFalloff = true, Ease easeBetweenShakes = Ease.Default, float asymmetryFactor = 0f, int cycles = 1, float startDelay = 0f, float endDelay = 0f, bool useUnscaledTime = false)
+            activeTween = Tween.ShakeLocalPosition(target, strengthVec, duration, frequency, enableFalloff: true, easeBetweenShakes: Ease.Linear, asymmetryFactor: 0f, cycles: 1, startDelay: 0f, endDelay: 0f, useUnscaledTime: useUnscaledTime)
+                .OnComplete(() =>
+                {
+                    // Ensure we restore the original position in case of numerical drift
+                    target.localPosition = original;
+                    onComplete?.Invoke();
+                });
+        }
+
+        [Header("Character Pulse Settings")]
+        [SerializeField] private float charDelay = 0.2f;
+        [SerializeField] private float pulseScale = 1.5f;
+        [SerializeField] private Color pulseColor = Color.yellow;
+        [SerializeField] private float charPulseDuration = 0.8f;
+        
+        private Vector3[][] originalVertices; // Store original positions
+
+        private Dictionary<int, float> charProgress = new Dictionary<int, float>();
+
+        [Button("Test Char Pulse")]
+        public void PlayCharPulse()
+        {
+            string word = interaction.text.text;
+            
+            interaction.text.ForceMeshUpdate();
+            TMP_TextInfo textInfo = interaction.text.textInfo;
+            
+            StoreOriginalVertices(textInfo);
+            Color32 originalColor = interaction.text.color;
+            
+            charProgress.Clear();
+            
+            // Create tweens that update the progress dictionary
+            for (int i = 0; i < textInfo.characterCount; i++)
+            {
+                if (!textInfo.characterInfo[i].isVisible)
+                    continue;
+                    
+                int charIndex = i;
+                charProgress[charIndex] = 0f;
+                
+                Tween.Custom(0f, 1f, charPulseDuration, onValueChange: progress =>
+                {
+                    charProgress[charIndex] = progress;
+                    
+                    // Update ALL characters every frame
+                    UpdateAllChars(originalColor);
+                    
+                }, startDelay: i * charDelay, ease: Ease.OutBack);
+            }
+        }
+
+        void UpdateAllChars(Color32 originalColor)
+        {
+            TMP_TextInfo textInfo = interaction.text.textInfo;
+            
+            // Update EVERY character based on its current progress
+            foreach (var kvp in charProgress)
+            {
+                int charIndex = kvp.Key;
+                float progress = kvp.Value;
+                
+                if (charIndex >= textInfo.characterCount) continue;
+                
+                TMP_CharacterInfo charInfo = textInfo.characterInfo[charIndex];
+                if (!charInfo.isVisible) continue;
+                
+                int materialIndex = charInfo.materialReferenceIndex;
+                int vertexIndex = charInfo.vertexIndex;
+                
+                Vector3[] vertices = textInfo.meshInfo[materialIndex].vertices;
+                Color32[] colors = textInfo.meshInfo[materialIndex].colors32;
+                
+                Vector3 center = (originalVertices[materialIndex][vertexIndex] + 
+                                originalVertices[materialIndex][vertexIndex + 2]) / 2f;
+                
+                float t = Mathf.Sin(progress * Mathf.PI);
+                float scale = 1f + (pulseScale - 1f) * t;
+                Color lerpedColor = Color.Lerp(originalColor, pulseColor, t);
+                
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector3 offset = originalVertices[materialIndex][vertexIndex + i] - center;
+                    vertices[vertexIndex + i] = center + offset * scale;
+                    colors[vertexIndex + i] = lerpedColor;
+                }
+            }
+            
+            // Update mesh ONCE after all characters are processed
+            interaction.text.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
+        }
+
+        void StoreOriginalVertices(TMP_TextInfo textInfo)
+        {
+            originalVertices = new Vector3[textInfo.meshInfo.Length][];
+            
+            for (int i = 0; i < textInfo.meshInfo.Length; i++)
+            {
+                Vector3[] sourceVertices = textInfo.meshInfo[i].vertices;
+                originalVertices[i] = new Vector3[sourceVertices.Length];
+                
+                // Copy original positions
+                for (int j = 0; j < sourceVertices.Length; j++)
+                {
+                    originalVertices[i][j] = sourceVertices[j];
+                }
+            }
+        }
+
+        [Button("Test RubberBand")]
+        public void PlayRubberBand()
+        {
+            Transform target = textComponent != null ? textComponent.transform : transform;
+            Tween.Scale(target, new Vector3(1.3f, 0.8f, 1f), 0.4f, ease: Ease.OutBack)
+                .OnComplete(() => 
+                    Tween.Scale(target, Vector3.one, 0.3f, ease: Ease.OutBack)
+                );
+        }
+        
+        // Jello wobble
+        [Button("Test JelloWobble")]
+        public void PlayJelloWobble()
+        {
+            Transform target = textComponent != null ? textComponent.transform : transform;
+            Tween.PunchScale(target, new Vector3(0.3f, -0.2f, 0f), 0.6f, 10, false, Ease.OutElastic);
+        }
+
+        
 
         [Button("Test Pulse")]
         public void PlayPulse()

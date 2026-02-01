@@ -111,3 +111,6 @@ InitTestScene*.unity*
 
 # Thumbnails
 ._*
+
+.vscode/
+*.slnx
