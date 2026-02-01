@@ -76,8 +76,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Words
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2bfe92a955d2b4b5da1ebec5a5e05023, type: 2}
+  m_sharedMaterial: {fileID: -7150380761366857527, guid: 2bfe92a955d2b4b5da1ebec5a5e05023, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -307,14 +307,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  duration: 0.5
-  ease: 6
+  defaultDuration: 0.3
+  defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 10
   shakeFrequency: 10
-  onSequenceComplete:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &-6150349516998163701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ISeeYou::ISeeYou.AutoFade
   playOnEnable: 1
   startDelay: 0
-  minAlpha: 0.5
-  maxAlpha: 1
-  duration: 1
+  startAlpha: 0
+  targetAlpha: 1
+  duration: 0.5
   ease: 4

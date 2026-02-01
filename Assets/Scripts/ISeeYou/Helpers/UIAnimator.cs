@@ -1,36 +1,42 @@
 using System;
+using System.Collections.Generic;
 using PrimeTween;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace ISeeYou
 {
+    public enum AnimLayer
+    {
+        Interaction = 0, // Hovers, Clicks, Shakes (Transient)
+        Lifecycle = 1    // Show, Hide, Fade (State Changes)
+    }
+
     [RequireComponent(typeof(CanvasGroup), typeof(RectTransform))]
     public class UIAnimator : MonoBehaviour
     {
-        [Header("Animation Settings")]
-        [SerializeField] private float duration = 0.5f;
-        [SerializeField] private Ease ease = Ease.OutQuad;
+        [Header("Defaults")]
+        [SerializeField] private float defaultDuration = 0.3f;
+        [SerializeField] private Ease defaultEase = Ease.OutQuad;
 
         [Header("Scale Settings")]
-        [Tooltip("Multiplier for ScaleUp (e.g., 1.1 = 10% larger).")]
         [SerializeField] private float scaleUpMultiplier = 1.1f;
 
         [Header("Shake Settings")]
         [SerializeField] private float shakeStrength = 10f;
         [SerializeField] private float shakeFrequency = 10f;
 
-        [Header("Events")]
-        [Tooltip("Called generically when the entire Sequence completes.")]
-        [SerializeField] private UnityEvent onSequenceComplete;
-
         private CanvasGroup canvasGroup;
         private RectTransform rectTransform;
-        private Sequence currentSequence;
         private Vector3 originalScale;
+
+        // TRACKING: We now keep a dictionary of sequences per Layer
+        private Dictionary<AnimLayer, Sequence> activeSequences = new Dictionary<AnimLayer, Sequence>();
         
-        // Flag to track if we are in the middle of building a chain.
-        private bool isBuildingSequence = false;
+        // BUILDER STATE: Which layer are we currently building?
+        private AnimLayer currentBuildLayer = AnimLayer.Interaction;
+        private Sequence currentBuilder;
+        private bool isBuilding = false;
 
         private void Awake()
         {
@@ -41,145 +47,162 @@ namespace ISeeYou
 
         private void OnDisable()
         {
-            Stop();
+            StopAll();
         }
 
-        /// <summary>
-        /// Explicitly clears old sequences and starts a fresh, paused builder.
-        /// </summary>
-        public UIAnimator ResetChain()
-        {
-            Stop();
-            EnsureSequence(); // Will create and pause
-            return this;
-        }
+        // -------------------------------------------------------------------
+        // 1. Channel Selection
+        // -------------------------------------------------------------------
 
         /// <summary>
-        /// Unpauses the sequence and begins execution.
+        /// Starts a command chain on a specific layer.
+        /// Use 'Lifecycle' for Fades/Delays that shouldn't be interrupted by Hovers.
+        /// Use 'Interaction' for Hovers/Clicks.
         /// </summary>
-        public void Play()
+        public UIAnimator On(AnimLayer layer)
         {
-            if (!currentSequence.isAlive)
+            // If we were already building a different layer and didn't finish, clean it up
+            if (isBuilding && currentBuildLayer != layer)
             {
-                // Edge case: Play called with no chain built. Create an empty one to satisfy logic.
-                currentSequence = Sequence.Create();
+                Debug.LogWarning($"[UIAnimator] Switched layers without playing previous chain on {currentBuildLayer}. Discarding.");
+                currentBuilder.Stop(); 
             }
 
-            // UNPAUSE the sequence to let it run
-            currentSequence.isPaused = false;
+            currentBuildLayer = layer;
+            
+            // Stop ONLY the existing sequence on this specific layer
+            Stop(layer);
 
-            // Mark building as finished. The next method call will trigger a Stop() and new Sequence.
-            isBuildingSequence = false;
+            // Create new paused sequence for this layer
+            currentBuilder = Sequence.Create();
+            currentBuilder.isPaused = true;
+            
+            // Store it in our dictionary so we can manage it later
+            activeSequences[layer] = currentBuilder;
+            isBuilding = true;
 
-            currentSequence.OnComplete(HandleInspectorEvent);
+            return this;
         }
 
         /// <summary>
-        /// Immediately stops and completes any active sequence.
+        /// Default entry point (Uses Interaction Layer by default).
         /// </summary>
-        public void Stop()
-        {
-            if (currentSequence.isAlive)
-            {
-                currentSequence.Complete();
-            }
-            isBuildingSequence = false;
-        }
+        public UIAnimator Begin() => On(AnimLayer.Interaction);
 
-        // -----------------------
-        // Chained Methods
-        // -----------------------
+        // -------------------------------------------------------------------
+        // 2. Commands (Builder Pattern)
+        // -------------------------------------------------------------------
 
-        public UIAnimator FadeIn()
+        public UIAnimator FadeIn(float? duration = null)
         {
-            EnsureSequence();
-            currentSequence.Chain(Tween.Alpha(canvasGroup, 1f, duration, ease));
+            ValidateBuilder();
+            currentBuilder.Chain(Tween.Alpha(canvasGroup, 1f, duration ?? defaultDuration, defaultEase));
             return this;
         }
 
-        public UIAnimator FadeOut()
+        public UIAnimator FadeOut(float? duration = null)
         {
-            EnsureSequence();
-            currentSequence.Chain(Tween.Alpha(canvasGroup, 0f, duration, ease));
+            ValidateBuilder();
+            currentBuilder.Chain(Tween.Alpha(canvasGroup, 0f, duration ?? defaultDuration, defaultEase));
             return this;
         }
 
-        public UIAnimator ScaleIn()
+        public UIAnimator ScaleIn(float? duration = null)
         {
-            EnsureSequence();
-            currentSequence.Chain(Tween.Scale(rectTransform, Vector3.one, duration, ease));
+            ValidateBuilder();
+            currentBuilder.Chain(Tween.Scale(rectTransform, originalScale, duration ?? defaultDuration, defaultEase));
             return this;
         }
 
-        public UIAnimator ScaleOut()
+        public UIAnimator ScaleOut(float? duration = null)
         {
-            EnsureSequence();
-            currentSequence.Chain(Tween.Scale(rectTransform, Vector3.zero, duration, ease));
+            ValidateBuilder();
+            currentBuilder.Chain(Tween.Scale(rectTransform, Vector3.zero, duration ?? defaultDuration, defaultEase));
             return this;
         }
 
-        public UIAnimator ScaleUp()
+        public UIAnimator ScaleUp(float? duration = null)
         {
-            EnsureSequence();
-            currentSequence.Chain(Tween.Scale(rectTransform, originalScale * scaleUpMultiplier, duration, ease));
+            ValidateBuilder();
+            currentBuilder.Chain(Tween.Scale(rectTransform, originalScale * scaleUpMultiplier, duration ?? defaultDuration, defaultEase));
             return this;
         }
 
-        public UIAnimator ScaleBack()
+        public UIAnimator ScaleBack(float? duration = null)
         {
-            EnsureSequence();
-            currentSequence.Chain(Tween.Scale(rectTransform, originalScale, duration, ease));
+            ValidateBuilder();
+            currentBuilder.Chain(Tween.Scale(rectTransform, originalScale, duration ?? defaultDuration, defaultEase));
             return this;
         }
 
         public UIAnimator Shake()
         {
-            EnsureSequence();
-            currentSequence.Chain(Tween.ShakeLocalPosition(rectTransform, Vector3.one * shakeStrength, duration, shakeFrequency, true, ease));
+            ValidateBuilder();
+            currentBuilder.Chain(Tween.ShakeLocalPosition(rectTransform, Vector3.one * shakeStrength, defaultDuration, shakeFrequency, true, defaultEase));
             return this;
         }
 
         public UIAnimator Delay(float seconds)
         {
-            EnsureSequence();
-            currentSequence.ChainDelay(seconds);
+            ValidateBuilder();
+            currentBuilder.ChainDelay(seconds);
             return this;
         }
 
         public UIAnimator OnFinish(Action callback)
         {
-            EnsureSequence();
-            currentSequence.ChainCallback(callback);
+            ValidateBuilder();
+            currentBuilder.ChainCallback(callback);
             return this;
         }
 
-        // -----------------------
-        // Helpers
-        // -----------------------
+        // -------------------------------------------------------------------
+        // 3. Execution
+        // -------------------------------------------------------------------
 
-        /// <summary>
-        /// Ensures a sequence exists and is PAUSED so we can build onto it.
-        /// </summary>
-        private void EnsureSequence()
+        public void Play()
         {
-            if (!isBuildingSequence)
+            if (!isBuilding) return;
+
+            // Unpause the sequence we just built
+            if (activeSequences.TryGetValue(currentBuildLayer, out var seq) && seq.isAlive)
             {
-                // We are starting a brand new chain. 
-                // Stop any old running sequence first.
-                Stop();
-                
-                // Create a new sequence and PAUSE it immediately.
-                // It will sit waiting for Play() to set isPaused = false.
-                currentSequence = Sequence.Create();
-                currentSequence.isPaused = true;
-                
-                isBuildingSequence = true;
+                seq.isPaused = false;
+            }
+            
+            isBuilding = false;
+        }
+
+        public void Stop(AnimLayer layer)
+        {
+            if (activeSequences.TryGetValue(layer, out var seq))
+            {
+                if (seq.isAlive) seq.Stop();
+                activeSequences.Remove(layer);
             }
         }
 
-        private void HandleInspectorEvent()
+        public void StopAll()
         {
-            onSequenceComplete?.Invoke();
+            foreach (var kvp in activeSequences)
+            {
+                if (kvp.Value.isAlive) kvp.Value.Stop();
+            }
+            activeSequences.Clear();
+            isBuilding = false;
+        }
+
+        // -------------------------------------------------------------------
+        // Helpers
+        // -------------------------------------------------------------------
+
+        private void ValidateBuilder()
+        {
+            // Auto-start a default builder if the user forgot to call On()
+            if (!isBuilding)
+            {
+                On(AnimLayer.Interaction);
+            }
         }
     }
 }

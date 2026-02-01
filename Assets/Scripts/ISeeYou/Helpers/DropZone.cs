@@ -210,6 +210,11 @@ namespace ISeeYou
             }
         }
 
+        public void CapCountToCurrent()
+        {
+            maxCapacity = dockedItems.Count;
+        }
+
         private void ApplyDropLogic(Draggable item)
         {
             // Enforce lock state: If we are locked, disable the draggable script

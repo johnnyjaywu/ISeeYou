@@ -15,10 +15,10 @@ namespace ISeeYou
         public string text;
 
         public string speakerID;
-        public bool autoPlayReverse;
+        public bool autoPlay;
 
         [TextArea(3, 5), ResizableTextArea]
-        public List<string> maskingWords;
+        public List<string> maskingLines;
 
         public SoundData voiceLine;
 

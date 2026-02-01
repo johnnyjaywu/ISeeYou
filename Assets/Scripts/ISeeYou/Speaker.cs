@@ -29,42 +29,43 @@ namespace ISeeYou
         private int currentMaskingIndex = 0;
 
         private bool HaveMaskRemaining => currentMaskingWords.Count > 0;
-        
+
         private void Awake()
         {
             defaultSpawner = GetComponent<WordsSpawner>();
             SpeakerManager.Register(this);
-            maskingBubble.OnZoneExit += OnZoneExit;
+            maskingBubble.OnContentCountChanged += MaskingBubbleOnOnContentCountChanged; 
+        }
+
+        private void MaskingBubbleOnOnContentCountChanged(int count)
+        {
+            if (count == 0)
+            {
+                ShowNextMask();
+            }
+            else
+            {
+                maskingBubble.CapCountToCurrent();
+            }
         }
 
         private void OnDestroy()
         {
-            maskingBubble.OnZoneExit -= OnZoneExit;
+            maskingBubble.OnContentCountChanged -= MaskingBubbleOnOnContentCountChanged; 
         }
 
-        private void OnZoneExit(Draggable obj)
+        private void HandleMaskWordClicked(Words words)
         {
-            if (obj == null) return;
-            
-            Words words = obj.GetComponent<Words>();
-            if (words == null) return;
             if (activeMaskWords.Contains(words))
             {
-                maskingBubble.SetLock(true);
-                words.FadeOut(() =>
+                // maskingBubble.SetLock(true);
+                words.FadeOut(1f,() =>
                 {
-                    maskingBubble.SetLock(false);
+                    words.OnWordClicked -= HandleMaskWordClicked;
                     Destroy(words.gameObject);
                     activeMaskWords.Remove(words);
-                    if (activeMaskWords.Count == 0)
-                        ShowNextMask();
                 });
             }
-        }
-
-        private void OnWordClicked()
-        {
-            
         }
 
         public void Speak(DialogLine dialogLineToPlay)
@@ -72,27 +73,33 @@ namespace ISeeYou
             if (HaveMaskRemaining)
                 return; // If there are active thoughts, don't speak until my thoughts are "cleared"
 
-            bool haveMasking = !dialogLineToPlay.maskingWords.IsNullOrEmpty();
-            
+            bool haveMasking = !dialogLineToPlay.maskingLines.IsNullOrEmpty();
+
             // Always disable input for a bit
             SetEnableContinueInput(false);
             currentDialogLine = dialogLineToPlay;
+            
+            // Display the "truth" underneath
             ShowCurrentLine();
 
             if (haveMasking)
             {
                 // This should only be called once until currentThoughts have emptied
-                currentMaskingWords = new Queue<string>(currentDialogLine.maskingWords);
+                currentMaskingWords = new Queue<string>(currentDialogLine.maskingLines);
                 ShowNextMask();
             }
         }
 
         public void ShowNextMask()
         {
-            if (currentDialogLine.maskingWords.IsNullOrEmpty() || currentMaskingWords.Count == 0)
+            if (currentDialogLine.maskingLines.IsNullOrEmpty() || currentMaskingWords.Count == 0)
             {
                 // No more thoughts, free the input
                 SetEnableContinueInput(true);
+                foreach (Words word in activeWords)
+                {
+                    word.SetVisible(true);
+                }
                 return;
             }
 
@@ -103,24 +110,29 @@ namespace ISeeYou
             var maskingWordsSpawner = maskingBubble.GetComponent<WordsSpawner>();
             if (maskingWordsSpawner != null)
                 currentSpawner = maskingWordsSpawner;
-            
+
             activeMaskWords = currentSpawner.SpawnWords(nextMaskingWords, maskingBubble.transform);
-            // foreach(Words words in activeMaskWords)
-            //     words.ShakeInterval();
+            foreach (Words words in activeMaskWords)
+            {
+                words.OnWordClicked += HandleMaskWordClicked;
+            }
+
+            maskingBubble.CapCountToCurrent();
             maskingBubble.SetLock(false);
         }
-        
+
         // private void OnFinishSpawningThought(List<Words> words)
         // {
         //     activeWords = words;
         //     SetEnableContinueInput(true);
         // }
-        
+
         public void ShowCurrentLine()
         {
             // activeWords = spawner.SpawnWords(currentDialogLine.text, speechBubble);
             SetEnableContinueInput(false);
-            defaultSpawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, true, OnFinishSpawningSpeech);
+            defaultSpawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, true,
+                OnFinishSpawningSpeech);
             speechBubble.SetLock(true);
 
             // Play Audio
@@ -136,7 +148,20 @@ namespace ISeeYou
         {
             activeWords = words;
             if (!HaveMaskRemaining)
+            {
+                foreach (Words word in activeWords)
+                {
+                    word.SetVisible(true);
+                }
                 SetEnableContinueInput(true);
+            }
+            else
+            {
+                foreach (Words word in activeWords)
+                {
+                    word.SetVisible(false);
+                }
+            }
         }
 
         public void Stop()

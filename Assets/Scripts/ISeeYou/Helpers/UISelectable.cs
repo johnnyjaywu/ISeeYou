@@ -9,7 +9,7 @@ namespace ISeeYou
     /// Responsibility: Manages the Logical Selection State (Selected/Deselected).
     /// Enforces "Single Selection" logic within the system.
     /// </summary>
-    public class UISelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public class UISelectable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler
     {
         // Global Tracker for Single Selection Logic
         private static UISelectable currentlySelected;
@@ -19,6 +19,7 @@ namespace ISeeYou
         public event Action<bool> OnHoverChanged;      // true = enter, false = exit
         public event Action<bool> OnSelectionChanged;  // true = selected, false = deselected
         public event Action OnConfirm;                 // Fired if clicked while ALREADY selected
+        public event Action OnClickStarted; // TODO: TEMP
 
         [Header("Selection Logic")]
         [SerializeField] private bool allowDeselection = true;
@@ -46,10 +47,16 @@ namespace ISeeYou
             OnHoverChanged?.Invoke(false);
         }
 
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            OnClickStarted?.Invoke(); // TODO: TEMP
+        }
+        
         public void OnPointerClick(PointerEventData eventData)
         {
+            
             // Ignore clicks if we just finished dragging this item
-            if (eventData.dragging) return; 
+            if (eventData.dragging) return;
 
             if (autoSelectOnClick)
             {

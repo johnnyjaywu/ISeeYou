@@ -46,6 +46,7 @@ namespace ISeeYou
         // Surfaced Selection Events (passes 'this' for easy identification by managers)
         public event Action<Words, bool> OnSelectionChanged;
         public event Action<Words> OnWordConfirmed;
+        public event Action<Words> OnWordClicked;
 
         private WordsData wordsData;
         private RectTransform rectTransform;
@@ -71,7 +72,7 @@ namespace ISeeYou
                 textComponent.textWrappingMode = TextWrappingModes.NoWrap;
                 textComponent.overflowMode = TextOverflowModes.Overflow;
             }
-            
+
             // TODO: Temp draggable
             draggable = GetComponent<Draggable>();
         }
@@ -80,6 +81,7 @@ namespace ISeeYou
         {
             if (selectable != null)
             {
+                selectable.OnClickStarted += HandleInternalClickStarted;
                 selectable.OnSelectionChanged += HandleInternalSelection;
                 selectable.OnConfirm += HandleInternalConfirm;
                 selectable.OnHoverChanged += SelectableOnOnHoverChanged;
@@ -90,6 +92,7 @@ namespace ISeeYou
 
         // TODO TEMP
         private Draggable draggable;
+
         private void SelectableOnOnHoverChanged(bool enter)
         {
             if (!draggable.isActiveAndEnabled) return;
@@ -104,8 +107,10 @@ namespace ISeeYou
         {
             if (selectable != null)
             {
+                selectable.OnClickStarted -= HandleInternalClickStarted;
                 selectable.OnSelectionChanged -= HandleInternalSelection;
                 selectable.OnConfirm -= HandleInternalConfirm;
+                selectable.OnHoverChanged -= SelectableOnOnHoverChanged;
             }
 
             tracker.Clear();
@@ -125,6 +130,12 @@ namespace ISeeYou
         // -------------------------------------------------------------------------
         // 3. EVENT HANDLERS
         // -------------------------------------------------------------------------
+
+        private void HandleInternalClickStarted()
+        {
+            Debug.Log($"Clicked {this.name}");
+            OnWordClicked?.Invoke(this);
+        }
 
         private void HandleInternalSelection(bool selected)
         {
@@ -173,7 +184,7 @@ namespace ISeeYou
             CurrentState = LogicState.Normal;
 
             SetVisible(setVisible);
-            
+
             // Ensure selection state is reset on re-initialization
             if (selectable.IsSelected) selectable.Deselect();
 
@@ -195,29 +206,33 @@ namespace ISeeYou
             onComplete?.Invoke();
         }
 
-        private TimerHandle shakeTimer;
-        public void ShakeInterval()
+        // private TimerHandle shakeTimer;
+        // public void ShakeInterval()
+        // {
+        //     if (shakeTimer is { IsValid: true, IsRunning: true })
+        //         shakeTimer.Stop();
+        //     animator.Stop();
+        //     animator.Shake();
+        //     shakeTimer = Timer.Stopwatch(this).OnInterval(2, () => animator.Shake());
+        // }
+        //
+        // public void StopShake()
+        // {
+        //     if (shakeTimer is { IsValid: true, IsRunning: true })
+        //         shakeTimer.Stop();
+        // }
+
+        public void FadeOut(float delay = 1f, Action onFinish = null)
         {
-            if (shakeTimer is { IsValid: true, IsRunning: true })
-                shakeTimer.Stop();
-            animator.Stop();
-            animator.Shake();
-            shakeTimer = Timer.Stopwatch(this).OnInterval(2, () => animator.Shake());
+            // animator.Stop();
+            Debug.Log($"{name} Fade Out started");
+            animator.On(AnimLayer.Lifecycle)
+                .Delay(delay)
+                .FadeOut()
+                .OnFinish(onFinish)
+                .Play();
         }
 
-        public void StopShake()
-        {
-            if (shakeTimer is { IsValid: true, IsRunning: true })
-                shakeTimer.Stop();
-        }
-        
-        public void FadeOut(Action onFinish = null)
-        {
-            StopShake();
-            animator.Stop();
-            animator.Delay(0.5f).FadeOut().OnFinish(onFinish).Play();
-        }
-        
         public void SetVisible(bool visible)
         {
             textComponent.enabled = visible;

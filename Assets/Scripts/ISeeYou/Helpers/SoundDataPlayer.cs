@@ -21,15 +21,27 @@ namespace ISeeYou
         {
             if (!playOnEnable) return;
 
+            Play();
+        }
+
+        private void OnDisable()
+        {
+            if (!playOnEnable) return;
+            Stop();
+        }
+
+        [Button]
+        public void Play()
+        {
             if (soundHandle is { IsPlaying: true })
                 soundHandle.Resume();
             else
                 soundHandle = sound.Play();
         }
 
-        private void OnDisable()
+        [Button]
+        public void Stop()
         {
-            if (!playOnEnable) return;
             if (soundHandle is { IsPlaying: true })
                 soundHandle.Pause();
         }

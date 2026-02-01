@@ -132,12 +132,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 652435914}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[0].autoPlay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[0].maskingWords.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: 'lines.Array.data[0].maskingWords.Array.data[0]'
-      value: Ginny? Ginnifer? Who was it again?
+      value: Helllooo
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: 'lines.Array.data[0].maskingWords.Array.data[1]'
-      value: Omg whatever.
+      value: asdfasdfasdf
       objectReference: {fileID: 0}
     - target: {fileID: 4729068256503548971, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: m_Name
@@ -1199,7 +1207,7 @@ GameObject:
   - component: {fileID: 906256941}
   - component: {fileID: 906256940}
   m_Layer: 0
-  m_Name: SoundDataPlayer
+  m_Name: Ambient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1409,14 +1417,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  duration: 3
-  ease: 6
+  defaultDuration: 0.3
+  defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
   shakeFrequency: 10
-  onSequenceComplete:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!225 &1003466781
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1877,6 +1882,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236839909}
   m_CullTransparentMesh: 1
+--- !u!1 &1621726259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1621726261}
+  - component: {fileID: 1621726260}
+  m_Layer: 0
+  m_Name: Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1621726260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621726259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 015c1af1c1a455e4782e4b73bc78fda5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ISeeYou::ISeeYou.SoundDataPlayer
+  sound: {fileID: 11400000, guid: 8ea8e8e3131877447a1f199dd725b960, type: 2}
+  playOnEnable: 0
+--- !u!4 &1621726261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621726259}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.1402, y: -0.51565, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1666411088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,6 +2367,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 162226970}
     m_Modifications:
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: emptyColor.b
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: emptyColor.g
+      value: 0.5411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: emptyColor.r
+      value: 0.49411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: filledColor.b
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: filledColor.g
+      value: 0.5411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: filledColor.r
+      value: 0.49411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: highlightColor.b
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: highlightColor.g
+      value: 0.5411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: highlightColor.r
+      value: 0.49411765
+      objectReference: {fileID: 0}
     - target: {fileID: 2385678904895206129, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -2396,6 +2483,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5441783137088341781, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441783137088341781, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 5441783137088341781, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: m_Color.r
+      value: 0.49411768
+      objectReference: {fileID: 0}
     - target: {fileID: 6922463056645423576, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
       propertyPath: id
       value: Ellie
@@ -2453,6 +2552,42 @@ PrefabInstance:
       propertyPath: conversationController
       value: 
       objectReference: {fileID: 7182870}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: emptyColor.b
+      value: 0.2901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: emptyColor.g
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: emptyColor.r
+      value: 0.7607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: filledColor.b
+      value: 0.2901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: filledColor.g
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: filledColor.r
+      value: 0.7607843
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: highlightColor.b
+      value: 0.2901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: highlightColor.g
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: highlightColor.r
+      value: 0.7607843
+      objectReference: {fileID: 0}
     - target: {fileID: 5828434777298242125, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
       propertyPath: m_Name
       value: Gina
@@ -2541,6 +2676,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7684103109663913112, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: m_Color.b
+      value: 0.2901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 7684103109663913112, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: m_Color.g
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 7684103109663913112, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: m_Color.r
+      value: 0.7607844
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2554,4 +2701,5 @@ SceneRoots:
   - {fileID: 162226970}
   - {fileID: 72888970}
   - {fileID: 906256941}
+  - {fileID: 1621726261}
   - {fileID: 7182869}
