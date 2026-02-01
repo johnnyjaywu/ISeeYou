@@ -132,12 +132,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 652435914}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.size
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[0].text
+      value: 'Gina? asdfadsf asdfadsfad 321 1234 423 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].text
+      value: '[Title Drop]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].autoPlay
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[0].maskingLines.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].maskingWords.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: 'lines.Array.data[0].maskingLines.Array.data[0]'
+      value: asdfa
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: 'lines.Array.data[0].maskingLines.Array.data[1]'
+      value: hehcvbn
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: 'lines.Array.data[0].maskingLines.Array.data[2]'
+      value: 12341234
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: 'lines.Array.data[0].maskingWords.Array.data[0]'
@@ -146,6 +174,54 @@ PrefabInstance:
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: 'lines.Array.data[0].maskingWords.Array.data[1]'
       value: asdfasdfasdf
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 7182870}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: DisableInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ISeeYou.FadeInOut, ISeeYou
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: ISeeYou.ConversationController, ISeeYou
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[60].triggerEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4729068256503548971, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: m_Name
@@ -296,7 +372,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7533351685442051261, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: duration
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1114270028536805988, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: m_AnchorMax.x
@@ -415,8 +491,20 @@ PrefabInstance:
       value: MaskBubbleB
       objectReference: {fileID: 0}
     - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
+      propertyPath: minSize.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
+      propertyPath: minSize.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: alignItems
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
+      propertyPath: justifyContent
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: m_Padding.m_Left
@@ -2013,7 +2101,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7533351685442051261, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: duration
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1114270028536805988, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2130,6 +2218,14 @@ PrefabInstance:
     - target: {fileID: 4869021963582043676, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: m_Name
       value: MaskBubbleA
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
+      propertyPath: minSize.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
+      propertyPath: minSize.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6112821707802907500, guid: a5af13174dd0ba540827ec431e9ada08, type: 3}
       propertyPath: alignItems
@@ -2368,16 +2464,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 162226970}
     m_Modifications:
     - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
+      propertyPath: emptyColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
       propertyPath: emptyColor.b
-      value: 0.36862746
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
       propertyPath: emptyColor.g
-      value: 0.5411765
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
       propertyPath: emptyColor.r
-      value: 0.49411765
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 628931816065681523, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
       propertyPath: filledColor.b
@@ -2553,16 +2653,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7182870}
     - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+      propertyPath: emptyColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
       propertyPath: emptyColor.b
-      value: 0.2901961
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
       propertyPath: emptyColor.g
-      value: 0.3137255
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
       propertyPath: emptyColor.r
-      value: 0.7607843
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4770182204538442759, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
       propertyPath: filledColor.b

@@ -21,8 +21,8 @@ MonoBehaviour:
   randomVolume: 0
   pitch: 1
   randomPitch: 0
-  loop: 0
-  fadeInTime: 0
+  loop: 1
+  fadeInTime: 0.5
   fadeOutTime: 0.5
   spatialBlend: 0
   spread: 0

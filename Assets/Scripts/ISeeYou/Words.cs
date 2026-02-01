@@ -86,7 +86,7 @@ namespace ISeeYou
                 selectable.OnConfirm += HandleInternalConfirm;
                 selectable.OnHoverChanged += SelectableOnOnHoverChanged;
             }
-
+            
             MarkLayoutDirty();
         }
 
@@ -205,22 +205,6 @@ namespace ISeeYou
             MarkLayoutDirty();
             onComplete?.Invoke();
         }
-
-        // private TimerHandle shakeTimer;
-        // public void ShakeInterval()
-        // {
-        //     if (shakeTimer is { IsValid: true, IsRunning: true })
-        //         shakeTimer.Stop();
-        //     animator.Stop();
-        //     animator.Shake();
-        //     shakeTimer = Timer.Stopwatch(this).OnInterval(2, () => animator.Shake());
-        // }
-        //
-        // public void StopShake()
-        // {
-        //     if (shakeTimer is { IsValid: true, IsRunning: true })
-        //         shakeTimer.Stop();
-        // }
 
         public void FadeOut(float delay = 1f, Action onFinish = null)
         {
