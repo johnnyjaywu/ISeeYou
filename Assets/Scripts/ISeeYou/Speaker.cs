@@ -46,6 +46,7 @@ namespace ISeeYou
             if (words == null) return;
             if (activeThoughtWords.Contains(words))
             {
+                thoughtBubble.SetLock(true);
                 words.FadeOut(() =>
                 {
                     Destroy(words.gameObject);
@@ -79,7 +80,6 @@ namespace ISeeYou
 
         public void ShowNextThought()
         {
-            // Just for saftey, check current line and queue again
             if (currentDialogLine.thoughts.IsNullOrEmpty() || currentThoughts.Count == 0)
             {
                 // No more thoughts, free the input
@@ -89,13 +89,22 @@ namespace ISeeYou
             }
 
             string nextThought = currentThoughts.Dequeue();
-            activeThoughtWords = spawner.SpawnWords(nextThought, thoughtBubble, false);
+            activeThoughtWords = spawner.SpawnWords(nextThought, thoughtBubble.transform, false);
+            activeThoughtWords[0].ShakeInterval();
             thoughtBubble.SetLock(false);
         }
-
+        
+        // private void OnFinishSpawningThought(List<Words> words)
+        // {
+        //     activeWords = words;
+        //     SetEnableContinueInput(true);
+        // }
+        
         public void ShowCurrentLine()
         {
-            activeWords = spawner.SpawnWords(currentDialogLine.text, speechBubble);
+            // activeWords = spawner.SpawnWords(currentDialogLine.text, speechBubble);
+            SetEnableContinueInput(false);
+            spawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, true, OnFinishSpawningSpeech);
             speechBubble.SetLock(true);
 
             // Play Audio
@@ -105,6 +114,12 @@ namespace ISeeYou
                     soundHandle.Stop();
                 soundHandle = currentDialogLine.voiceLine.Play();
             }
+        }
+
+        private void OnFinishSpawningSpeech(List<Words> words)
+        {
+            activeWords = words;
+            SetEnableContinueInput(true);
         }
 
         public void Stop()
@@ -134,10 +149,11 @@ namespace ISeeYou
             }
         }
 
-        [Button]
-        public void Lock() => speechBubble?.SetLock(true);
-
-        [Button]
-        public void Unlock() => speechBubble?.SetLock(false);
+        private void SetEnableContinueInput(bool enableInput)
+        {
+            if (conversationController == null) return;
+            if (enableInput) conversationController.EnableInput();
+            else conversationController.DisableInput();
+        }
     }
 }

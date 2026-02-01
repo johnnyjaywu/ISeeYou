@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ContentContent;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -177,8 +178,26 @@ namespace ISeeYou
             onComplete?.Invoke();
         }
 
+        private TimerHandle shakeTimer;
+        public void ShakeInterval()
+        {
+            if (shakeTimer is { IsValid: true, IsRunning: true })
+                shakeTimer.Stop();
+            animator.Stop();
+            animator.Shake();
+            shakeTimer = Timer.Stopwatch(this).OnInterval(2, () => animator.Shake());
+        }
+
+        public void StopShake()
+        {
+            if (shakeTimer is { IsValid: true, IsRunning: true })
+                shakeTimer.Stop();
+        }
+        
         public void FadeOut(Action onFinish = null)
         {
+            StopShake();
+            animator.Stop();
             animator.Delay(0.5f).FadeOut().OnFinish(onFinish);
         }
         

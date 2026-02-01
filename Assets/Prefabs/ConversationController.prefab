@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 4729068256503548971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0112, y: -0.42798, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48,224 +48,228 @@ MonoBehaviour:
   lines:
   - speakerID: b
     text: Hey!
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: Hi!
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: It's good to see you! How are you?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
-    text: I'm okay. Just tired.
-    subTexts: []
+    text: I'm great!
+    thoughts:
+    - I'm okay. Just tired.
+    - Pretty good.
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: How are you?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
-    text: Also tired.
-    subTexts: []
+    text: Great!
+    thoughts:
+    - Really tired.
+    - Good.
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Yeah...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: Should we order something?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Yeah! Let's see...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: So...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: How come you called me?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: What?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: I don't know. We just haven't spoken in so long...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: It was my birthday a few weeks ago...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: Oh, happy late birthday! Did you do anything?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Yeah. I...threw a party.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: How was that?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Nobody came.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: Oh, God. I'm sorry.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Yeah, I was...really upset.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Just...made me realize how alone I really am.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: I think I know how you feel.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: You spent your birthday alone too?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: I'm always alone.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: I don't have any real reason to leave my apartment.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: What's going on in the news has only made me stay in more too.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: So I just...am always by myself.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Would you ever live with someone?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: I've tried.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: But every time I talk to anyone, I just can't...connect.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -273,105 +277,105 @@ MonoBehaviour:
   - speakerID: a
     text: Like there's this blur that comes over me. And the one person I'm talking
       to just kinda smiles and nods.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: And then they leave.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: They always leave.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: I should've called earlier.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: You didn't know. I didn't know about you either.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: You still didn't answer my question though.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: Why did you call me? Not anyone else?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: I think you're the only person in this city who understands.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: I think every person in this city would understand.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: We just don't talk about it.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -379,49 +383,49 @@ MonoBehaviour:
   - speakerID: a
     text: We should do something for your birthday, though! It was only a few weeks
       ago, right?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: Yeah! What were you thinking?
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: (a bunch of options pop up. all are correct)
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: That sounds great! Thanks!
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: ...
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: b
     text: I'm really glad we did this.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - speakerID: a
     text: I'm glad we did this too.
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -429,7 +433,7 @@ MonoBehaviour:
   currentDialogLine:
     speakerID: 
     text: 
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:

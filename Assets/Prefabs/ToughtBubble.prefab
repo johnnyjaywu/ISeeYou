@@ -151,9 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.DropZoneFeedback
   emptyColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 0}
-  filledColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 0.5019608}
+  filledColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 0.8627451}
+  enableHoverFeedback: 0
   targetImage: {fileID: 8007263310406853255}
-  highlightColor: {r: 0.19245279, g: 0.19245279, b: 0.19245279, a: 1}
+  highlightColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 0.8627451}
   duration: 0.2
   easeType: 6
   hoverScale: 1.05

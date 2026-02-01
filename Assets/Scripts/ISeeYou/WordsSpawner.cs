@@ -1,4 +1,7 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using ContentContent;
 using UnityEngine;
 
 namespace ISeeYou
@@ -7,13 +10,15 @@ namespace ISeeYou
     {
         [Header("Settings")]
         [SerializeField] private Words wordPrefab;
-        
-        public List<Words> SpawnWords(string text, DropZone dropZone, bool splitWords = true)
+
+        private CoroutineHandle spawnRoutine;
+
+        public List<Words> SpawnWords(string text, Transform parent, bool splitWords = true)
         {
             // Auto-clear before spawning to ensure fresh state
-            Clear(dropZone.transform);
+            Clear(parent);
 
-            if (dropZone == null || wordPrefab == null)
+            if (parent == null || wordPrefab == null)
             {
                 Debug.LogError("[WordsSpawner] Missing Container or Prefab.");
                 return null;
@@ -21,15 +26,32 @@ namespace ISeeYou
 
             var parsedTokens = splitWords ? Words.ParseGroupedString(text) : new List<string> { text };
             var spawnedWords = new List<Words>(parsedTokens.Count);
-
             foreach (string token in parsedTokens)
             {
-                Words newWord = Instantiate(wordPrefab, dropZone.transform);
+                Words newWord = Instantiate(wordPrefab, parent.transform);
                 newWord.Initialize(new WordsData { Text = token });
                 spawnedWords.Add(newWord);
             }
 
             return spawnedWords;
+        }
+
+        public void SpawnWithInterval(string text, Transform parent, bool splitWords = true,
+            Action<List<Words>> onFinish = null)
+        {
+            // Auto-clear before spawning to ensure fresh state
+            Clear(parent.transform);
+
+            if (parent == null || wordPrefab == null)
+            {
+                Debug.LogError("[WordsSpawner] Missing Container or Prefab.");
+                return;
+            }
+
+            var parsedTokens = splitWords ? Words.ParseGroupedString(text) : new List<string> { text };
+            if (spawnRoutine is { IsRunning: true })
+                spawnRoutine.Stop();
+            spawnRoutine = SpawnInterval(parsedTokens, parent, onFinish).Run();
         }
 
         /// <summary>
@@ -52,6 +74,22 @@ namespace ISeeYou
 #endif
                 Destroy(child);
             }
+        }
+
+        private IEnumerator SpawnInterval(List<string> parsedTokens, Transform parent, Action<List<Words>> onFinish)
+        {
+            var spawnedWords = new List<Words>(parsedTokens.Count);
+            float interval = 2f / parsedTokens.Count;
+
+            foreach (string token in parsedTokens)
+            {
+                Words newWord = Instantiate(wordPrefab, parent.transform);
+                newWord.Initialize(new WordsData { Text = token });
+                spawnedWords.Add(newWord);
+                yield return new WaitForSeconds(interval);
+            }
+
+            onFinish?.Invoke(spawnedWords);
         }
     }
 }

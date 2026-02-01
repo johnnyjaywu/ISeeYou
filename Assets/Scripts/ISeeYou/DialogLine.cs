@@ -20,6 +20,7 @@ namespace ISeeYou
         public List<string> thoughts;
         
         public SoundData voiceLine;
+        
         public UnityEvent triggerEvent;
 
         public void Speak()

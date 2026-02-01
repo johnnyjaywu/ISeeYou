@@ -104,7 +104,7 @@ MonoBehaviour:
   justifyContent: 0
   alignItems: 1
   spacing: {x: 10, y: 10}
-  minSize: {x: 100, y: 100}
+  minSize: {x: 0, y: 0}
   maxSize: {x: 1000, y: 800}
   forceExpandMainAxis: 0
   forceExpandCrossAxis: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa8530a686942fbbe8422739df7d0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.DropZone
-  isLocked: 0
+  isLocked: 1
   maxCapacity: -1
   minOverlapPercent: 0.2
   disablePhysicsOnDrop: 1
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: ISeeYou::ISeeYou.DropZoneFeedback
   emptyColor: {r: 0.50980395, g: 0.6156863, b: 0.91764706, a: 0}
   filledColor: {r: 0.50980395, g: 0.6156863, b: 0.91764706, a: 1}
+  enableHoverFeedback: 0
   targetImage: {fileID: 5441783137088341781}
   highlightColor: {r: 0.33402357, g: 0.48554122, b: 0.91764706, a: 1}
   duration: 0.2
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e179f8bde464998a1bc5b51ceba758e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.WordsSpawner
-  wordPrefab: {fileID: 0}
+  wordPrefab: {fileID: 9129343402878969084, guid: 8de931046eb611d468db0df15c34da6b, type: 3}
 --- !u!114 &6922463056645423576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,13 +185,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e2696af24b349c391e981fbee124347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.Speaker
-  id: 
-  dropZone: {fileID: 0}
+  id: b
+  speechBubble: {fileID: 2863149765071551559}
+  thoughtBubble: {fileID: 0}
   currentDialogLine:
     speakerID: 
     text: 
-    subTexts: []
+    thoughts: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
+  conversationController: {fileID: 0}

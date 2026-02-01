@@ -20,6 +20,7 @@ namespace ISeeYou
         [SerializeField] private Color filledColor = new Color(1f, 1f, 1f, 1f);
 
         [Header("Interaction Feedback")]
+        [SerializeField] private bool enableHoverFeedback = true;
         [SerializeField] private Image targetImage;
         [SerializeField] private Color highlightColor = new Color(0.5f, 1f, 0.5f, 0.5f);
         
@@ -65,6 +66,7 @@ namespace ISeeYou
 
         private void HandleZoneEnter(Draggable item)
         {
+            if (!enableHoverFeedback) return;
             isHovering = true;
             ApplyVisuals(highlightColor, originalScale * hoverScale);
         }
