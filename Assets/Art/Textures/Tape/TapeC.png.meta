@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f5acdee4e18e845e7abe12fd52820c09
+guid: 06a7654deea124a8f82adc2088f9c99f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2111532286714065364
-    second: GGJ_2026_Iseeyou_0
+      213: -1194286137124381416
+    second: TapeC_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -54,7 +54,7 @@ TextureImporter:
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
-  alphaUsage: 0
+  alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GGJ_2026_Iseeyou_0
+      name: TapeC_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 1080
+        width: 692
+        height: 185
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c2ec3a6929452b2e0800000000000000
-      internalID: -2111532286714065364
+      spriteID: 81d178cf51b0d6fe0800000000000000
+      internalID: -1194286137124381416
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      GGJ_2026_Iseeyou_0: -2111532286714065364
+      TapeC_0: -1194286137124381416
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
