@@ -198,20 +198,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &126587126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: UI/Submit
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  m_ActionId: 7607c7b6-cd76-4816-beef-bd0341cfe950
 --- !u!1 &162226966
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,6 +752,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 976290167}
   m_CullTransparentMesh: 1
+--- !u!114 &1107998504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: UI/Click
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
 --- !u!1 &1233083163
 GameObject:
   m_ObjectHideFlags: 0
@@ -981,144 +981,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 465718279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1653980929
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1653980931}
-  - component: {fileID: 1653980930}
-  m_Layer: 0
-  m_Name: ConversationController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1653980930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653980929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98158282d4a0937469597bd837ae0ecf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: ISeeYou::ISeeYou.ConversationController
-  continueInputs:
-  - {fileID: 2121733620}
-  - {fileID: 126587126}
-  lines:
-  - speakerID: b
-    text: Hey
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: a
-    text: Hi!
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: a
-    text: It's so good to see you! How are you?
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: b
-    text: Great!
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: b
-    text: How are you?
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: a
-    text: Good!
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: b
-    text: Yeah...
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: a
-    text: ...
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: a
-    text: Should we order something?
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - speakerID: b
-    text: Yeah! Let's see...
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 9030011654879077876}
-          m_TargetAssemblyTypeName: ISeeYou.Speaker, ISeeYou
-          m_MethodName: Unlock
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  currentDialogLine:
-    speakerID: 
-    text: 
-    subTexts: []
-    voiceLine: {fileID: 0}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
---- !u!4 &1653980931
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653980929}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0112, y: -0.42798, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1757398375
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,20 +1104,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 465718279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2121733620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: UI/Click
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
 --- !u!224 &2662881324042031504 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7517513115052337670, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
@@ -1266,6 +1114,110 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2385678904895206129, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
   m_PrefabInstance: {fileID: 4554756937124677503}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3437056928033471048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781982250576591399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98158282d4a0937469597bd837ae0ecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ISeeYou::ISeeYou.ConversationController
+  continueInput: {fileID: 1107998504}
+  lines:
+  - speakerID: b
+    text: Hey
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: a
+    text: Hi!
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: a
+    text: It's so good to see you! How are you?
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: b
+    text: Great!
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: b
+    text: How are you?
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: a
+    text: Good!
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: b
+    text: Yeah...
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: a
+    text: ...
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: a
+    text: Should we order something?
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerID: b
+    text: Yeah! Let's see...
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 9030011654879077876}
+          m_TargetAssemblyTypeName: ISeeYou.Speaker, ISeeYou
+          m_MethodName: Unlock
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  currentDialogLine:
+    speakerID: 
+    text: 
+    subTexts: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1001 &4554756937124677503
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1508,6 +1460,23 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99734b02f042ac0489073fa826a3fd47, type: 3}
+--- !u!1 &6781982250576591399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8083698972326514156}
+  - component: {fileID: 3437056928033471048}
+  m_Layer: 0
+  m_Name: ConversationController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!114 &7312957512645131023 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2863149765071551559, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
@@ -1530,6 +1499,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa8530a686942fbbe8422739df7d0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.DropZone
+--- !u!4 &8083698972326514156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6781982250576591399}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0112, y: -0.42798, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9030011654879077876 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6922463056645423576, guid: 6234b9c7c7d77bf4cb5b29a332a28e3f, type: 3}
@@ -1551,4 +1535,4 @@ SceneRoots:
   - {fileID: 1757398377}
   - {fileID: 465718279}
   - {fileID: 906256941}
-  - {fileID: 1653980931}
+  - {fileID: 8083698972326514156}

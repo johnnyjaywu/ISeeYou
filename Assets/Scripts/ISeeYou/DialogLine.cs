@@ -18,7 +18,6 @@ namespace ISeeYou
         [TextArea(3, 5), ResizableTextArea]
         public List<string> subTexts;
         
-        
         public SoundData voiceLine;
         public UnityEvent triggerEvent;
 

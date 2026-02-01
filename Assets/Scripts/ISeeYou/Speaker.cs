@@ -13,7 +13,7 @@ namespace ISeeYou
         [ReadOnly, SerializeField] private DialogLine currentDialogLine;
 
         public string ID => id;
-        
+
         // Dependencies
         private WordsSpawner spawner;
         private SoundHandle soundHandle;
@@ -30,7 +30,7 @@ namespace ISeeYou
         public void Speak(DialogLine dialogLineToPlay)
         {
             currentDialogLine = dialogLineToPlay;
-            currentActiveWords = spawner.SpawnPhrase(dialogLineToPlay.text, dropZone);
+            currentActiveWords = spawner.SpawnWords(dialogLineToPlay.text, dropZone);
             dropZone.SetLock(true);
 
             // Play Audio
