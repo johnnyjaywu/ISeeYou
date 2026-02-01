@@ -17,7 +17,7 @@ MonoBehaviour:
   playOrder: 0
   outputGroup: {fileID: 5254060167387934490, guid: 97e5de8f8f29d384ba2a4a68925dd376, type: 2}
   playRandom: 1
-  volume: 1
+  volume: 0.041
   randomVolume: 0
   pitch: 1
   randomPitch: 0

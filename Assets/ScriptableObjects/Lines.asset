@@ -14,12 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: ISeeYou::ISeeYou.LinesData
   lines:
   - text: Hello asldfmadkls [my name is] blah
-    voiceLine: {fileID: 0}
-  - text: ahhh
-    voiceLine: {fileID: 0}
+    voiceLine: {fileID: 11400000, guid: d65bfeca0c0c43f4f9058869e44f6dc2, type: 2}
+  - text: Hello asldfmadkls [my name is] blahHello asldfmadkls [my name is] blahHello
+      asldfmadkls [my name is] blahHello asldfmadkls [my name is] blahHello asldfmadkls
+      [my name is] blahHello asldfmadkls [my name is] blahHello asldfmadkls [my name
+      is] blahHello asldfmadkls [my name is] blahHello asldfmadkls [my name is] blahHello
+      asldfmadkls [my name is] blah
+    voiceLine: {fileID: 11400000, guid: 5bba38a22d08bb14da34964cfdde2088, type: 2}
   - text: omg
-    voiceLine: {fileID: 0}
+    voiceLine: {fileID: 11400000, guid: 92f27033f428df947b5ecd555716956c, type: 2}
   - text: this is too much
-    voiceLine: {fileID: 0}
+    voiceLine: {fileID: 11400000, guid: a7d736b7003a9a74b9ae77063026f38b, type: 2}
   - text: panic panic panic
-    voiceLine: {fileID: 0}
+    voiceLine: {fileID: 11400000, guid: 51d84ef4a4f29574598605f8a41319d6, type: 2}
