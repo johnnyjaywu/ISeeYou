@@ -104,7 +104,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Yeah! Yeah, It has\u2026"
+  - text: "Yeah, It has\u2026"
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -124,7 +124,7 @@ MonoBehaviour:
     speakerID: Ellie
     autoPlay: 0
     maskingLines:
-    - "[Oh, sorry!][ I\u2019m actually on my way][ to another thing.]"
+    - "[Oh, sorry!][ I\u2019m on my way][ to another thing.]"
     - "[Maybe\u2026][I don\u2019t have][ a lot of time, though.]"
     voiceLine: {fileID: 0}
     triggerEvent:
@@ -154,7 +154,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: So what brings you back? I thought you moved to like Seattle or something.
+  - text: 'So what brings you back here? '
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -162,7 +162,15 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Yeah, I did. It just\u2026wasn\u2019t a fit. "
+  - text: Didn't you move to Seattle or something?
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "Yeah, I did. It just wasn\u2019t a fit. "
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -170,7 +178,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: It happens!
+  - text: That's okay! It happens.
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -186,7 +194,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Yeah! Yeah, I\u2019m just at the bookstore next door."
+  - text: "Yeah! I\u2019m just at the bookstore next door."
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -210,8 +218,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Oh, I\u2026can\u2019t really answer that question. Just depends on who
-      you are."
+  - text: Oh, um...
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -219,7 +226,15 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "That\u2019s fair!"
+  - text: I guess it just depends on what you like.
+    speakerID: Ellie
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: "That\u2019s fair."
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -235,7 +250,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "Whatever it is you\u2019re doing, keep it up!"
+  - text: It really is good to see you again.
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -264,7 +279,7 @@ MonoBehaviour:
     autoPlay: 0
     maskingLines:
     - '[Sorry,][ nevermind.]'
-    - '[I should get ][going.]'
+    - '[I should get going.]'
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -277,7 +292,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "The bookstore is only part time, so I\u2019m living off savings."
+  - text: The bookstore is only part time.
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -323,13 +338,13 @@ MonoBehaviour:
     speakerID: Ellie
     autoPlay: 0
     maskingLines:
-    - "[Yeah,][ I\u2019m throwing a][ party!]"
+    - "[Yeah,][ I\u2019m throwing a party!]"
     - '[No,][ but I prefer it][ that way.]'
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: But the people I reached out to who still live here all ghosted me.
+  - text: Everyone I reached out to didn't respond.
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -337,8 +352,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "My parents are still mad about Seattle, so I\u2019m not really talking
-      to them right now."
+  - text: "I\u2019m not really talking to my parents right now."
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -346,8 +360,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "And like\u2026with the news and all, I\u2019m just too scared to go out
-      anyway."
+  - text: "And with the news and all, I\u2019m just too scared to go out."
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -363,19 +376,26 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "I\u2019m so tired of being alone."
+  - text: "You have no idea how alone I\u2019ve felt."
     speakerID: Ellie
     autoPlay: 0
     maskingLines:
     - "[Sorry.][ I didn\u2019t mean][ to hog the][ conversation.]"
-    - "[Sorry,][ I didn\u2019t][ mean to][ complain.]"
+    - "[ I don\u2019t][ mean to][ complain.]"
     - '[I really][ appreciate you][ listening.]'
-    - "[You have no idea][ how alone][ I\u2019ve felt.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
   - text: Oh, Elena...
+    speakerID: Gina
+    autoPlay: 0
+    maskingLines: []
+    voiceLine: {fileID: 0}
+    triggerEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - text: I'm so sorry.
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -391,7 +411,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "I can\u2019t ask you to do that."
+  - text: You don't have to do that.
     speakerID: Ellie
     autoPlay: 0
     maskingLines: []
@@ -399,7 +419,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "It\u2019s your birthday!"
+  - text: "It\u2019s your birthday! I want to."
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -425,8 +445,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "You\u2019re not alone in any of this. I think everyone is going through
-      something right now."
+  - text: "You\u2019re not alone in any of this."
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -434,8 +453,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "You\u2019re definitely not alone in any of this. I think everyone is going
-      through something right now."
+  - text: I think everyone is going through something right now.
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -467,7 +485,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: We should definitely do something for your birthday.
+  - text: But we should definitely do something for your birthday.
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -475,8 +493,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: I actually know a bakery right around the corner that could make you a
-      cake. My treat.
+  - text: I actually know a bakery that could make you a cake. My treat.
     speakerID: Gina
     autoPlay: 0
     maskingLines: []
@@ -492,7 +509,7 @@ MonoBehaviour:
     triggerEvent:
       m_PersistentCalls:
         m_Calls: []
-  - text: "\u2026Yeah. That\u2019d be great."
+  - text: "\u2026Yeah. That\u2019d be great. "
     speakerID: Ellie
     autoPlay: 0
     maskingLines:
