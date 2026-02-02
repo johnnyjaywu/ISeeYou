@@ -27,6 +27,10 @@ namespace ISeeYou
                 inputAction.performed += OnInputPerformed;
         }
 
+        private void Start()
+        {
+        }
+
         private void OnDestroy()
         {
             if (inputAction != null)
@@ -36,7 +40,6 @@ namespace ISeeYou
         private void OnEnable()
         {
             EnableInput();
-            PlayNextLine();
         }
 
         private void OnDisable()
