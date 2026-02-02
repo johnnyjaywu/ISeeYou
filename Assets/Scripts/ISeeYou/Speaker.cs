@@ -58,6 +58,7 @@ namespace ISeeYou
 
         private void HandleMaskWordClicked(Words words)
         {
+            if (currentDialogLine.autoPlay) return;
             if (activeMaskWords.Contains(words))
             {
                 // maskingBubble.SetLock(true);
@@ -181,13 +182,17 @@ namespace ISeeYou
                 foreach (Words word in activeWords)
                 {
                     word.SetVisible(false);
-                    word.SetActive(false);
+                    // word.SetActive(false);
                 }
             }
         }
 
         public void Stop()
         {
+            if (autoPlayNextLineHandle.IsValid) autoPlayNextLineHandle.Stop();
+            if (autoPlayHandle.IsValid) autoPlayHandle.Stop();
+            
+            currentDialogLine = default;
             ClearWords();
             ClearMaskingWords();
 
@@ -220,23 +225,46 @@ namespace ISeeYou
             else conversationController.DisableInput();
         }
 
+        private TimerHandle autoPlayNextLineHandle;
+
         private void RevealTruth()
         {
             // We don't actually reveal if auto play
             if (currentDialogLine.autoPlay)
             {
-                // Timer.Countdown(3f, this).OnFinish(() => conversationController.PlayNextLine());
-                conversationController.PlayNextLine();
+                if (autoPlayNextLineHandle.IsValid) autoPlayNextLineHandle.Stop();
+
+                autoPlayNextLineHandle =
+                    Timer.Countdown(2f, this).OnFinish(() => conversationController.PlayNextLine());
+                // conversationController.PlayNextLine();
                 return;
             }
-         
+
             // Free the input
-            Timer.Countdown(1f, this).OnFinish(() => SetEnableContinueInput(true));
-   
+            // Timer.Countdown(1f, this).OnFinish(() =>
+            // {
+            //     SetEnableContinueInput(true);
+            //     // Show the words 
+            //     foreach (Words word in activeWords)
+            //     {
+            //         word.SetActive(true);
+            //         word.SetVisible(true);
+            //     }
+            //
+            //     // Play Audio
+            //     if (currentDialogLine.voiceLine != null)
+            //     {
+            //         if (soundHandle is { IsPlaying: true })
+            //             soundHandle.Stop();
+            //         soundHandle = currentDialogLine.voiceLine.Play();
+            //     }
+            // });
+
+            SetEnableContinueInput(true);
             // Show the words 
             foreach (Words word in activeWords)
             {
-                word.SetActive(true);
+                // word.SetActive(true);
                 word.SetVisible(true);
             }
 
@@ -249,13 +277,12 @@ namespace ISeeYou
             }
         }
 
+        private TimerHandle autoPlayHandle;
         private void DoAutoPlay()
         {
             maskingBubble.SetLock(true);
-            Timer.Countdown(3f, this).OnFinish(() =>
-            {
-                ShowNextMask();
-            });
+            if (autoPlayHandle.IsValid) autoPlayHandle.Stop();
+            autoPlayHandle = Timer.Countdown(3f, this).OnFinish(() => { ShowNextMask(); });
         }
     }
 }
