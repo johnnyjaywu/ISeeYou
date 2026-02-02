@@ -91,7 +91,6 @@ MonoBehaviour:
     autoPlay: 1
     maskingLines:
     - "[I\u2019m great! How are you?]"
-    - "[I\u2019ve been pretty good.]"
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:
@@ -512,8 +511,7 @@ MonoBehaviour:
   - text: "\u2026Yeah. That\u2019d be great. "
     speakerID: Ellie
     autoPlay: 0
-    maskingLines:
-    - "[\u2026Yeah. That\u2019d be great.]"
+    maskingLines: []
     voiceLine: {fileID: 0}
     triggerEvent:
       m_PersistentCalls:

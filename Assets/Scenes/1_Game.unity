@@ -130,7 +130,7 @@ PrefabInstance:
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: continueInput
       value: 
-      objectReference: {fileID: 767716072}
+      objectReference: {fileID: 1025763302}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].text
       value: Gina?
@@ -153,7 +153,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[5].text
-      value: "I\u2019m great! How are you?"
+      value: Okay. Just tired.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[6].text
@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[7].text
-      value: "Yeah! Yeah, It has\u2026"
+      value: "Yeah, It has\u2026"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[8].text
@@ -181,187 +181,193 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[13].text
-      value: So what brings you back? I thought you moved to like Seattle or something.
+      value: 'So what brings you back here? '
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[14].text
-      value: "Yeah, I did. It just\u2026wasn\u2019t a fit. "
+      value: Didn't you move to Seattle or something?
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[15].text
-      value: It happens!
+      value: "Yeah, I did. It just wasn\u2019t a fit. "
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[16].text
-      value: And you got a job out here?
+      value: That's okay! It happens.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[17].text
-      value: "Yeah! Yeah, I\u2019m just at the bookstore next door."
+      value: And you got a job out here?
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[18].text
-      value: Oh, no way, I love that place!
+      value: "Yeah! I\u2019m just at the bookstore next door."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[19].text
-      value: Anything you recommend?
+      value: Oh, no way, I love that place!
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[20].text
-      value: "Oh, I\u2026can\u2019t really answer that question. Just depends on
-        who you are."
+      value: Anything you recommend?
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[21].text
-      value: "That\u2019s fair!"
+      value: Oh, um...
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[22].text
-      value: "\u2026Well, I\u2019m glad to hear you\u2019re doing well!!"
+      value: I guess it just depends on what you like.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[23].text
-      value: "Whatever it is you\u2019re doing, keep it up!"
+      value: "That\u2019s fair."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[24].text
-      value: "\u2026"
+      value: "\u2026Well, I\u2019m glad to hear you\u2019re doing well!!"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[25].text
-      value: "Actually, um\u2026"
+      value: It really is good to see you again.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[26].text
-      value: "I\u2019m not\u2026doing well."
+      value: "\u2026"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[27].text
-      value: "I got fired. That\u2019s why I moved back."
+      value: "Actually, um\u2026"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[28].text
-      value: "The bookstore is only part time, so I\u2019m living off savings."
+      value: "I\u2019m not\u2026doing well."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[29].text
-      value: "The only reason I\u2019m even eating out at all is\u2026"
+      value: "I got fired. That\u2019s why I moved back."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[30].text
-      value: "Well\u2026it\u2019s my birthday."
+      value: The bookstore is only part time.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[31].text
-      value: 'Oh, my God! Happy birthday! '
+      value: "The only reason I\u2019m even eating out at all is\u2026"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[32].text
-      value: Did you have any plans?
+      value: "Well\u2026it\u2019s my birthday."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[33].text
-      value: I wish I did.
+      value: 'Oh, my God! Happy birthday! '
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[34].text
-      value: But the people I reached out to who still live here all ghosted me.
+      value: Did you have any plans?
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[35].text
-      value: "My parents are still mad about Seattle, so I\u2019m not really talking
-        to them right now."
+      value: I wish I did.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[36].text
-      value: "And like\u2026with the news and all, I\u2019m just too scared to go
-        out anyway."
+      value: Everyone I reached out to didn't respond.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[37].text
-      value: This was just the one nice thing I could do for myself.
+      value: "I\u2019m not really talking to my parents right now."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[38].text
-      value: "I\u2019m so tired of being alone."
+      value: "And with the news and all, I\u2019m just too scared to go out."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[39].text
-      value: Oh, Elena...
+      value: This was just the one nice thing I could do for myself.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[40].text
-      value: "Here, I\u2019ll get your food. What did you order again?"
+      value: "You have no idea how alone I\u2019ve felt."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[41].text
-      value: "I can\u2019t ask you to do that."
+      value: Oh, Elena...
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[42].text
-      value: "It\u2019s your birthday!"
+      value: I'm so sorry.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[43].text
-      value: "\u2026Thank you."
+      value: "Here, I\u2019ll get your food. What did you order again?"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[44].text
+      value: You don't have to do that.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[45].text
+      value: "It\u2019s your birthday! I want to."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[46].text
+      value: "\u2026Thank you."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[47].text
       value: 'Of course.
 
 '
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[45].text
-      value: "You\u2019re not alone in any of this. I think everyone is going through
-        something right now."
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[46].text
-      value: "You\u2019re definitely not alone in any of this. I think everyone is
-        going through something right now."
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[47].text
-      value: "And we all just\u2026not talk about it."
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[48].text
-      value: We only talk about the weather.
+      value: "You\u2019re not alone in any of this."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[49].text
-      value: <i>God, why is it always the weather?!</i>
+      value: I think everyone is going through something right now.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[50].text
-      value: We should definitely do something for your birthday.
+      value: "And we all just\u2026not talk about it."
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[51].text
-      value: I actually know a bakery right around the corner that could make you
-        a cake. My treat.
+      value: We only talk about the weather.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[52].text
-      value: How does that sound?
+      value: <i>God, why is it always the weather?!</i>
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[53].text
-      value: "\u2026Yeah. That\u2019d be great."
+      value: But we should definitely do something for your birthday.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[54].text
-      value: Thank you.
+      value: I actually know a bakery that could make you a cake. My treat.
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[55].text
+      value: How does that sound?
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[56].text
+      value: "\u2026Yeah. That\u2019d be great. "
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[57].text
+      value: Thank you.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].text
       value: '[Title Drop]'
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[5].autoPlay
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[6].autoPlay
@@ -408,80 +414,80 @@ PrefabInstance:
       value: Gina
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[14].speakerID
-      value: Ellie
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[15].speakerID
-      value: Gina
+      value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[17].speakerID
-      value: Ellie
+      propertyPath: lines.Array.data[16].speakerID
+      value: Gina
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[18].speakerID
-      value: Gina
+      value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[20].speakerID
-      value: Ellie
+      propertyPath: lines.Array.data[19].speakerID
+      value: Gina
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[21].speakerID
-      value: Gina
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[24].speakerID
       value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[31].speakerID
+      propertyPath: lines.Array.data[23].speakerID
       value: Gina
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[26].speakerID
+      value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[33].speakerID
-      value: Ellie
+      value: Gina
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[39].speakerID
-      value: Gina
+      propertyPath: lines.Array.data[35].speakerID
+      value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[41].speakerID
-      value: Ellie
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[42].speakerID
       value: Gina
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[43].speakerID
-      value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[44].speakerID
-      value: Gina
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[48].speakerID
       value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[49].speakerID
+      propertyPath: lines.Array.data[45].speakerID
       value: Gina
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[53].speakerID
+      propertyPath: lines.Array.data[46].speakerID
       value: Ellie
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].speakerID
+      propertyPath: lines.Array.data[47].speakerID
+      value: Gina
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[51].speakerID
+      value: Ellie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[52].speakerID
+      value: Gina
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[56].speakerID
+      value: Ellie
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].speakerID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[5].maskingLines.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[6].maskingLines.Array.size
@@ -496,43 +502,35 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[26].maskingLines.Array.size
+      propertyPath: lines.Array.data[28].maskingLines.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[27].maskingLines.Array.size
+      propertyPath: lines.Array.data[29].maskingLines.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[30].maskingLines.Array.size
+      propertyPath: lines.Array.data[32].maskingLines.Array.size
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[31].maskingLines.Array.size
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[33].maskingLines.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[35].maskingLines.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[34].maskingLines.Array.size
+      propertyPath: lines.Array.data[36].maskingLines.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[38].maskingLines.Array.size
-      value: 4
+      propertyPath: lines.Array.data[40].maskingLines.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[39].maskingLines.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[53].maskingLines.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[54].maskingLines.Array.size
+      propertyPath: lines.Array.data[41].maskingLines.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
@@ -540,67 +538,55 @@ PrefabInstance:
       value: "[I\u2019m great! How are you?]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[6].maskingLines.Array.data[1]'
-      value: "[I\u2019ve been pretty good.]"
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: 'lines.Array.data[10].maskingLines.Array.data[0]'
-      value: "[Oh, sorry!][ I\u2019m actually on my way][ to another thing.]"
+      value: "[Oh, sorry!][ I\u2019m on my way][ to another thing.]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: 'lines.Array.data[10].maskingLines.Array.data[1]'
       value: "[Maybe\u2026][I don\u2019t have][ a lot of time, though.]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[27].maskingLines.Array.data[0]'
+      propertyPath: 'lines.Array.data[29].maskingLines.Array.data[0]'
       value: '[Sorry,][ nevermind.]'
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[27].maskingLines.Array.data[1]'
-      value: '[I should get ][going.]'
+      propertyPath: 'lines.Array.data[29].maskingLines.Array.data[1]'
+      value: '[I should get going.]'
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[31].maskingLines.Array.data[0]'
+      propertyPath: 'lines.Array.data[33].maskingLines.Array.data[0]'
       value: "[Nevermind.][ It\u2019s stupid.]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[31].maskingLines.Array.data[1]'
+      propertyPath: 'lines.Array.data[33].maskingLines.Array.data[1]'
       value: "[I\u2019m just\u2026][here for lunch.]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[34].maskingLines.Array.data[0]'
-      value: "[Yeah,][ I\u2019m throwing a][ party!]"
+      propertyPath: 'lines.Array.data[36].maskingLines.Array.data[0]'
+      value: "[Yeah,][ I\u2019m throwing a party!]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[34].maskingLines.Array.data[1]'
+      propertyPath: 'lines.Array.data[36].maskingLines.Array.data[1]'
       value: '[No,][ but I prefer it][ that way.]'
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[39].maskingLines.Array.data[0]'
+      propertyPath: 'lines.Array.data[41].maskingLines.Array.data[0]'
       value: "[Sorry.][ I didn\u2019t mean][ to hog the][ conversation.]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[39].maskingLines.Array.data[1]'
-      value: "[Sorry,][ I didn\u2019t][ mean to][ complain.]"
+      propertyPath: 'lines.Array.data[41].maskingLines.Array.data[1]'
+      value: "[ I don\u2019t][ mean to][ complain.]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[39].maskingLines.Array.data[2]'
+      propertyPath: 'lines.Array.data[41].maskingLines.Array.data[2]'
       value: '[I really][ appreciate you][ listening.]'
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[39].maskingLines.Array.data[3]'
-      value: "[You have no idea][ how alone][ I\u2019ve felt.]"
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: 'lines.Array.data[54].maskingLines.Array.data[0]'
-      value: "[\u2026Yeah. That\u2019d be great.]"
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.size
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.size
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
@@ -616,11 +602,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
@@ -634,19 +624,23 @@ PrefabInstance:
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
+      objectReference: {fileID: 906256940}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
       objectReference: {fileID: 1621726260}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1003466784}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 1621726260}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 906256940}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Target
+      value: 
+      objectReference: {fileID: 1621726260}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -660,6 +654,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Play
       objectReference: {fileID: 0}
@@ -669,27 +667,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: Play
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Play
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: Play
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: Stop
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Stop
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
+      value: Play
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
       propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -704,11 +702,15 @@ PrefabInstance:
       value: ISeeYou.SoundDataPlayer, ISeeYou
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
       value: ISeeYou.SoundDataPlayer, ISeeYou
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: ISeeYou.SoundDataPlayer, ISeeYou
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
       value: ISeeYou.SoundDataPlayer, ISeeYou
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
@@ -724,11 +726,15 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: lines.Array.data[0].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
-      propertyPath: lines.Array.data[55].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462590240804146244, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
+      propertyPath: lines.Array.data[58].triggerEvent.m_PersistentCalls.m_Calls.Array.data[3].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4729068256503548971, guid: 627028f9c9a2e284ca1d7096c851ba1a, type: 3}
@@ -1472,7 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
@@ -2002,7 +2008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
@@ -2119,20 +2125,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681701081}
   m_CullTransparentMesh: 1
---- !u!114 &767716072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: UI/Click
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
 --- !u!1 &834756456
 GameObject:
   m_ObjectHideFlags: 0
@@ -2367,7 +2359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
@@ -2661,7 +2653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
@@ -2807,6 +2799,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1025763302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: UI/Click
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
 --- !u!1 &1062316209
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,7 +2909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
@@ -3298,7 +3304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
@@ -3648,7 +3654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
@@ -4336,7 +4342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de5cd60e2b5c42728ee9a200bfa43ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: ISeeYou::ISeeYou.UIAnimator
-  defaultDuration: 0.3
+  defaultDuration: 2
   defaultEase: 6
   scaleUpMultiplier: 1.1
   shakeStrength: 2
