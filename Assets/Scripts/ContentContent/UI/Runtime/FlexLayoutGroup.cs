@@ -56,6 +56,12 @@ namespace ContentContent.UI
         [SerializeField] private Vector2 minSize = Vector2.zero;
         [SerializeField] private Vector2 maxSize = Vector2.zero;
 
+        public Vector2 MinSize
+        {
+            get => minSize;
+            set => minSize = value;
+        }
+        
         [Header("Expansion")]
         [Tooltip("Force children to expand to fill empty space on the Main Axis.")]
         [SerializeField] private bool forceExpandMainAxis = false;

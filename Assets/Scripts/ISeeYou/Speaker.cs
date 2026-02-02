@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ContentContent;
 using ContentContent.Audio;
+using ContentContent.UI;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -25,16 +26,17 @@ namespace ISeeYou
         // State
         private List<Words> activeWords = new List<Words>(); // the active words being displayed
         private List<Words> activeMaskWords = new List<Words>(); // The active thought words being displayed
-        private Queue<string> currentMaskingWords = new Queue<string>();
-        private int currentMaskingIndex = 0;
+        private Queue<string> currentMaskingLines = new Queue<string>();
 
-        private bool HaveMaskRemaining => currentMaskingWords.Count > 0;
+        private bool HaveMaskRemaining => currentMaskingLines.Count > 0;
 
         private void Awake()
         {
             defaultSpawner = GetComponent<WordsSpawner>();
             SpeakerManager.Register(this);
-            maskingBubble.OnContentCountChanged += MaskingBubbleOnOnContentCountChanged; 
+            maskingBubble.OnContentCountChanged += MaskingBubbleOnOnContentCountChanged;
+
+            speechBubble.SetLock(true);
         }
 
         private void MaskingBubbleOnOnContentCountChanged(int count)
@@ -51,15 +53,16 @@ namespace ISeeYou
 
         private void OnDestroy()
         {
-            maskingBubble.OnContentCountChanged -= MaskingBubbleOnOnContentCountChanged; 
+            maskingBubble.OnContentCountChanged -= MaskingBubbleOnOnContentCountChanged;
         }
 
         private void HandleMaskWordClicked(Words words)
         {
+            if (currentDialogLine.autoPlay) return;
             if (activeMaskWords.Contains(words))
             {
                 // maskingBubble.SetLock(true);
-                words.FadeOut(1f,() =>
+                words.FadeOut(1f, () =>
                 {
                     words.OnWordClicked -= HandleMaskWordClicked;
                     Destroy(words.gameObject);
@@ -71,103 +74,127 @@ namespace ISeeYou
         public void Speak(DialogLine dialogLineToPlay)
         {
             if (HaveMaskRemaining)
-                return; // If there are active thoughts, don't speak until my thoughts are "cleared"
+                return; // If there are active mask, don't speak until my thoughts are "cleared"
 
             bool haveMasking = !dialogLineToPlay.maskingLines.IsNullOrEmpty();
 
             // Always disable input for a bit
             SetEnableContinueInput(false);
             currentDialogLine = dialogLineToPlay;
-            
+
             // Display the "truth" underneath
             ShowCurrentLine();
 
             if (haveMasking)
             {
                 // This should only be called once until currentThoughts have emptied
-                currentMaskingWords = new Queue<string>(currentDialogLine.maskingLines);
+                currentMaskingLines = new Queue<string>(currentDialogLine.maskingLines);
+
                 ShowNextMask();
+                // if (currentDialogLine.autoPlay)
+                // {
+                //     DoAutoPlay();
+                // }
+                // else
+                // {
+                //     ShowNextMask();
+                // }
             }
         }
 
         public void ShowNextMask()
         {
-            if (currentDialogLine.maskingLines.IsNullOrEmpty() || currentMaskingWords.Count == 0)
+            // No more masking lines, finish
+            if (currentDialogLine.maskingLines.IsNullOrEmpty() || currentMaskingLines.Count == 0)
             {
-                // No more thoughts, free the input
-                SetEnableContinueInput(true);
-                foreach (Words word in activeWords)
-                {
-                    word.SetVisible(true);
-                }
+                // if (activeMaskWords.Count > 0)
+                // {
+                //     ClearMaskingWords();
+                // }
+
+                // var maskLayout = maskingBubble.GetComponent<FlexLayoutGroup>();
+                // maskLayout.MinSize = Vector2.zero;
+                RevealTruth();
                 return;
             }
 
             Debug.Log("Showing Mask");
-            string nextMaskingWords = currentMaskingWords.Dequeue();
+            // Grab the next masking Line
+            string nextMaskingLine = currentMaskingLines.Dequeue();
+
             // Check if the maskingBubble has its own spawner
             var currentSpawner = defaultSpawner;
             var maskingWordsSpawner = maskingBubble.GetComponent<WordsSpawner>();
             if (maskingWordsSpawner != null)
                 currentSpawner = maskingWordsSpawner;
 
-            activeMaskWords = currentSpawner.SpawnWords(nextMaskingWords, maskingBubble.transform);
-            foreach (Words words in activeMaskWords)
+            maskingBubble.SetLock(true);
+
+            // Spawn mask words
+            activeMaskWords = currentSpawner.SpawnWords(nextMaskingLine, maskingBubble.transform);
+            currentSpawner.SpawnWithInterval(nextMaskingLine, maskingBubble.transform, OnFinishSpawningMaskWords);
+
+            if (currentDialogLine.autoPlay)
             {
-                words.OnWordClicked += HandleMaskWordClicked;
+                DoAutoPlay();
+            }
+        }
+
+        private void OnFinishSpawningMaskWords(List<Words> words)
+        {
+            activeMaskWords = words;
+            foreach (Words word in activeMaskWords)
+            {
+                word.OnWordClicked += HandleMaskWordClicked;
             }
 
             maskingBubble.CapCountToCurrent();
-            maskingBubble.SetLock(false);
+            maskingBubble.SetLock(currentDialogLine.autoPlay);
         }
-
-        // private void OnFinishSpawningThought(List<Words> words)
-        // {
-        //     activeWords = words;
-        //     SetEnableContinueInput(true);
-        // }
 
         public void ShowCurrentLine()
         {
-            // activeWords = spawner.SpawnWords(currentDialogLine.text, speechBubble);
-            SetEnableContinueInput(false);
-            defaultSpawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, true,
-                OnFinishSpawningSpeech);
-            speechBubble.SetLock(true);
+            // if (currentDialogLine.autoPlay)
+            // {
+            //     activeWords = defaultSpawner.SpawnWords(currentDialogLine.text, speechBubble.transform, false);
+            //     
+            //     var speechLayout = speechBubble.GetComponent<FlexLayoutGroup>();
+            //     speechLayout.CalculateLayoutInputHorizontal();
+            //     var maskLayout = maskingBubble.GetComponent<FlexLayoutGroup>();
+            //     maskLayout.MinSize = new Vector2(speechLayout.preferredWidth, speechLayout.preferredHeight);
+            // }
 
-            // Play Audio
-            if (currentDialogLine.voiceLine != null)
-            {
-                if (soundHandle is { IsPlaying: true })
-                    soundHandle.Stop();
-                soundHandle = currentDialogLine.voiceLine.Play();
-            }
+            float interval = currentDialogLine.autoPlay ? 0 : 0.1f;
+            defaultSpawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, OnFinishSpawningSpeech,
+                interval);
         }
 
         private void OnFinishSpawningSpeech(List<Words> words)
         {
             activeWords = words;
+
             if (!HaveMaskRemaining)
             {
-                foreach (Words word in activeWords)
-                {
-                    word.SetVisible(true);
-                }
-                SetEnableContinueInput(true);
+                RevealTruth();
             }
             else
             {
                 foreach (Words word in activeWords)
                 {
                     word.SetVisible(false);
+                    // word.SetActive(false);
                 }
             }
         }
 
         public void Stop()
         {
+            if (autoPlayNextLineHandle.IsValid) autoPlayNextLineHandle.Stop();
+            if (autoPlayHandle.IsValid) autoPlayHandle.Stop();
+            
+            currentDialogLine = default;
             ClearWords();
-            ClearThoughts();
+            ClearMaskingWords();
 
             if (soundHandle is { IsPlaying: true })
                 soundHandle.Stop();
@@ -182,7 +209,7 @@ namespace ISeeYou
             }
         }
 
-        public void ClearThoughts()
+        public void ClearMaskingWords()
         {
             activeMaskWords.Clear();
             if (defaultSpawner != null && maskingBubble != null)
@@ -196,6 +223,66 @@ namespace ISeeYou
             if (conversationController == null) return;
             if (enableInput) conversationController.EnableInput();
             else conversationController.DisableInput();
+        }
+
+        private TimerHandle autoPlayNextLineHandle;
+
+        private void RevealTruth()
+        {
+            // We don't actually reveal if auto play
+            if (currentDialogLine.autoPlay)
+            {
+                if (autoPlayNextLineHandle.IsValid) autoPlayNextLineHandle.Stop();
+
+                autoPlayNextLineHandle =
+                    Timer.Countdown(2f, this).OnFinish(() => conversationController.PlayNextLine());
+                // conversationController.PlayNextLine();
+                return;
+            }
+
+            // Free the input
+            // Timer.Countdown(1f, this).OnFinish(() =>
+            // {
+            //     SetEnableContinueInput(true);
+            //     // Show the words 
+            //     foreach (Words word in activeWords)
+            //     {
+            //         word.SetActive(true);
+            //         word.SetVisible(true);
+            //     }
+            //
+            //     // Play Audio
+            //     if (currentDialogLine.voiceLine != null)
+            //     {
+            //         if (soundHandle is { IsPlaying: true })
+            //             soundHandle.Stop();
+            //         soundHandle = currentDialogLine.voiceLine.Play();
+            //     }
+            // });
+
+            SetEnableContinueInput(true);
+            // Show the words 
+            foreach (Words word in activeWords)
+            {
+                // word.SetActive(true);
+                word.SetVisible(true);
+            }
+
+            // Play Audio
+            if (currentDialogLine.voiceLine != null)
+            {
+                if (soundHandle is { IsPlaying: true })
+                    soundHandle.Stop();
+                soundHandle = currentDialogLine.voiceLine.Play();
+            }
+        }
+
+        private TimerHandle autoPlayHandle;
+        private void DoAutoPlay()
+        {
+            maskingBubble.SetLock(true);
+            if (autoPlayHandle.IsValid) autoPlayHandle.Stop();
+            autoPlayHandle = Timer.Countdown(3f, this).OnFinish(() => { ShowNextMask(); });
         }
     }
 }

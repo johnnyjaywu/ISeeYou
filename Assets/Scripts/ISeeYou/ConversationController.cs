@@ -36,6 +36,7 @@ namespace ISeeYou
         private void OnEnable()
         {
             EnableInput();
+            PlayNextLine();
         }
 
         private void OnDisable()

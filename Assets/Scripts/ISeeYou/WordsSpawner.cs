@@ -36,8 +36,8 @@ namespace ISeeYou
             return spawnedWords;
         }
 
-        public void SpawnWithInterval(string text, Transform parent, bool splitWords = true,
-            Action<List<Words>> onFinish = null)
+        public void SpawnWithInterval(string text, Transform parent, Action<List<Words>> onFinish = null,
+            float interval = 0)
         {
             // Auto-clear before spawning to ensure fresh state
             Clear(parent.transform);
@@ -48,10 +48,10 @@ namespace ISeeYou
                 return;
             }
 
-            var parsedTokens = splitWords ? Words.ParseGroupedString(text) : new List<string> { text };
+            var parsedTokens = Words.ParseGroupedString(text);
             if (spawnRoutine is { IsRunning: true })
                 spawnRoutine.Stop();
-            spawnRoutine = SpawnInterval(parsedTokens, parent, onFinish).Run();
+            spawnRoutine = SpawnInterval(parsedTokens, parent, onFinish, interval).Run();
         }
 
         /// <summary>
@@ -76,10 +76,12 @@ namespace ISeeYou
             }
         }
 
-        private IEnumerator SpawnInterval(List<string> parsedTokens, Transform parent, Action<List<Words>> onFinish)
+        private IEnumerator SpawnInterval(List<string> parsedTokens, Transform parent, Action<List<Words>> onFinish,
+            float interval = 0f)
         {
             var spawnedWords = new List<Words>(parsedTokens.Count);
-            float interval = 1f / parsedTokens.Count;
+            if (interval == 0)
+                interval = 1f / parsedTokens.Count;
 
             foreach (string token in parsedTokens)
             {
