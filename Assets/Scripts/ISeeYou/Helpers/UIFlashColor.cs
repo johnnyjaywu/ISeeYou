@@ -56,6 +56,16 @@ public class UIFlashColor : MonoBehaviour
         );
     }
 
+    public void Stop()
+    {
+        if (flashTween.isAlive)
+        {
+            flashTween.Stop();
+        }
+
+        targetGraphic.color = originalColor;
+    }
+
     private void OnDestroy()
     {
         if (flashTween.isAlive)

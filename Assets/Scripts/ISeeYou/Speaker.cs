@@ -62,11 +62,16 @@ namespace ISeeYou
             if (activeMaskWords.Contains(words))
             {
                 // maskingBubble.SetLock(true);
+                var flash = words.GetComponent<UIFlashColor>();
+                if (flash) flash.Stop();
+                
                 words.FadeOut(1f, () =>
                 {
                     words.OnWordClicked -= HandleMaskWordClicked;
                     Destroy(words.gameObject);
                     activeMaskWords.Remove(words);
+                    if (activeMaskWords.Count > 0)
+                        activeMaskWords[0].GetComponent<UIFlashColor>().Flash();
                 });
             }
         }
@@ -133,9 +138,9 @@ namespace ISeeYou
             foreach (Words word in activeMaskWords)
             {
                 word.OnWordClicked += HandleMaskWordClicked;
-                if (!currentDialogLine.autoPlay)
-                    word.GetComponent<UIFlashColor>().Flash();
             }
+            if (activeMaskWords.Count > 0 && !currentDialogLine.autoPlay)
+                activeMaskWords[0].GetComponent<UIFlashColor>().Flash();
 
             maskingBubble.CapCountToCurrent();
             maskingBubble.SetLock(currentDialogLine.autoPlay);

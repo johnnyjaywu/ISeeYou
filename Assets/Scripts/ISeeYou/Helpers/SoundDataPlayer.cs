@@ -1,4 +1,5 @@
 using System;
+using ContentContent;
 using ContentContent.Audio;
 using NaughtyAttributes;
 using UnityEngine;
@@ -15,7 +16,10 @@ namespace ISeeYou
         [SerializeField]
         public bool playOnEnable;
 
+        public float delay;
+
         private SoundHandle soundHandle;
+        private TimerHandle timerHandle;
 
         private void OnEnable()
         {
@@ -35,7 +39,11 @@ namespace ISeeYou
         {
             if (soundHandle.IsPlaying)
                 soundHandle.Stop();
-            soundHandle = sound.Play();
+
+            if (timerHandle.IsRunning)
+                timerHandle.Stop();
+
+            timerHandle = Timer.Countdown(delay, this).OnFinish(() => { soundHandle = sound.Play(); });
         }
 
         [Button]
@@ -43,6 +51,9 @@ namespace ISeeYou
         {
             if (!soundHandle.IsValid) return;
             soundHandle.Stop();
+            
+            if (timerHandle.IsRunning)
+                timerHandle.Stop();
         }
     }
 }
