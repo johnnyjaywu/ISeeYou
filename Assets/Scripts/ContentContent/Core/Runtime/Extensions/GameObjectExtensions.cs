@@ -198,51 +198,6 @@ namespace ContentContent
         }
 
         /// <summary>
-        ///     Gets a <see cref="Component" /> on the <see cref="GameObject" /> if it's already attached to it.
-        ///     If the <see cref="Component" /> does not exist on the <see cref="GameObject" />, it will be added and returned.
-        /// </summary>
-        /// <typeparam name="T">The type of the <see cref="Component" /> to lookup on the <see cref="GameObject" />.</typeparam>
-        /// <param name="gameObject"><see cref="GameObject" /> instance.</param>
-        /// <returns>The existing or new instance of <see cref="Component" />.</returns>
-        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
-        {
-            if (!gameObject.TryGetComponent(out T component)) component = gameObject.AddComponent<T>();
-
-            return component;
-        }
-
-        /// <summary>
-        ///     Check if component exist on this gameObject
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="gameObject"></param>
-        /// <returns></returns>
-        public static bool HasComponent<T>(this GameObject gameObject) where T : MonoBehaviour
-        {
-            return gameObject.GetComponent<T>() != null;
-        }
-
-        /// <summary>
-        ///     Destroy all children of this game object
-        /// </summary>
-        /// <param name="gameObject"></param>
-        public static void DestroyChildren(this GameObject gameObject)
-        {
-            gameObject.transform.Cast<Transform>().ToList()
-                .ForEach(child => Object.Destroy(child.gameObject));
-        }
-
-        /// <summary>
-        ///     DestroyImmediate all children of this game object
-        /// </summary>
-        /// <param name="gameObject"></param>
-        public static void DestroyChildrenImmediate(this GameObject gameObject)
-        {
-            gameObject.transform.Cast<Transform>().ToList()
-                .ForEach(child => Object.DestroyImmediate(child.gameObject));
-        }
-
-        /// <summary>
         ///     Find the nearest gameObject from a given array of target GameObjects
         /// </summary>
         /// <param name="gameObject"></param>

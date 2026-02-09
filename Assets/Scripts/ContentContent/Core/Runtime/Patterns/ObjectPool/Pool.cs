@@ -18,6 +18,7 @@ namespace ContentContent
         private readonly ObjectPool<T> internalPool;
         private readonly List<T> activeItems = new();
         private readonly Transform poolParent;
+        private readonly bool isQuitting;
 
         public Pool(Func<T> factory, Transform parent, int capacity, int maxSize)
         {
@@ -43,7 +44,11 @@ namespace ContentContent
                     item.gameObject.SetActive(false);
                     if (item.transform.parent != poolParent) item.transform.SetParent(poolParent);
                 },
-                actionOnDestroy: item => UnityEngine.Object.Destroy(item.gameObject),
+                actionOnDestroy: item =>
+                {
+                    if (!Application.isPlaying) return;
+                    UnityEngine.Object.Destroy(item.gameObject);
+                },
                 collectionCheck: true,
                 defaultCapacity: capacity,
                 maxSize: maxSize

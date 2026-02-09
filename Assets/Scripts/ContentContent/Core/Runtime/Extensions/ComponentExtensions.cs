@@ -96,19 +96,6 @@ namespace ContentContent
         }
 
         /// <summary>
-        ///     Validates the <see cref="Component" /> reference.
-        /// </summary>
-        /// <typeparam name="T">The type of <see cref="Component" />.</typeparam>
-        /// <param name="component">The target <see cref="Component" />.</param>
-        /// <param name="callerName">The <see cref="CallerFilePathAttribute" /> fills in this information.</param>
-        public static void Validate<T>(this T component, [CallerFilePath] string callerName = "") where T : Component
-        {
-            if (component == null)
-                throw new MissingReferenceException(
-                    $"{Path.GetFileNameWithoutExtension(callerName)} expected a {typeof(T).Name}");
-        }
-
-        /// <summary>
         ///     Ensure that a component of type <paramref name="component" /> is removed and destroyed if it
         ///     exists on the game object.
         /// </summary>
@@ -122,6 +109,19 @@ namespace ContentContent
         }
 
         /// <summary>
+        ///     Validates the <see cref="Component" /> reference.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="Component" />.</typeparam>
+        /// <param name="component">The target <see cref="Component" />.</param>
+        /// <param name="callerName">The <see cref="CallerFilePathAttribute" /> fills in this information.</param>
+        public static void Validate<T>(this T component, [CallerFilePath] string callerName = "") where T : Component
+        {
+            if (component == null)
+                throw new MissingReferenceException(
+                    $"{Path.GetFileNameWithoutExtension(callerName)} expected a {typeof(T).Name}");
+        }
+
+        /// <summary>
         ///     Sets the <see cref="GameObject" /> this <see cref="Component" /> is attached to, to the specified state.
         /// </summary>
         /// <param name="component">The target <see cref="Component" /></param>
@@ -129,6 +129,50 @@ namespace ContentContent
         public static void SetActive(this Component component, bool isActive)
         {
             if (component.gameObject.activeSelf != isActive) component.gameObject.SetActive(isActive);
+        }
+        
+        public static bool HasComponent<T>(this Component component) where T : class
+        {
+            return component.GetComponent<T>() != null;
+        }
+
+        public static bool TryGetComponent<T>(this Component component, out T result) where T : class
+        {
+            result = component.GetComponent<T>();
+            return result != null;
+        }
+
+        /// <summary>
+        /// Tries to find the component in children (including self) first. 
+        /// If not found, searches in parents (including self).
+        /// </summary>
+        public static T GetComponentInParentOrChildren<T>(this Component source) where T : class
+        {
+            if (source == null) return null;
+
+            // Check self and children first
+            T result = source.GetComponentInChildren<T>();
+            if (result != null) return result;
+
+            // Fallback to parents
+            return source.GetComponentInParent<T>();
+        }
+
+        /// <summary>
+        /// Tries to find the component in children (including self) first. 
+        /// If not found, searches in parents (including self).
+        /// Includes inactive children in the search.
+        /// </summary>
+        public static T GetComponentInParentOrChildren<T>(this Component source, bool includeInactive) where T : class
+        {
+            if (source == null) return null;
+
+            // Check self and children first
+            T result = source.GetComponentInChildren<T>(includeInactive);
+            if (result != null) return result;
+
+            // Fallback to parents
+            return source.GetComponentInParent<T>();
         }
     }
 }

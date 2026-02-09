@@ -108,7 +108,7 @@ namespace ContentContent.UI
         private void AddSelectionListeners(Selectable selectable)
         {
             // add listener
-            var trigger = selectable.gameObject.GetOrAddComponent<EventTrigger>();
+            var trigger = selectable.EnsureComponent<EventTrigger>();
 
             // add SELECT event
             var selectEntry = new EventTrigger.Entry

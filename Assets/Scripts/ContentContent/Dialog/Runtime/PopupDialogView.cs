@@ -39,7 +39,7 @@ namespace ContentContent.Dialog
             void ClosedCallback()
             {
                 onClosed?.Invoke();
-                Despawn();
+                this.Despawn();
             }
 
             Sequence closeSequence = base.Close(animateClose, ClosedCallback);

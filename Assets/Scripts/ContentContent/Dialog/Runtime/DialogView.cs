@@ -43,8 +43,8 @@ namespace ContentContent.Dialog
 
         protected virtual void OnEnable()
         {
-            Presenter.PresentingStarted += OnPresentingStarted;
-            Presenter.PresentingFinished += OnPresentingFinished;
+            Presenter.OnPresentingStarted += OnPresentingStarted;
+            Presenter.OnPresentingFinished += OnPresentingFinished;
             DialogManager.Instance.RegisterView(viewID, this);
             DialogManager.Instance.RegisterSkipButton(skipButton);
             DialogManager.Instance.RegisterContinueButton(continueButton);
@@ -52,20 +52,20 @@ namespace ContentContent.Dialog
 
         protected virtual void OnDisable()
         {
-            Presenter.PresentingStarted -= OnPresentingStarted;
-            Presenter.PresentingFinished -= OnPresentingFinished;
+            Presenter.OnPresentingStarted -= OnPresentingStarted;
+            Presenter.OnPresentingFinished -= OnPresentingFinished;
             DialogManager.Instance?.UnregisterView(viewID, this);
             DialogManager.Instance?.UnregisterSkipButton(skipButton);
             DialogManager.Instance?.UnregisterContinueButton(continueButton);
         }
 
-        protected virtual void OnPresentingStarted()
+        protected virtual void OnPresentingStarted(DialogLinePresenter presenter)
         {
             if (skipButton != null) skipButton.SetActive(Presenter.WaitForInput);
             if (continueButton != null) continueButton.SetActive(false);
         }
 
-        protected virtual void OnPresentingFinished()
+        protected virtual void OnPresentingFinished(DialogLinePresenter presenter)
         {
             if (skipButton != null) skipButton.SetActive(false);
             if (continueButton != null) continueButton.SetActive(Presenter.WaitForInput);

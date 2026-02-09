@@ -127,5 +127,10 @@ namespace ContentContent
         {
             return ObjectPoolManager.Instance.GetActiveCount(prefab);
         }
+
+        public static void Despawn<T>(this T pooledObject) where T : PoolableBehaviour
+        {
+            ObjectPoolManager.Instance.Release(pooledObject);
+        }
     }
 }

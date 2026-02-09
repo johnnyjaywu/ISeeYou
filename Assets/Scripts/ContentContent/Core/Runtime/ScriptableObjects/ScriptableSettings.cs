@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -6,23 +5,11 @@ namespace ContentContent
 {
     public abstract class ScriptableSettings : ScriptableObject
     {
-        protected static event Action OnReload;
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ReloadDomain()
-        {
-            OnReload?.Invoke();
-        }
     }
 
     public abstract class ScriptableSettings<T> : ScriptableSettings where T : ScriptableSettings<T>
     {
         private static T _instance;
-
-        static ScriptableSettings()
-        {
-            OnReload += ReloadDomain;
-        }
 
         public static T Instance
         {
@@ -36,6 +23,7 @@ namespace ContentContent
             }
         }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ReloadDomain()
         {
             _instance = null;

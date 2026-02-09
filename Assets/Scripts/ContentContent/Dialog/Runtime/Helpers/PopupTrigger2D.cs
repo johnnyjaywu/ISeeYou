@@ -20,6 +20,9 @@ namespace ContentContent.Dialog
         [Tooltip("Close the popup when target exits the collider?")]
         [SerializeField] private bool closeOnExit;
 
+        [Tooltip("Disable the trigger after dialog is done?")]
+        [SerializeField] private bool disableOnClose = true;
+
         private Collider2D col;
         private DialogLinePresenter currentPresenter;
 
@@ -44,18 +47,31 @@ namespace ContentContent.Dialog
 
         public void Show()
         {
-            if (currentPresenter != null) return;
-            currentPresenter = DialogManager.Instance.ShowPopup(new DialogLine(text), transform, Vector3.zero, waitToCloseDuration,
-                () => { currentPresenter = null; });
+            if (currentPresenter) return;
+            currentPresenter =
+                DialogManager.Instance.ShowPopup(new DialogLine(text), transform, Vector3.zero, waitToCloseDuration);
+            currentPresenter.OnPresentingFinished += HandleDialogFinished;
         }
 
         public void Close()
         {
-            if (currentPresenter != null)
+            if (!currentPresenter) return;
+            currentPresenter.Stop();
+            HandleDialogFinished(currentPresenter);
+        }
+
+        private void HandleDialogFinished(DialogLinePresenter presenter)
+        {
+            if (currentPresenter != presenter)
             {
-                currentPresenter.Stop();
-                currentPresenter = null;
+                // SOMETHING WENT WRONG HERE
+                Debug.LogError("Woah, this shouldn't happen");
+                return;
             }
+
+            currentPresenter.OnPresentingFinished -= HandleDialogFinished;
+            currentPresenter = null;
+            if (disableOnClose) gameObject.SetActive(false);
         }
     }
 }

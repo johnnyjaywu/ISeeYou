@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace ContentContent.Dialog
 {
@@ -21,6 +22,9 @@ namespace ContentContent.Dialog
 
         [SerializeField] private bool showOnAwake;
 
+        [Tooltip("Disable the trigger after dialog is done?")]
+        [SerializeField] private bool disableOnClose = true;
+
         // [Tooltip("How long to wait after the text is done showing before closing? 0 is infinite")]
         // [SerializeField] private float waitToCloseDuration = 0;
 
@@ -28,6 +32,7 @@ namespace ContentContent.Dialog
         // [SerializeField] private bool closeOnExit;
 
         private Collider2D col;
+        private DialogLinePresenter currentPresenter;
 
         private void Awake()
         {
@@ -53,12 +58,28 @@ namespace ContentContent.Dialog
         public void Show()
         {
             if (DialogManager.Instance.IsDialogActive) return;
-            DialogManager.Instance.StartDialog(dialog, viewID);
+            currentPresenter = DialogManager.Instance.StartDialog(dialog, viewID);
+            currentPresenter.OnPresentingFinished += HandleDialogFinished;
         }
 
         public void Close()
         {
             DialogManager.Instance.StopDialog();
+            HandleDialogFinished(currentPresenter);
+        }
+
+        private void HandleDialogFinished(DialogLinePresenter presenter)
+        {
+            if (currentPresenter != presenter)
+            {
+                // SOMETHING WENT WRONG HERE
+                Debug.LogError("Woah, this shouldn't happen");
+                return;
+            }
+
+            currentPresenter.OnPresentingFinished -= HandleDialogFinished;
+            currentPresenter = null;
+            if (disableOnClose) gameObject.SetActive(false);
         }
     }
 }

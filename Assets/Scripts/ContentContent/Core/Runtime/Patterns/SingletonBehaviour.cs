@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ContentContent
 {
@@ -10,13 +9,11 @@ namespace ContentContent
     internal static class SingletonState
     {
         public static bool IsQuitting { get; set; }
-        public static event Action OnReset;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void Init()
         {
             IsQuitting = false;
-            OnReset?.Invoke();
         }
     }
 
@@ -30,11 +27,6 @@ namespace ContentContent
     public class SingletonBehaviour<T> : MonoBehaviour where T : Component
     {
         private static T instance;
-
-        static SingletonBehaviour()
-        {
-            SingletonState.OnReset += ResetInstance;
-        }
 
         /// <summary>
         ///     Controls whether this singleton will persist across scene loads.
@@ -113,6 +105,7 @@ namespace ContentContent
         }
 
         // IMPORTANT: We need to reset the local static instance for this specific T
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetInstance()
         {
             instance = null;

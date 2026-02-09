@@ -87,25 +87,37 @@ namespace ContentContent
             return list;
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         /// <summary>
         /// Safely releases an object back to its pool. Uses the IsActive flag to prevent double-release.
         /// </summary>
         public void Release<T>(T instance) where T : PoolableBehaviour
         {
-            if (isQuitting || instance == null) return;
+            if (isQuitting || !instance) return;
 
             IPoolable p = instance;
-            // The Gatekeeper: If it's not active, it's already in the pool. Stop here.
-            if (!p.IsActiveInternal) return;
-
-            if (p.OriginPool is Pool<T> pool)
+            if (p.OriginPool == null)
             {
-                pool.Release(instance);
-            }
-            else
-            {
+                Debug.Log($"Destroying {instance.gameObject} that was not spawned from a pool");
                 Destroy(instance.gameObject);
+                return;
             }
+
+            if (!p.IsActiveInternal)
+            {
+                Debug.Log($"{p} is not active internal? It's already in the pool?");
+                return;
+            }
+            
+            // // The Gatekeeper: If it's not active, it's already in the pool
+            // if (!p.IsActiveInternal) return;
+
+            if (p.OriginPool is not Pool<T> pool)
+            {
+                Debug.Log($"{p.OriginPool} is not a Pool of type {typeof(T)}?");
+                return;
+            }
+            pool.Release(instance);
         }
 
         /// <summary>

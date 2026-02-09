@@ -140,6 +140,19 @@ namespace ContentContent
             degree = clockwise ? -degree : degree;
             return DegreeToVector2(degree) * radius + center;
         }
+        
+        public static Vector3 GetCentroid(List<Vector2> points)
+        {
+            if (points == null || points.Count == 0) return Vector2.zero;
+
+            Vector2 sum = Vector2.zero;
+            foreach (Vector2 point in points)
+            {
+                sum += point;
+            }
+
+            return sum / points.Count;
+        }
 
         public static Vector2 RandomPointInCircle(Vector2 center, float radius)
         {

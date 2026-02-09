@@ -137,7 +137,7 @@ namespace ContentContent.Audio
                 lifecycleRoutine = MonitorPlayback().Run();
             else
                 // Edge case: Object spawned but immediately disabled. Return to pool to avoid memory leak.
-                Despawn();
+                ReleaseSelf();
         }
 
         /// <summary>
@@ -216,21 +216,20 @@ namespace ContentContent.Audio
             // AND we haven't flagged for return yet (Safety check)
             yield return new WaitWhile(() => (source.isPlaying || isPaused) && !isReturning);
             lifecycleRoutine = null;
-            Despawn();
+            ReleaseSelf();
         }
 
-        // private void ReleaseSelf()
-        // {
-        //     // SAFETY: Idempotency check. 
-        //     // If multiple systems try to release this object in the same frame, 
-        //     // only the first one succeeds.
-        //     if (isReturning) return;
-        //     isReturning = true;
-        //
-        //     // Notify Manager
-        //     Finished?.Invoke(currentData);
-        //     Despawn();
-        // }
+        private void ReleaseSelf()
+        {
+            // SAFETY: Idempotency check. 
+            // If multiple systems try to release this object in the same frame, 
+            // only the first one succeeds.
+            if (isReturning) return;
+            isReturning = true;
+        
+            // Notify Manager
+            this.Despawn();
+        }
 
         #endregion
     }

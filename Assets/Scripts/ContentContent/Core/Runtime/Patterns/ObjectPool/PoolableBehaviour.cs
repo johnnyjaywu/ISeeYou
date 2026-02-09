@@ -27,10 +27,5 @@ namespace ContentContent
         /// Called when the object is returned to the pool. Use this instead of OnDisable.
         /// </summary>
         protected virtual void OnDespawn() { }
-
-        /// <summary>
-        /// Convenience method for an object to return itself to the pool.
-        /// </summary>
-        public void Despawn() => ObjectPoolManager.Instance.Release(this);
     }
 }

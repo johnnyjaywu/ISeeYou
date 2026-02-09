@@ -16,14 +16,14 @@ namespace ContentContent.Dialog
 
         public bool WaitForInput { get; set; } = true;
         public bool IsBusy => playbackRoutine is { IsRunning: true } || soundHandle is { IsPlaying: true };
-
+        
         private void Awake()
         {
             view = GetComponent<DialogView>();
         }
 
-        public event Action PresentingStarted;
-        public event Action PresentingFinished;
+        public event Action<DialogLinePresenter> OnPresentingStarted;
+        public event Action<DialogLinePresenter> OnPresentingFinished;
 
         public DialogLinePresenter Present(DialogLine line, bool animateOpen = true, Action onLineFinished = null)
         {
@@ -43,7 +43,7 @@ namespace ContentContent.Dialog
 
             playbackRoutine = PlaybackRoutine().Run();
             monitorRoutine = MonitorPlayback(onLineFinished).Run();
-            PresentingStarted?.Invoke();
+            OnPresentingStarted?.Invoke(this);
             return this;
         }
 
@@ -108,7 +108,7 @@ namespace ContentContent.Dialog
             yield return new WaitWhile(() => IsBusy);
 
             onLineFinished?.Invoke();
-            PresentingFinished?.Invoke();
+            OnPresentingFinished?.Invoke(this);
 
             monitorRoutine = null;
         }
