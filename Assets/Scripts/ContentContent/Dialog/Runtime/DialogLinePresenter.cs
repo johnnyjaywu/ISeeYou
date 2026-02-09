@@ -68,7 +68,6 @@ namespace ContentContent.Dialog
 
             currentLine = null;
             isSkipping = false;
-            soundHandle = null;
 
             if (closeView)
                 view.Close(animateClose, onClosed);

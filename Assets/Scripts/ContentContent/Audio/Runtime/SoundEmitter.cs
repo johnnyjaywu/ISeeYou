@@ -25,6 +25,7 @@ namespace ContentContent.Audio
         public int GenerationId { get; private set; }
 
         public bool IsPlaying => source != null && source.isPlaying;
+        public bool IsPaused => source != null && isPaused;
 
         public float Volume
         {

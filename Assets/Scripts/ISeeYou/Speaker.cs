@@ -76,45 +76,32 @@ namespace ISeeYou
             if (HaveMaskRemaining)
                 return; // If there are active mask, don't speak until my thoughts are "cleared"
 
+            currentDialogLine = dialogLineToPlay;
             bool haveMasking = !dialogLineToPlay.maskingLines.IsNullOrEmpty();
-
+            if (haveMasking)
+                currentMaskingLines = new Queue<string>(currentDialogLine.maskingLines);
+            
             // Always disable input for a bit
             SetEnableContinueInput(false);
-            currentDialogLine = dialogLineToPlay;
 
-            // Display the "truth" underneath
-            ShowCurrentLine();
-
+            // Spawn mask first
             if (haveMasking)
             {
-                // This should only be called once until currentThoughts have emptied
-                currentMaskingLines = new Queue<string>(currentDialogLine.maskingLines);
-
                 ShowNextMask();
-                // if (currentDialogLine.autoPlay)
-                // {
-                //     DoAutoPlay();
-                // }
-                // else
-                // {
-                //     ShowNextMask();
-                // }
+            }
+            else
+            {
+                ShowCurrentLine();
             }
         }
 
         public void ShowNextMask()
         {
-            // No more masking lines, finish
+            // No more masking lines, show the real line underneath
             if (currentDialogLine.maskingLines.IsNullOrEmpty() || currentMaskingLines.Count == 0)
             {
-                // if (activeMaskWords.Count > 0)
-                // {
-                //     ClearMaskingWords();
-                // }
-
-                // var maskLayout = maskingBubble.GetComponent<FlexLayoutGroup>();
-                // maskLayout.MinSize = Vector2.zero;
-                RevealTruth();
+                ShowCurrentLine();
+                // RevealTruth();
                 return;
             }
 
@@ -146,6 +133,8 @@ namespace ISeeYou
             foreach (Words word in activeMaskWords)
             {
                 word.OnWordClicked += HandleMaskWordClicked;
+                if (!currentDialogLine.autoPlay)
+                    word.GetComponent<UIFlashColor>().Flash();
             }
 
             maskingBubble.CapCountToCurrent();
@@ -154,16 +143,6 @@ namespace ISeeYou
 
         public void ShowCurrentLine()
         {
-            // if (currentDialogLine.autoPlay)
-            // {
-            //     activeWords = defaultSpawner.SpawnWords(currentDialogLine.text, speechBubble.transform, false);
-            //     
-            //     var speechLayout = speechBubble.GetComponent<FlexLayoutGroup>();
-            //     speechLayout.CalculateLayoutInputHorizontal();
-            //     var maskLayout = maskingBubble.GetComponent<FlexLayoutGroup>();
-            //     maskLayout.MinSize = new Vector2(speechLayout.preferredWidth, speechLayout.preferredHeight);
-            // }
-
             float interval = currentDialogLine.autoPlay ? 0 : 0.1f;
             defaultSpawner.SpawnWithInterval(currentDialogLine.text, speechBubble.transform, OnFinishSpawningSpeech,
                 interval);
@@ -176,14 +155,6 @@ namespace ISeeYou
             if (!HaveMaskRemaining)
             {
                 RevealTruth();
-            }
-            else
-            {
-                foreach (Words word in activeWords)
-                {
-                    word.SetVisible(false);
-                    // word.SetActive(false);
-                }
             }
         }
 
@@ -227,47 +198,29 @@ namespace ISeeYou
 
         private TimerHandle autoPlayNextLineHandle;
 
+        private bool revealing = false;
         private void RevealTruth()
         {
+            if (revealing) return;
+            revealing = true;
+            
             // We don't actually reveal if auto play
             if (currentDialogLine.autoPlay)
             {
                 if (autoPlayNextLineHandle.IsValid) autoPlayNextLineHandle.Stop();
 
                 autoPlayNextLineHandle =
-                    Timer.Countdown(2f, this).OnFinish(() => conversationController.PlayNextLine());
+                    Timer.Countdown(2f, this).OnFinish(() =>
+                    {
+                        revealing = false;
+                        conversationController.PlayNextLine();
+                    });
                 // conversationController.PlayNextLine();
                 return;
             }
-
-            // Free the input
-            // Timer.Countdown(1f, this).OnFinish(() =>
-            // {
-            //     SetEnableContinueInput(true);
-            //     // Show the words 
-            //     foreach (Words word in activeWords)
-            //     {
-            //         word.SetActive(true);
-            //         word.SetVisible(true);
-            //     }
-            //
-            //     // Play Audio
-            //     if (currentDialogLine.voiceLine != null)
-            //     {
-            //         if (soundHandle is { IsPlaying: true })
-            //             soundHandle.Stop();
-            //         soundHandle = currentDialogLine.voiceLine.Play();
-            //     }
-            // });
-
+            
             SetEnableContinueInput(true);
-            // Show the words 
-            foreach (Words word in activeWords)
-            {
-                // word.SetActive(true);
-                word.SetVisible(true);
-            }
-
+            
             // Play Audio
             if (currentDialogLine.voiceLine != null)
             {
@@ -275,6 +228,8 @@ namespace ISeeYou
                     soundHandle.Stop();
                 soundHandle = currentDialogLine.voiceLine.Play();
             }
+
+            revealing = false;
         }
 
         private TimerHandle autoPlayHandle;
@@ -282,7 +237,7 @@ namespace ISeeYou
         {
             maskingBubble.SetLock(true);
             if (autoPlayHandle.IsValid) autoPlayHandle.Stop();
-            autoPlayHandle = Timer.Countdown(3f, this).OnFinish(() => { ShowNextMask(); });
+            autoPlayHandle = Timer.Countdown(2f, this).OnFinish(ShowNextMask);
         }
     }
 }

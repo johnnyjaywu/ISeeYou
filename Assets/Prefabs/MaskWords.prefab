@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 2803288522547838969}
   - component: {fileID: -3193357080504397938}
   - component: {fileID: -6150349516998163701}
+  - component: {fileID: 3565873391641735652}
   m_Layer: 5
   m_Name: MaskWords
   m_TagString: Untagged
@@ -330,3 +331,21 @@ MonoBehaviour:
   targetAlpha: 1
   duration: 0.5
   ease: 4
+--- !u!114 &3565873391641735652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789747165694068801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24e276391b180645aed9aaa6bc0d372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: ISeeYou::UIFlashColor
+  targetGraphic: {fileID: 2594071511403229118}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 1
+  easeType: 2
+  cycles: -1
+  cycleMode: 1

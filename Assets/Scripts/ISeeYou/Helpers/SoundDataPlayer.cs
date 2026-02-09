@@ -33,17 +33,16 @@ namespace ISeeYou
         [Button]
         public void Play()
         {
-            if (soundHandle is { IsPlaying: true })
-                soundHandle.Resume();
-            else
-                soundHandle = sound.Play();
+            if (soundHandle.IsPlaying)
+                soundHandle.Stop();
+            soundHandle = sound.Play();
         }
 
         [Button]
         public void Stop()
         {
-            if (soundHandle is { IsPlaying: true })
-                soundHandle.Pause();
+            if (!soundHandle.IsValid) return;
+            soundHandle.Stop();
         }
     }
 }

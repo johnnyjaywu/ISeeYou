@@ -5,7 +5,7 @@ namespace ContentContent.Audio
 {
     // A safe wrapper around an AudioEmitter.
     // If the internal emitter is recycled, this handle becomes "Invalid" automatically.
-    public class SoundHandle
+    public struct SoundHandle
     {
         private readonly SoundEmitter emitter;
         private readonly int generationId;
@@ -24,6 +24,7 @@ namespace ContentContent.Audio
             emitter.GenerationId == generationId;
 
         public bool IsPlaying => IsValid && emitter.IsPlaying;
+        public bool IsPaused => IsValid && emitter.IsPaused;
 
         public float Length => IsValid ? emitter.Length : 0f;
 

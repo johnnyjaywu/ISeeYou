@@ -22,8 +22,8 @@ MonoBehaviour:
   pitch: 1
   randomPitch: 0
   loop: 1
-  fadeInTime: 5
-  fadeOutTime: 5
+  fadeInTime: 20
+  fadeOutTime: 20
   spatialBlend: 0
   spread: 0
   dopplerLevel: 1
